@@ -109,12 +109,11 @@ export function LandingPage({ variant }: LandingPageProps) {
     if (!allFieldsFilled) return;
     setSubmitted(true);
 
-    // Parse UTM params from URL
     const params = new URLSearchParams(window.location.search);
-
-    // Save lead to database (fire-and-forget, don't block redirect)
     const interestMap: Record<string, string> = { "canada-work": "work", study: "study", jobs: "jobs" };
-    supabase.from("leads").insert({
+
+    // Save lead and get ID for linking
+    const { data: leadRow, error } = await supabase.from("leads").insert({
       name: name.trim(),
       email: email.trim(),
       source: variant,
@@ -125,12 +124,14 @@ export function LandingPage({ variant }: LandingPageProps) {
       utm_source: params.get("utm_source") || null,
       utm_medium: params.get("utm_medium") || null,
       utm_campaign: params.get("utm_campaign") || null,
-    } as any).then(({ error }) => {
-      if (error) console.error("Failed to save lead:", error);
-    });
+    } as any).select("id").single();
+
+    if (error) console.error("Failed to save lead:", error);
+
+    const leadId = leadRow?.id;
 
     setTimeout(() => {
-      navigate({ to: config.redirectTo as any });
+      navigate({ to: config.redirectTo as any, search: leadId ? { lead: leadId } : undefined } as any);
     }, 2000);
   };
 
