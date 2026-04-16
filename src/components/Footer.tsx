@@ -3,18 +3,16 @@ import { Globe, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
-    { label: "Work Visas", to: "/work-visas" },
-    { label: "Study Visas", to: "/study-visas" },
-    { label: "Visit Visas", to: "/visit-visas" },
-    { label: "Jobs", to: "/jobs" },
+    { label: "All Services", to: "/services" },
+    { label: "Apply for Work Visa", to: "/apply/work-visa" },
+    { label: "Apply for Study Visa", to: "/apply/study" },
+    { label: "Browse Jobs", to: "/jobs" },
     { label: "Study Opportunities", to: "/study" },
   ],
   Company: [
-    { label: "About Us", to: "/about" },
     { label: "For Agents", to: "/agents" },
-    { label: "Testimonials", to: "/testimonials" },
-    { label: "FAQ", to: "/faq" },
-    { label: "Contact", to: "/contact" },
+    { label: "Sign In", to: "/login" },
+    { label: "Create Account", to: "/register" },
   ],
   Legal: [
     { label: "Privacy Policy", to: "/privacy" },

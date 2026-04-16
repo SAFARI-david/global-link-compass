@@ -10,7 +10,6 @@ import { StudyPreview } from "@/components/StudyPreview";
 import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
-import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 import { PricingSection } from "@/components/PricingSection";
 import { SectionCTA } from "@/components/SectionCTA";
 
@@ -50,14 +49,6 @@ function Index() {
       <PricingSection />
       <AgentsSection />
       <TestimonialsSection />
-      {/* Mid-page lead capture */}
-      <section className="section-padding bg-muted/30">
-        <div className="container-narrow">
-          <div className="mx-auto max-w-2xl">
-            <LeadCaptureForm source="homepage-mid" />
-          </div>
-        </div>
-      </section>
       <SectionCTA
         variant="navy"
         title="Your visa journey starts with one step"
