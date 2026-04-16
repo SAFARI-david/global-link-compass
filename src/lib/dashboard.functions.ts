@@ -7,7 +7,7 @@ export const getUserApplications = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     const { data, error } = await supabase
       .from("applications")
-      .select("id, reference_number, application_type, destination_country, status, payment_status, created_at, updated_at, form_data")
+      .select("id, reference_number, application_type, destination_country, status, payment_status, created_at, updated_at, form_data, admin_notes")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
     if (error) throw new Error("Failed to fetch applications");
