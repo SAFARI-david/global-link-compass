@@ -85,6 +85,21 @@ function EligibilityLeadsPage() {
     loadLeads();
   }, []);
 
+  async function updateStatus(id: string, status: string) {
+    const prev = leads;
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status, converted: status === "converted" ? true : l.converted } : l)));
+    const { error } = await supabase
+      .from("leads")
+      .update({ status, ...(status === "converted" ? { converted: true } : {}) })
+      .eq("id", id);
+    if (error) {
+      setLeads(prev);
+      toast.error("Failed to update status");
+    } else {
+      toast.success("Status updated");
+    }
+  }
+
   const filtered = leads.filter((l) => {
     if (!search.trim()) return true;
     const q = search.toLowerCase();
