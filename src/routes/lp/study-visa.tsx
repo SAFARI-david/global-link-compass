@@ -6,6 +6,7 @@ import {
   FileText, Users, GraduationCap, BookOpen, AlertTriangle, ChevronDown,
   MapPin, BadgeCheck, HelpCircle, DollarSign, Award,
 } from "lucide-react";
+import { SocialProofBar } from "@/components/SocialProofBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -205,6 +206,9 @@ function StudyVisaLP() {
           </div>
         </div>
       </section>
+
+      {/* SOCIAL PROOF */}
+      <SocialProofBar context="study" />
 
       {/* Destination countries bar */}
       <section className="border-b bg-card py-6">

@@ -6,6 +6,7 @@ import {
   FileText, Users, Briefcase, Star, AlertTriangle, ChevronDown,
   MapPin, BadgeCheck, HelpCircle,
 } from "lucide-react";
+import { SocialProofBar } from "@/components/SocialProofBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -215,6 +216,9 @@ function CanadaWorkVisaLP() {
           </div>
         </div>
       </section>
+
+      {/* ===== SOCIAL PROOF ===== */}
+      <SocialProofBar context="work" />
 
       {/* ===== SECTION 2: WHO THIS IS FOR ===== */}
       <section className="section-padding bg-muted/30">

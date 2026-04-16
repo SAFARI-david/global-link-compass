@@ -6,6 +6,7 @@ import {
   FileText, Users, Briefcase, AlertTriangle, ChevronDown,
   MapPin, BadgeCheck, HelpCircle, Search, Building2, Plane,
 } from "lucide-react";
+import { SocialProofBar } from "@/components/SocialProofBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -210,6 +211,9 @@ function JobsLP() {
           </div>
         </div>
       </section>
+
+      {/* SOCIAL PROOF */}
+      <SocialProofBar context="jobs" />
 
       {/* Destinations bar */}
       <section className="border-b bg-card py-6">
