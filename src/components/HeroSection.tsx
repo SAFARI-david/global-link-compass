@@ -70,9 +70,9 @@ export function HeroSection() {
                 Apply Now <ArrowRight className="ml-1 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/consultation">
+            <Link to="/advisor">
               <Button variant="heroOutline" size="xl">
-                Book Consultation
+                🤖 Find My Program
               </Button>
             </Link>
             <Link to="/jobs">

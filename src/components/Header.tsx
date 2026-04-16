@@ -17,6 +17,7 @@ const navItems = [
   },
   { label: "Jobs", to: "/jobs" },
   { label: "Study", to: "/study" },
+  { label: "AI Advisor", to: "/advisor" },
   { label: "For Agents", to: "/agents" },
   { label: "Contact", to: "/contact" },
 ];
