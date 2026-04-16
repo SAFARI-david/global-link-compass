@@ -84,10 +84,6 @@ function StudyApplicationForm() {
     if (step > 0) setStep(step - 1);
   }
 
-  function back() {
-    if (step > 0) setStep(step - 1);
-  }
-
   if (submitted) {
     return (
       <div className="section-padding">
