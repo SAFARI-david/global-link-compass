@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +42,9 @@ function StudyApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+  const [applicationId, setApplicationId] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -62,11 +64,18 @@ function StudyApplicationForm() {
         destination_country: formData.destCountry || null,
         form_data: formData as any,
         reference_number: "",
-      } as any).select("reference_number").single();
+      } as any).select("id, reference_number").single();
       if (error) throw error;
       setRefNumber(data?.reference_number || "");
+      setApplicationId(data?.id || "");
       setSubmitted(true);
       toast.success("Application submitted!");
+
+      if (user && data?.id) {
+        setTimeout(() => {
+          navigate({ to: "/payment/$applicationId", params: { applicationId: data.id } });
+        }, 2000);
+      }
     } catch (err: any) {
       console.error("Submit error:", err);
       toast.error("Failed to submit. Please try again.");
