@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from "react";
-import { Upload, FileText, Trash2, CheckCircle, Clock, XCircle, Loader2 } from "lucide-react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Upload, FileText, Trash2, CheckCircle, Clock, XCircle, Loader2, ListChecks } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -25,20 +25,28 @@ const STATUS_CONFIG: Record<string, { label: string; color: string; icon: typeof
   rejected: { label: "Rejected", color: "bg-red-100 text-red-700", icon: XCircle },
 };
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+
+interface RequiredDoc {
+  name: string;
+  required: boolean;
+}
 
 interface DocumentUploadProps {
   applicationId: string;
   userId: string;
+  destinationCountry?: string | null;
+  applicationType?: string | null;
 }
 
-export function DocumentUpload({ applicationId, userId }: DocumentUploadProps) {
+export function DocumentUpload({ applicationId, userId, destinationCountry, applicationType }: DocumentUploadProps) {
   const [documents, setDocuments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [docType, setDocType] = useState("passport");
   const [dragOver, setDragOver] = useState(false);
+  const [requiredDocs, setRequiredDocs] = useState<RequiredDoc[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const loadDocuments = useCallback(async () => {
@@ -58,7 +66,25 @@ export function DocumentUpload({ applicationId, userId }: DocumentUploadProps) {
     }
   }, [applicationId]);
 
-  useState(() => { loadDocuments(); });
+  // Fetch required documents from matching program
+  useEffect(() => {
+    async function fetchRequiredDocs() {
+      if (!destinationCountry && !applicationType) return;
+      let query = supabase
+        .from("programs")
+        .select("required_documents")
+        .eq("status", "active");
+      if (destinationCountry) query = query.eq("country", destinationCountry);
+      if (applicationType) query = query.eq("visa_type", applicationType);
+      const { data } = await query.limit(1).maybeSingle();
+      if (data?.required_documents && Array.isArray(data.required_documents)) {
+        setRequiredDocs(data.required_documents as unknown as RequiredDoc[]);
+      }
+    }
+    fetchRequiredDocs();
+  }, [destinationCountry, applicationType]);
+
+  useEffect(() => { loadDocuments(); }, [loadDocuments]);
 
   async function uploadFile(file: File) {
     if (!ALLOWED_TYPES.includes(file.type)) {
@@ -125,6 +151,20 @@ export function DocumentUpload({ applicationId, userId }: DocumentUploadProps) {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
 
+  // Check which required docs have been uploaded
+  function isDocUploaded(docName: string): boolean {
+    const lower = docName.toLowerCase();
+    return documents.some((d) => {
+      const typeLower = (d.document_type || "").toLowerCase();
+      const nameLower = (d.file_name || "").toLowerCase();
+      return typeLower.includes(lower) || nameLower.includes(lower) || lower.includes(typeLower);
+    });
+  }
+
+  const uploadedCount = requiredDocs.filter((d) => isDocUploaded(d.name)).length;
+  const requiredCount = requiredDocs.filter((d) => d.required).length;
+  const requiredUploaded = requiredDocs.filter((d) => d.required && isDocUploaded(d.name)).length;
+
   return (
     <Card>
       <CardHeader>
@@ -133,6 +173,55 @@ export function DocumentUpload({ applicationId, userId }: DocumentUploadProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Required Documents Checklist */}
+        {requiredDocs.length > 0 && (
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <ListChecks className="h-4 w-4 text-primary" />
+                <p className="text-sm font-semibold">Required Documents</p>
+              </div>
+              <Badge variant={requiredUploaded >= requiredCount ? "default" : "secondary"} className="text-xs">
+                {uploadedCount}/{requiredDocs.length} uploaded
+              </Badge>
+            </div>
+            <div className="space-y-1.5">
+              {requiredDocs.map((doc, i) => {
+                const uploaded = isDocUploaded(doc.name);
+                return (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <div className={cn(
+                      "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border text-xs",
+                      uploaded
+                        ? "border-green-500 bg-green-100 text-green-700"
+                        : "border-border bg-background text-muted-foreground"
+                    )}>
+                      {uploaded ? <CheckCircle className="h-3.5 w-3.5" /> : <span className="text-[10px]">{i + 1}</span>}
+                    </div>
+                    <span className={cn("text-sm", uploaded && "text-muted-foreground line-through")}>{doc.name}</span>
+                    {doc.required && !uploaded && (
+                      <Badge variant="destructive" className="text-[10px] px-1.5 py-0 h-4">Required</Badge>
+                    )}
+                    {!doc.required && !uploaded && (
+                      <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">Optional</Badge>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {requiredUploaded < requiredCount && (
+              <p className="mt-3 text-xs text-amber-600 font-medium">
+                ⚠ {requiredCount - requiredUploaded} required document{requiredCount - requiredUploaded > 1 ? "s" : ""} still needed
+              </p>
+            )}
+            {requiredUploaded >= requiredCount && requiredCount > 0 && (
+              <p className="mt-3 text-xs text-green-600 font-medium">
+                ✓ All required documents uploaded
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Upload area */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="flex-1">
