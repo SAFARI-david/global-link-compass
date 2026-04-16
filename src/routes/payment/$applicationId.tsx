@@ -339,9 +339,9 @@ function PaymentSummaryPage() {
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
                     <p className="text-xs leading-relaxed text-amber-800">
-                      <strong>Disclaimer:</strong> We provide professional visa application support services.
-                      Final visa decisions are made solely by embassies, consulates, and immigration authorities.
-                      Payment covers our professional services only.
+                      <strong>Disclaimer:</strong> We provide professional application support services.
+                      Final decisions are made by immigration authorities, embassies, consulates, institutions, and employers.
+                      Service fees cover our professional work only — government and third-party fees are paid separately.
                     </p>
                   </div>
                 </CardContent>
