@@ -32,6 +32,16 @@ export const Route = createFileRoute("/admin/eligibility-leads")({
   component: EligibilityLeadsPage,
 });
 
+const LEAD_STATUSES = ["new", "contacted", "qualified", "converted", "lost"] as const;
+
+const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  new: { label: "New", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" },
+  contacted: { label: "Contacted", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" },
+  qualified: { label: "Qualified", color: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" },
+  converted: { label: "Converted", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+  lost: { label: "Lost", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" },
+};
+
 type EligibilityLead = {
   id: string;
   name: string;
