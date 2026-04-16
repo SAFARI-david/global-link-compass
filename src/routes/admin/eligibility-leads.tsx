@@ -63,6 +63,7 @@ type Agent = { user_id: string; full_name: string | null };
 
 function EligibilityLeadsPage() {
   const [leads, setLeads] = useState<EligibilityLead[]>([]);
+  const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<EligibilityLead | null>(null);
@@ -84,8 +85,23 @@ function EligibilityLeadsPage() {
     setLoading(false);
   }
 
+  async function loadAgents() {
+    const { data: roleRows } = await supabase
+      .from("user_roles")
+      .select("user_id")
+      .eq("role", "agent");
+    const ids = (roleRows || []).map((r) => r.user_id);
+    if (!ids.length) return;
+    const { data: profs } = await supabase
+      .from("profiles")
+      .select("user_id, full_name")
+      .in("user_id", ids);
+    setAgents((profs || []) as Agent[]);
+  }
+
   useEffect(() => {
     loadLeads();
+    loadAgents();
   }, []);
 
   async function updateStatus(id: string, status: string) {
@@ -100,6 +116,21 @@ function EligibilityLeadsPage() {
       toast.error("Failed to update status");
     } else {
       toast.success("Status updated");
+    }
+  }
+
+  async function assignAgent(id: string, agentId: string | null) {
+    const prev = leads;
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, assigned_agent_id: agentId } : l)));
+    const { error } = await supabase
+      .from("leads")
+      .update({ assigned_agent_id: agentId })
+      .eq("id", id);
+    if (error) {
+      setLeads(prev);
+      toast.error("Failed to assign agent");
+    } else {
+      toast.success(agentId ? "Agent assigned" : "Agent unassigned");
     }
   }
 
