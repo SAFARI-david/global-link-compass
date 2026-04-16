@@ -14,6 +14,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
@@ -69,6 +70,11 @@ const LoginRoute = LoginRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsRoute = AgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -127,34 +133,34 @@ const ApplyStudyRoute = ApplyStudyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentsSettingsRoute = AgentsSettingsRouteImport.update({
-  id: '/agents/settings',
-  path: '/agents/settings',
-  getParentRoute: () => rootRouteImport,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsRegisterRoute = AgentsRegisterRouteImport.update({
-  id: '/agents/register',
-  path: '/agents/register',
-  getParentRoute: () => rootRouteImport,
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsPaymentsRoute = AgentsPaymentsRouteImport.update({
-  id: '/agents/payments',
-  path: '/agents/payments',
-  getParentRoute: () => rootRouteImport,
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsMessagesRoute = AgentsMessagesRouteImport.update({
-  id: '/agents/messages',
-  path: '/agents/messages',
-  getParentRoute: () => rootRouteImport,
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsLoginRoute = AgentsLoginRouteImport.update({
-  id: '/agents/login',
-  path: '/agents/login',
-  getParentRoute: () => rootRouteImport,
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsDashboardRoute = AgentsDashboardRouteImport.update({
-  id: '/agents/dashboard',
-  path: '/agents/dashboard',
-  getParentRoute: () => rootRouteImport,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AdminProgramsRoute = AdminProgramsRouteImport.update({
   id: '/programs',
@@ -192,31 +198,31 @@ const AdminAgentsRoute = AdminAgentsRouteImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 const AgentsClientsIndexRoute = AgentsClientsIndexRouteImport.update({
-  id: '/agents/clients/',
-  path: '/agents/clients/',
-  getParentRoute: () => rootRouteImport,
+  id: '/clients/',
+  path: '/clients/',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsApplicationsIndexRoute = AgentsApplicationsIndexRouteImport.update({
-  id: '/agents/applications/',
-  path: '/agents/applications/',
-  getParentRoute: () => rootRouteImport,
+  id: '/applications/',
+  path: '/applications/',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsClientsNewRoute = AgentsClientsNewRouteImport.update({
-  id: '/agents/clients/new',
-  path: '/agents/clients/new',
-  getParentRoute: () => rootRouteImport,
+  id: '/clients/new',
+  path: '/clients/new',
+  getParentRoute: () => AgentsRoute,
 } as any)
 const AgentsApplicationsWorkVisaRoute =
   AgentsApplicationsWorkVisaRouteImport.update({
-    id: '/agents/applications/work-visa',
-    path: '/agents/applications/work-visa',
-    getParentRoute: () => rootRouteImport,
+    id: '/applications/work-visa',
+    path: '/applications/work-visa',
+    getParentRoute: () => AgentsRoute,
   } as any)
 const AgentsApplicationsStudyVisaRoute =
   AgentsApplicationsStudyVisaRouteImport.update({
-    id: '/agents/applications/study-visa',
-    path: '/agents/applications/study-visa',
-    getParentRoute: () => rootRouteImport,
+    id: '/applications/study-visa',
+    path: '/applications/study-visa',
+    getParentRoute: () => AgentsRoute,
   } as any)
 const AdminProgramsNewRoute = AdminProgramsNewRouteImport.update({
   id: '/new',
@@ -232,6 +238,7 @@ const AdminProgramsEditRoute = AdminProgramsEditRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agents': typeof AgentsRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -270,6 +277,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agents': typeof AgentsRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -309,6 +317,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/agents': typeof AgentsRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
@@ -349,6 +358,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/agents'
     | '/forgot-password'
     | '/login'
     | '/profile'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/agents'
     | '/forgot-password'
     | '/login'
     | '/profile'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/agents'
     | '/forgot-password'
     | '/login'
     | '/profile'
@@ -464,17 +476,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AgentsRoute: typeof AgentsRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  AgentsDashboardRoute: typeof AgentsDashboardRoute
-  AgentsLoginRoute: typeof AgentsLoginRoute
-  AgentsMessagesRoute: typeof AgentsMessagesRoute
-  AgentsPaymentsRoute: typeof AgentsPaymentsRoute
-  AgentsRegisterRoute: typeof AgentsRegisterRoute
-  AgentsSettingsRoute: typeof AgentsSettingsRoute
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
@@ -484,11 +491,6 @@ export interface RootRouteChildren {
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
-  AgentsApplicationsStudyVisaRoute: typeof AgentsApplicationsStudyVisaRoute
-  AgentsApplicationsWorkVisaRoute: typeof AgentsApplicationsWorkVisaRoute
-  AgentsClientsNewRoute: typeof AgentsClientsNewRoute
-  AgentsApplicationsIndexRoute: typeof AgentsApplicationsIndexRoute
-  AgentsClientsIndexRoute: typeof AgentsClientsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -526,6 +528,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents': {
+      id: '/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AgentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -607,45 +616,45 @@ declare module '@tanstack/react-router' {
     }
     '/agents/settings': {
       id: '/agents/settings'
-      path: '/agents/settings'
+      path: '/settings'
       fullPath: '/agents/settings'
       preLoaderRoute: typeof AgentsSettingsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/register': {
       id: '/agents/register'
-      path: '/agents/register'
+      path: '/register'
       fullPath: '/agents/register'
       preLoaderRoute: typeof AgentsRegisterRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/payments': {
       id: '/agents/payments'
-      path: '/agents/payments'
+      path: '/payments'
       fullPath: '/agents/payments'
       preLoaderRoute: typeof AgentsPaymentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/messages': {
       id: '/agents/messages'
-      path: '/agents/messages'
+      path: '/messages'
       fullPath: '/agents/messages'
       preLoaderRoute: typeof AgentsMessagesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/login': {
       id: '/agents/login'
-      path: '/agents/login'
+      path: '/login'
       fullPath: '/agents/login'
       preLoaderRoute: typeof AgentsLoginRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/dashboard': {
       id: '/agents/dashboard'
-      path: '/agents/dashboard'
+      path: '/dashboard'
       fullPath: '/agents/dashboard'
       preLoaderRoute: typeof AgentsDashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/admin/programs': {
       id: '/admin/programs'
@@ -698,38 +707,38 @@ declare module '@tanstack/react-router' {
     }
     '/agents/clients/': {
       id: '/agents/clients/'
-      path: '/agents/clients'
+      path: '/clients'
       fullPath: '/agents/clients/'
       preLoaderRoute: typeof AgentsClientsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/applications/': {
       id: '/agents/applications/'
-      path: '/agents/applications'
+      path: '/applications'
       fullPath: '/agents/applications/'
       preLoaderRoute: typeof AgentsApplicationsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/clients/new': {
       id: '/agents/clients/new'
-      path: '/agents/clients/new'
+      path: '/clients/new'
       fullPath: '/agents/clients/new'
       preLoaderRoute: typeof AgentsClientsNewRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/applications/work-visa': {
       id: '/agents/applications/work-visa'
-      path: '/agents/applications/work-visa'
+      path: '/applications/work-visa'
       fullPath: '/agents/applications/work-visa'
       preLoaderRoute: typeof AgentsApplicationsWorkVisaRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/agents/applications/study-visa': {
       id: '/agents/applications/study-visa'
-      path: '/agents/applications/study-visa'
+      path: '/applications/study-visa'
       fullPath: '/agents/applications/study-visa'
       preLoaderRoute: typeof AgentsApplicationsStudyVisaRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AgentsRoute
     }
     '/admin/programs/new': {
       id: '/admin/programs/new'
@@ -784,20 +793,46 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
-  ForgotPasswordRoute: ForgotPasswordRoute,
-  LoginRoute: LoginRoute,
-  ProfileRoute: ProfileRoute,
-  RegisterRoute: RegisterRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
+interface AgentsRouteChildren {
+  AgentsDashboardRoute: typeof AgentsDashboardRoute
+  AgentsLoginRoute: typeof AgentsLoginRoute
+  AgentsMessagesRoute: typeof AgentsMessagesRoute
+  AgentsPaymentsRoute: typeof AgentsPaymentsRoute
+  AgentsRegisterRoute: typeof AgentsRegisterRoute
+  AgentsSettingsRoute: typeof AgentsSettingsRoute
+  AgentsApplicationsStudyVisaRoute: typeof AgentsApplicationsStudyVisaRoute
+  AgentsApplicationsWorkVisaRoute: typeof AgentsApplicationsWorkVisaRoute
+  AgentsClientsNewRoute: typeof AgentsClientsNewRoute
+  AgentsApplicationsIndexRoute: typeof AgentsApplicationsIndexRoute
+  AgentsClientsIndexRoute: typeof AgentsClientsIndexRoute
+}
+
+const AgentsRouteChildren: AgentsRouteChildren = {
   AgentsDashboardRoute: AgentsDashboardRoute,
   AgentsLoginRoute: AgentsLoginRoute,
   AgentsMessagesRoute: AgentsMessagesRoute,
   AgentsPaymentsRoute: AgentsPaymentsRoute,
   AgentsRegisterRoute: AgentsRegisterRoute,
   AgentsSettingsRoute: AgentsSettingsRoute,
+  AgentsApplicationsStudyVisaRoute: AgentsApplicationsStudyVisaRoute,
+  AgentsApplicationsWorkVisaRoute: AgentsApplicationsWorkVisaRoute,
+  AgentsClientsNewRoute: AgentsClientsNewRoute,
+  AgentsApplicationsIndexRoute: AgentsApplicationsIndexRoute,
+  AgentsClientsIndexRoute: AgentsClientsIndexRoute,
+}
+
+const AgentsRouteWithChildren =
+  AgentsRoute._addFileChildren(AgentsRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AgentsRoute: AgentsRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  ProfileRoute: ProfileRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   JobsJobIdRoute: JobsJobIdRoute,
@@ -807,11 +842,6 @@ const rootRouteChildren: RootRouteChildren = {
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
-  AgentsApplicationsStudyVisaRoute: AgentsApplicationsStudyVisaRoute,
-  AgentsApplicationsWorkVisaRoute: AgentsApplicationsWorkVisaRoute,
-  AgentsClientsNewRoute: AgentsClientsNewRoute,
-  AgentsApplicationsIndexRoute: AgentsApplicationsIndexRoute,
-  AgentsClientsIndexRoute: AgentsClientsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
