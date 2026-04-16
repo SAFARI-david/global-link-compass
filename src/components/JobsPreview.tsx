@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { MapPin, DollarSign, ArrowRight } from "lucide-react";
+import { MapPin, DollarSign, ArrowRight, CheckCircle2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const jobs = [
@@ -21,7 +21,7 @@ export function JobsPreview() {
             <div className="gold-divider mb-5" />
             <h2 className="text-2xl font-bold md:text-3xl">Latest Job Opportunities</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Visa-sponsored positions across multiple countries and industries.
+              Visa-sponsored positions across multiple countries. <strong className="text-foreground">All employers verified.</strong>
             </p>
           </div>
           <Link to="/jobs">
@@ -60,6 +60,31 @@ export function JobsPreview() {
             </motion.div>
           ))}
         </div>
+
+        {/* What happens when you find a job */}
+        <motion.div
+          className="mt-8 rounded-xl border border-border bg-muted/30 p-5"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <h4 className="text-sm font-bold">Found a job you like? Here's what happens next:</h4>
+          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+              <span>Click "Apply" and complete your work visa application</span>
+            </div>
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+              <span>We match your profile with the employer requirements</span>
+            </div>
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
+              <span>Receive your visa application support plan within 24 hours</span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
