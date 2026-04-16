@@ -235,7 +235,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      agent_applications: {
+        Row: {
+          application_type: string | null
+          assigned_agent_id: string | null
+          created_at: string | null
+          destination_country: string | null
+          form_data: Json | null
+          id: string | null
+          reference_number: string | null
+          status: Database["public"]["Enums"]["application_status"] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          application_type?: string | null
+          assigned_agent_id?: string | null
+          created_at?: string | null
+          destination_country?: string | null
+          form_data?: Json | null
+          id?: string | null
+          reference_number?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          application_type?: string | null
+          assigned_agent_id?: string | null
+          created_at?: string | null
+          destination_country?: string | null
+          form_data?: Json | null
+          id?: string | null
+          reference_number?: string | null
+          status?: Database["public"]["Enums"]["application_status"] | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
