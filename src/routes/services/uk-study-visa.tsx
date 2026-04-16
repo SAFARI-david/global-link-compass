@@ -53,7 +53,7 @@ function UKStudyVisaPage() {
           "Passport-Sized Photographs",
         ],
         ctaTitle: "Ready to Start Your UK Study Visa Application?",
-        ctaText: "Submit your details and we will help you choose the right UK study pathway and prepare a strong application.",
+        ctaText: "Begin your application and we will help you choose the right UK study pathway and prepare a strong application.",
       }}
     />
   );

@@ -216,11 +216,11 @@ function JobsPage() {
         <div className="container-narrow">
           <h2 className="text-2xl font-bold text-white md:text-3xl">Can't find the right job?</h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-white/70">
-            Submit a general work visa application and our team will match you with suitable employers and opportunities.
+            Start a work visa application and our team will match you with suitable employers and opportunities.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link to="/apply/work-visa">
-              <Button size="lg" className="bg-gold text-gold-foreground hover:bg-gold/90">Apply for Work Visa</Button>
+              <Button size="lg" className="bg-gold text-gold-foreground hover:bg-gold/90">Start Your Application</Button>
             </Link>
             <Link to="/">
               <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">

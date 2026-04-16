@@ -248,12 +248,12 @@ function ProgramDetailPage() {
         {/* Final CTA */}
         <section className="rounded-2xl bg-navy-gradient text-primary-foreground p-8 lg:p-12 text-center">
           <h2 className="text-2xl font-bold mb-3 font-heading">Ready to Start Your Application?</h2>
-          <p className="opacity-80 mb-6 max-w-xl mx-auto">Submit your details and we will help assess your eligibility and guide you through the {program.name} application process.</p>
+          <p className="opacity-80 mb-6 max-w-xl mx-auto">Begin your application and we will help assess your eligibility and guide you through the {program.name} application process.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">{program.cta_apply_text || "Start Application"}</Button></Link>
-            <Button variant="heroOutline" size="lg">{program.cta_consult_text || "Book Consultation"}</Button>
+            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">{program.cta_apply_text || "Start Your Application"}</Button></Link>
+            <Button variant="heroOutline" size="lg">{program.cta_consult_text || "Check Your Eligibility"}</Button>
           </div>
-          <p className="mt-4 text-xs opacity-50">No payment required at this stage. Free initial assessment.</p>
+          <p className="mt-4 text-xs opacity-50">No payment required at this stage. Service fees are separate from government costs.</p>
         </section>
       </div>
     </div>

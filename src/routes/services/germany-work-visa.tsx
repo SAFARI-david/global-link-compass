@@ -53,7 +53,7 @@ function GermanyWorkVisaPage() {
           "Proof of Accommodation in Germany",
         ],
         ctaTitle: "Ready to Start Your Germany Work Visa Application?",
-        ctaText: "Submit your details and we will help assess your eligibility and guide you through the Germany Job Seeker Visa process.",
+        ctaText: "Begin your application and we will help assess your eligibility and guide you through the Germany Job Seeker Visa process.",
       }}
     />
   );

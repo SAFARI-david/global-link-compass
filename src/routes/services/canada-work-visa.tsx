@@ -50,7 +50,7 @@ function CanadaWorkVisaPage() {
           "Additional supporting documents depending on program",
         ],
         ctaTitle: "Ready to Start Your Canada Work Visa Application?",
-        ctaText: "Submit your details and we will help assess the most suitable Canada work visa pathway for your profile.",
+        ctaText: "Begin your application and we will help assess the most suitable Canada work visa pathway for your profile.",
       }}
     />
   );

@@ -7,7 +7,7 @@ const entryCards = [
   { icon: Briefcase, title: "Work Visas", desc: "Answer 3 questions — get matched with the right program", to: "/guide/work", color: "text-primary" },
   { icon: GraduationCap, title: "Study Visas", desc: "Find the perfect study program for your goals & budget", to: "/guide/study", color: "text-accent" },
   { icon: Plane, title: "Find Jobs", desc: "Browse visa-sponsored jobs by country & category", to: "/jobs", color: "text-primary" },
-  { icon: Users, title: "For Agents", desc: "Submit & manage client applications at scale", to: "/agents", color: "text-accent" },
+  { icon: Users, title: "For Agents", desc: "Manage & track client applications at scale", to: "/agents", color: "text-accent" },
 ];
 
 const trustPoints = [
