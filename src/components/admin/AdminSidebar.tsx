@@ -11,6 +11,7 @@ import {
   Shield,
   Tag,
   Percent,
+  Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
