@@ -27,6 +27,13 @@ import { Route as AgentsPaymentsRouteImport } from './routes/agents/payments'
 import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
 import { Route as AgentsLoginRouteImport } from './routes/agents/login'
 import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
+import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
+import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminJobsRouteImport } from './routes/admin/jobs'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
+import { Route as AdminApplicantsRouteImport } from './routes/admin/applicants'
+import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
 import { Route as AgentsClientsIndexRouteImport } from './routes/agents/clients/index'
 import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/applications/index'
 import { Route as AgentsClientsNewRouteImport } from './routes/agents/clients/new'
@@ -123,6 +130,41 @@ const AgentsDashboardRoute = AgentsDashboardRouteImport.update({
   path: '/agents/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProgramsRoute = AdminProgramsRouteImport.update({
+  id: '/admin/programs',
+  path: '/admin/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/admin/payments',
+  path: '/admin/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJobsRoute = AdminJobsRouteImport.update({
+  id: '/admin/jobs',
+  path: '/admin/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
+  id: '/admin/applications',
+  path: '/admin/applications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminApplicantsRoute = AdminApplicantsRouteImport.update({
+  id: '/admin/applicants',
+  path: '/admin/applicants',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAgentsRoute = AdminAgentsRouteImport.update({
+  id: '/admin/agents',
+  path: '/admin/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgentsClientsIndexRoute = AgentsClientsIndexRouteImport.update({
   id: '/agents/clients/',
   path: '/agents/clients/',
@@ -158,6 +200,13 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/agents': typeof AdminAgentsRoute
+  '/admin/applicants': typeof AdminApplicantsRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/jobs': typeof AdminJobsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/programs': typeof AdminProgramsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -183,6 +232,13 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/agents': typeof AdminAgentsRoute
+  '/admin/applicants': typeof AdminApplicantsRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/jobs': typeof AdminJobsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/programs': typeof AdminProgramsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -209,6 +265,13 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/agents': typeof AdminAgentsRoute
+  '/admin/applicants': typeof AdminApplicantsRoute
+  '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/jobs': typeof AdminJobsRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/programs': typeof AdminProgramsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -236,6 +299,13 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/agents'
+    | '/admin/applicants'
+    | '/admin/applications'
+    | '/admin/dashboard'
+    | '/admin/jobs'
+    | '/admin/payments'
+    | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -261,6 +331,13 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/agents'
+    | '/admin/applicants'
+    | '/admin/applications'
+    | '/admin/dashboard'
+    | '/admin/jobs'
+    | '/admin/payments'
+    | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -286,6 +363,13 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/agents'
+    | '/admin/applicants'
+    | '/admin/applications'
+    | '/admin/dashboard'
+    | '/admin/jobs'
+    | '/admin/payments'
+    | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -312,6 +396,13 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  AdminAgentsRoute: typeof AdminAgentsRoute
+  AdminApplicantsRoute: typeof AdminApplicantsRoute
+  AdminApplicationsRoute: typeof AdminApplicationsRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminJobsRoute: typeof AdminJobsRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminProgramsRoute: typeof AdminProgramsRoute
   AgentsDashboardRoute: typeof AgentsDashboardRoute
   AgentsLoginRoute: typeof AgentsLoginRoute
   AgentsMessagesRoute: typeof AgentsMessagesRoute
@@ -459,6 +550,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/programs': {
+      id: '/admin/programs'
+      path: '/admin/programs'
+      fullPath: '/admin/programs'
+      preLoaderRoute: typeof AdminProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/admin/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/jobs': {
+      id: '/admin/jobs'
+      path: '/admin/jobs'
+      fullPath: '/admin/jobs'
+      preLoaderRoute: typeof AdminJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/applications': {
+      id: '/admin/applications'
+      path: '/admin/applications'
+      fullPath: '/admin/applications'
+      preLoaderRoute: typeof AdminApplicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/applicants': {
+      id: '/admin/applicants'
+      path: '/admin/applicants'
+      fullPath: '/admin/applicants'
+      preLoaderRoute: typeof AdminApplicantsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/agents': {
+      id: '/admin/agents'
+      path: '/admin/agents'
+      fullPath: '/admin/agents'
+      preLoaderRoute: typeof AdminAgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agents/clients/': {
       id: '/agents/clients/'
       path: '/agents/clients'
@@ -504,6 +644,13 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  AdminAgentsRoute: AdminAgentsRoute,
+  AdminApplicantsRoute: AdminApplicantsRoute,
+  AdminApplicationsRoute: AdminApplicationsRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  AdminJobsRoute: AdminJobsRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminProgramsRoute: AdminProgramsRoute,
   AgentsDashboardRoute: AgentsDashboardRoute,
   AgentsLoginRoute: AgentsLoginRoute,
   AgentsMessagesRoute: AgentsMessagesRoute,
