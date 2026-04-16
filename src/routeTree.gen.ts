@@ -21,6 +21,7 @@ import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
 import { Route as StudyProgramIdRouteImport } from './routes/study/$programId'
+import { Route as ServicesUkWorkVisaRouteImport } from './routes/services/uk-work-visa'
 import { Route as ServicesUkStudyVisaRouteImport } from './routes/services/uk-study-visa'
 import { Route as ServicesUaeWorkVisaRouteImport } from './routes/services/uae-work-visa'
 import { Route as ServicesGermanyWorkVisaRouteImport } from './routes/services/germany-work-visa'
@@ -109,6 +110,11 @@ const JobsIndexRoute = JobsIndexRouteImport.update({
 const StudyProgramIdRoute = StudyProgramIdRouteImport.update({
   id: '/study/$programId',
   path: '/study/$programId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesUkWorkVisaRoute = ServicesUkWorkVisaRouteImport.update({
+  id: '/services/uk-work-visa',
+  path: '/services/uk-work-visa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesUkStudyVisaRoute = ServicesUkStudyVisaRouteImport.update({
@@ -291,6 +297,7 @@ export interface FileRoutesByFullPath {
   '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
   '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
+  '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -334,6 +341,7 @@ export interface FileRoutesByTo {
   '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
   '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
+  '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs': typeof JobsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -378,6 +386,7 @@ export interface FileRoutesById {
   '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
   '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
+  '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -423,6 +432,7 @@ export interface FileRouteTypes {
     | '/services/germany-work-visa'
     | '/services/uae-work-visa'
     | '/services/uk-study-visa'
+    | '/services/uk-work-visa'
     | '/study/$programId'
     | '/jobs/'
     | '/services/'
@@ -466,6 +476,7 @@ export interface FileRouteTypes {
     | '/services/germany-work-visa'
     | '/services/uae-work-visa'
     | '/services/uk-study-visa'
+    | '/services/uk-work-visa'
     | '/study/$programId'
     | '/jobs'
     | '/services'
@@ -509,6 +520,7 @@ export interface FileRouteTypes {
     | '/services/germany-work-visa'
     | '/services/uae-work-visa'
     | '/services/uk-study-visa'
+    | '/services/uk-work-visa'
     | '/study/$programId'
     | '/jobs/'
     | '/services/'
@@ -540,6 +552,7 @@ export interface RootRouteChildren {
   ServicesGermanyWorkVisaRoute: typeof ServicesGermanyWorkVisaRoute
   ServicesUaeWorkVisaRoute: typeof ServicesUaeWorkVisaRoute
   ServicesUkStudyVisaRoute: typeof ServicesUkStudyVisaRoute
+  ServicesUkWorkVisaRoute: typeof ServicesUkWorkVisaRoute
   StudyProgramIdRoute: typeof StudyProgramIdRoute
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -630,6 +643,13 @@ declare module '@tanstack/react-router' {
       path: '/study/$programId'
       fullPath: '/study/$programId'
       preLoaderRoute: typeof StudyProgramIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/uk-work-visa': {
+      id: '/services/uk-work-visa'
+      path: '/services/uk-work-visa'
+      fullPath: '/services/uk-work-visa'
+      preLoaderRoute: typeof ServicesUkWorkVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/uk-study-visa': {
@@ -923,6 +943,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesGermanyWorkVisaRoute: ServicesGermanyWorkVisaRoute,
   ServicesUaeWorkVisaRoute: ServicesUaeWorkVisaRoute,
   ServicesUkStudyVisaRoute: ServicesUkStudyVisaRoute,
+  ServicesUkWorkVisaRoute: ServicesUkWorkVisaRoute,
   StudyProgramIdRoute: StudyProgramIdRoute,
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
@@ -931,3 +952,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
