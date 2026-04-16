@@ -108,7 +108,7 @@ function PaymentSuccessPage() {
 
           {/* Actions */}
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link to="/profile">
+            <Link to="/dashboard">
               <Button size="lg" className="gap-2">
                 View My Dashboard <ArrowRight className="h-4 w-4" />
               </Button>
