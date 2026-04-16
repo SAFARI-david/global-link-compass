@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Briefcase, GraduationCap, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle2, Briefcase, GraduationCap, MapPin, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 const pathways = [
   {
@@ -32,6 +34,13 @@ interface Props {
 }
 
 export function HeroVariantC({ onCtaClick }: Props) {
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
+
+  function openEligibility() {
+    onCtaClick?.("check_eligibility");
+    setEligibilityOpen(true);
+  }
+
   return (
     <section className="relative overflow-hidden bg-navy-gradient">
       <div className="absolute inset-0 opacity-10">
@@ -39,32 +48,54 @@ export function HeroVariantC({ onCtaClick }: Props) {
       </div>
 
       <div className="container-narrow relative z-10 pb-20 pt-16 md:pb-28 md:pt-24">
-        {/* Centered headline — short & punchy */}
         <div className="mx-auto max-w-2xl text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-semibold text-gold">
+              <Zap className="h-3.5 w-3.5 animate-pulse" />
+              Limited processing capacity — Apply early to secure your spot
+            </div>
+          </motion.div>
+
           <motion.h1
             className="text-4xl font-extrabold leading-[1.08] tracking-tight text-primary-foreground md:text-6xl lg:text-7xl"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Your Path to{" "}
-            <span className="text-gradient-gold">Working & Studying Abroad</span>
+            Apply Today.{" "}
+            <span className="text-gradient-gold">Move Abroad Sooner.</span>
           </motion.h1>
 
           <motion.p
             className="mx-auto mt-5 max-w-lg text-base text-primary-foreground/65 md:text-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Choose your pathway below. We'll guide you through every step — from eligibility check to final approval.
+            Choose your pathway below — or skip ahead and check your eligibility in 2 minutes.
           </motion.p>
 
           <motion.div
-            className="mt-6 flex flex-wrap items-center justify-center gap-5"
+            className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Link to="/apply/work-visa" onClick={() => onCtaClick?.("start_application")}>
+              <Button variant="heroGold" size="xl">
+                Start Your Application <ArrowRight className="ml-1 h-5 w-5" />
+              </Button>
+            </Link>
+            <Button variant="heroOutline" size="xl" onClick={openEligibility}>
+              Check Your Eligibility
+            </Button>
+          </motion.div>
+
+          <motion.div
+            className="mt-7 flex flex-wrap items-center justify-center gap-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
           >
             {["Clear process", "No hidden fees", "Support at every step"].map((t) => (
               <span key={t} className="flex items-center gap-1.5 text-xs font-medium text-primary-foreground/50">
@@ -117,6 +148,7 @@ export function HeroVariantC({ onCtaClick }: Props) {
           </Link>
         </motion.div>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </section>
   );
 }

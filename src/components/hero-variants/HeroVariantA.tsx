@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { Briefcase, GraduationCap, Plane, Users, CheckCircle2, Shield, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, Plane, Users, CheckCircle2, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 const entryCards = [
   { icon: Briefcase, title: "Work Visas", desc: "Answer 3 questions — get matched with the right program", to: "/guide/work", color: "text-primary" },
@@ -21,6 +23,13 @@ interface Props {
 }
 
 export function HeroVariantA({ onCtaClick }: Props) {
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
+
+  function openEligibility() {
+    onCtaClick?.("check_eligibility");
+    setEligibilityOpen(true);
+  }
+
   return (
     <section className="relative overflow-hidden bg-navy-gradient">
       <div className="absolute inset-0 opacity-10">
@@ -31,9 +40,9 @@ export function HeroVariantA({ onCtaClick }: Props) {
       <div className="container-narrow relative z-10 pb-16 pt-16 md:pb-24 md:pt-20">
         <div className="mx-auto max-w-3xl text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary-foreground/10 bg-primary-foreground/5 px-4 py-1.5 text-xs font-medium text-primary-foreground/80">
-              <Shield className="h-3.5 w-3.5" />
-              Trusted Immigration & Opportunities Platform
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-semibold text-gold">
+              <Zap className="h-3.5 w-3.5 animate-pulse" />
+              Limited processing capacity this month — Apply early
             </div>
           </motion.div>
 
@@ -41,16 +50,16 @@ export function HeroVariantA({ onCtaClick }: Props) {
             className="text-3xl font-extrabold leading-tight tracking-tight text-primary-foreground md:text-5xl lg:text-6xl"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Trusted Support for{" "}
-            <span className="text-gradient-gold">Work Visas</span>,{" "}
-            <span className="text-gradient-gold">Study Visas</span> & International Applications
+            Start Your{" "}
+            <span className="text-gradient-gold">Visa Application Today</span>{" "}
+            — Decision-Ready in 14 Days
           </motion.h1>
 
           <motion.p
             className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-primary-foreground/70 md:text-lg"
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
           >
-            We help applicants and agents manage work visa, study visa, and international opportunity applications through a structured, professional, and transparent process.
+            Professional support for work visas, study visas, and international applications. Clear process, transparent fees, dedicated specialists.
           </motion.p>
 
           <motion.div
@@ -62,16 +71,9 @@ export function HeroVariantA({ onCtaClick }: Props) {
                 Start Your Application <ArrowRight className="ml-1 h-5 w-5" />
               </Button>
             </Link>
-            <Link to="/advisor" onClick={() => onCtaClick?.("find_program")}>
-              <Button variant="heroOutline" size="xl">
-                🤖 Find My Program
-              </Button>
-            </Link>
-            <Link to="/jobs" onClick={() => onCtaClick?.("explore_jobs")}>
-              <Button variant="ghost" size="lg" className="text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/5">
-                Explore Jobs
-              </Button>
-            </Link>
+            <Button variant="heroOutline" size="xl" onClick={openEligibility}>
+              Check Your Eligibility
+            </Button>
           </motion.div>
 
           <motion.div
@@ -102,6 +104,7 @@ export function HeroVariantA({ onCtaClick }: Props) {
           ))}
         </div>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </section>
   );
 }
