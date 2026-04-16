@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import {
   Shield, CheckCircle, XCircle, ArrowRight, CreditCard,
   FileText, Globe, User, Clock, AlertTriangle, Sparkles,
-  Phone, Mail, HelpCircle
+  Mail, HelpCircle, MapPin, BadgeCheck, Lock, ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/payment/$applicationId")({
   component: PaymentSummaryPage,
 });
 
-const INCLUDED = [
+const DEFAULT_INCLUDED = [
   "Professional profile review & eligibility assessment",
   "Complete application guidance & form preparation",
   "Personalised document checklist",
@@ -32,7 +32,7 @@ const INCLUDED = [
   "Post-submission support until decision",
 ];
 
-const NOT_INCLUDED = [
+const DEFAULT_NOT_INCLUDED = [
   "Government / embassy / consulate fees",
   "Language test fees (IELTS, TOEFL, etc.)",
   "Travel tickets & accommodation",
@@ -41,12 +41,20 @@ const NOT_INCLUDED = [
   "Credential evaluation fees (WES, ECA, etc.)",
 ];
 
+const STEPS = [
+  { label: "Application", done: true },
+  { label: "Review & Pay", active: true },
+  { label: "Processing", done: false },
+  { label: "Decision", done: false },
+];
+
 function PaymentSummaryPage() {
   const { applicationId } = Route.useParams();
   const navigate = useNavigate();
   const [application, setApplication] = useState<any>(null);
   const [payment, setPayment] = useState<any>(null);
   const [pricing, setPricing] = useState<any>(null);
+  const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
 
@@ -64,7 +72,6 @@ function PaymentSummaryPage() {
       if (appErr) throw appErr;
       setApplication(app);
 
-      // Check for existing payment
       const { data: existingPayment } = await supabase
         .from("payments")
         .select("*")
@@ -93,12 +100,24 @@ function PaymentSummaryPage() {
         setPricing(pricingData[0]);
       }
 
+      // Load linked program for dynamic inclusions
+      const formData = app.form_data as Record<string, any> || {};
+      if (formData.programId || pricingData?.[0]?.program_id) {
+        const progId = formData.programId || pricingData?.[0]?.program_id;
+        const { data: prog } = await supabase
+          .from("programs")
+          .select("name, tagline, processing_time, whats_included, whats_not_included, service_fee, currency")
+          .eq("id", progId)
+          .maybeSingle();
+        if (prog) setProgram(prog);
+      }
+
       // Create payment record if not exists
       if (!existingPayment) {
         const amount = pricingData?.[0]?.base_amount || 350;
         const currency = pricingData?.[0]?.currency || "USD";
         const { data: { user } } = await supabase.auth.getUser();
-        
+
         const { data: newPayment, error: payErr } = await supabase
           .from("payments")
           .insert({
@@ -128,16 +147,13 @@ function PaymentSummaryPage() {
 
   function handleProceedToPayment() {
     setProcessing(true);
-    // Build Whop checkout URL with metadata
     const whopProductId = pricing?.whop_product_id;
     const checkoutRef = payment?.internal_reference || "";
 
     if (whopProductId) {
-      // Redirect to Whop hosted checkout
       const whopUrl = `https://whop.com/checkout/${whopProductId}/?metadata[payment_ref]=${checkoutRef}&metadata[application_id]=${applicationId}`;
       window.open(whopUrl, "_blank");
     } else {
-      // Fallback: use a configured checkout link or show instructions
       toast.info("Payment checkout will be configured by the admin. Please contact support for payment instructions.");
     }
     setProcessing(false);
@@ -148,7 +164,7 @@ function PaymentSummaryPage() {
       <div className="flex min-h-screen items-center justify-center bg-surface">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          <p className="text-sm text-muted-foreground">Loading payment details...</p>
+          <p className="text-sm text-muted-foreground">Loading payment details…</p>
         </div>
       </div>
     );
@@ -169,8 +185,18 @@ function PaymentSummaryPage() {
 
   const formData = application.form_data as Record<string, any> || {};
   const applicantName = formData.fullName || formData.full_name || "Applicant";
-  const amount = payment?.amount || pricing?.base_amount || 350;
-  const currency = payment?.currency || pricing?.currency || "USD";
+  const applicantEmail = formData.email || "";
+  const amount = payment?.amount || pricing?.base_amount || program?.service_fee || 350;
+  const currency = payment?.currency || pricing?.currency || program?.currency || "USD";
+  const serviceName = program?.name || application.application_type?.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase()) || "Visa Service";
+  const processingTime = program?.processing_time || "2–8 weeks";
+
+  const included: string[] = (program?.whats_included && Array.isArray(program.whats_included) && program.whats_included.length > 0)
+    ? (program.whats_included as string[])
+    : DEFAULT_INCLUDED;
+  const notIncluded: string[] = (program?.whats_not_included && Array.isArray(program.whats_not_included) && program.whats_not_included.length > 0)
+    ? (program.whats_not_included as string[])
+    : DEFAULT_NOT_INCLUDED;
 
   return (
     <div className="min-h-screen bg-surface">
@@ -182,181 +208,217 @@ function PaymentSummaryPage() {
             <span className="text-sm font-bold">Global Link Migration</span>
           </Link>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Shield className="h-3.5 w-3.5 text-gold" />
-            <span>Secure Payment</span>
+            <Lock className="h-3.5 w-3.5 text-gold" />
+            <span>Secure Checkout</span>
           </div>
         </div>
       </div>
 
+      {/* Progress Steps */}
+      <div className="border-b border-border bg-card/50">
+        <div className="mx-auto flex max-w-3xl items-center justify-center gap-0 px-4 py-3">
+          {STEPS.map((s, i) => (
+            <div key={s.label} className="flex items-center">
+              <div className="flex items-center gap-1.5">
+                <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+                  s.done ? "bg-green-600 text-white" : s.active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                }`}>
+                  {s.done ? <CheckCircle className="h-3.5 w-3.5" /> : i + 1}
+                </span>
+                <span className={`hidden text-xs font-medium sm:inline ${s.active ? "text-foreground" : "text-muted-foreground"}`}>{s.label}</span>
+              </div>
+              {i < STEPS.length - 1 && <div className={`mx-2 h-px w-6 sm:w-10 ${s.done ? "bg-green-600" : "bg-border"}`} />}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
           {/* Title */}
-          <div className="mb-8 text-center">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gold/10">
-              <CreditCard className="h-7 w-7 text-gold" />
-            </div>
-            <h1 className="text-2xl font-bold md:text-3xl">Complete Your Payment</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Review your application summary and proceed to secure checkout</p>
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold md:text-3xl">Review & Pay</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Please review your application details before completing payment</p>
           </div>
 
-          {/* Application Summary Card */}
-          <Card className="mb-6 overflow-hidden border-gold/20">
-            <div className="bg-navy px-6 py-4">
-              <h2 className="text-sm font-bold text-white">Application Summary</h2>
+          <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+            {/* Left column — details */}
+            <div className="space-y-5">
+              {/* Application Summary */}
+              <Card className="overflow-hidden">
+                <div className="flex items-center gap-2 border-b border-border bg-muted/30 px-5 py-3">
+                  <FileText className="h-4 w-4 text-primary" />
+                  <h2 className="text-sm font-bold">Application Details</h2>
+                </div>
+                <CardContent className="p-5">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <InfoRow icon={User} label="Applicant" value={applicantName} />
+                    <InfoRow icon={FileText} label="Reference" value={application.reference_number} highlight />
+                    <InfoRow icon={MapPin} label="Destination" value={application.destination_country || "TBD"} />
+                    <InfoRow icon={FileText} label="Service" value={serviceName} />
+                    <InfoRow icon={Clock} label="Processing Time" value={processingTime} />
+                    <InfoRow icon={Clock} label="Submitted" value={new Date(application.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })} />
+                  </div>
+                  {applicantEmail && (
+                    <p className="mt-3 text-xs text-muted-foreground">Confirmation will be sent to <strong>{applicantEmail}</strong></p>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Included / Not Included */}
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Card>
+                  <CardContent className="p-5">
+                    <h3 className="mb-3 flex items-center gap-2 text-sm font-bold">
+                      <BadgeCheck className="h-4 w-4 text-green-600" />
+                      What's Included
+                    </h3>
+                    <ul className="space-y-2">
+                      {included.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-500" />
+                          {typeof item === "string" ? item : String(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-5">
+                    <h3 className="mb-3 flex items-center gap-2 text-sm font-bold">
+                      <XCircle className="h-4 w-4 text-muted-foreground" />
+                      Not Included
+                    </h3>
+                    <ul className="space-y-2">
+                      {notIncluded.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/40" />
+                          {typeof item === "string" ? item : String(item)}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* After Payment */}
+              <Collapsible defaultOpen>
+                <Card>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between px-5 py-4 text-left">
+                    <h3 className="flex items-center gap-2 text-sm font-bold">
+                      <Sparkles className="h-4 w-4 text-gold" />
+                      What Happens After Payment
+                    </h3>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform data-[state=open]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <CardContent className="px-5 pb-5 pt-0">
+                      <div className="space-y-3">
+                        {[
+                          { step: "1", text: "Instant payment confirmation & receipt" },
+                          { step: "2", text: "Expert team reviews your application within 24 hours" },
+                          { step: "3", text: "Personalised document checklist delivered to your email" },
+                          { step: "4", text: "Dedicated case officer contacts you directly" },
+                          { step: "5", text: "Full visa processing begins with ongoing support" },
+                        ].map(({ step, text }) => (
+                          <div key={step} className="flex items-start gap-3">
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">{step}</span>
+                            <p className="text-sm text-muted-foreground">{text}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Card>
+              </Collapsible>
+
+              {/* Disclaimer */}
+              <Card className="border-amber-200/60 bg-amber-50/30">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                    <p className="text-xs leading-relaxed text-amber-800">
+                      <strong>Disclaimer:</strong> We provide professional visa application support services.
+                      Final visa decisions are made solely by embassies, consulates, and immigration authorities.
+                      Payment covers our professional services only.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            <CardContent className="p-6">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="flex items-start gap-3">
-                  <User className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Applicant</p>
-                    <p className="text-sm font-semibold">{applicantName}</p>
+
+            {/* Right column — payment card (sticky) */}
+            <div className="lg:sticky lg:top-6 lg:self-start">
+              <Card className="border-2 border-gold/30 shadow-lg">
+                <CardContent className="p-6">
+                  <h3 className="text-center text-sm font-bold text-muted-foreground">Order Summary</h3>
+                  <Separator className="my-4" />
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{serviceName}</span>
+                      <span className="font-medium">${Number(amount).toFixed(2)}</span>
+                    </div>
+                    {program?.tagline && (
+                      <p className="text-xs text-muted-foreground">{program.tagline}</p>
+                    )}
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FileText className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Reference</p>
-                    <p className="text-sm font-semibold text-primary">{application.reference_number}</p>
+
+                  <Separator className="my-4" />
+
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold">Total</span>
+                    <div className="text-right">
+                      <span className="text-2xl font-bold">${Number(amount).toFixed(2)}</span>
+                      <p className="text-xs text-muted-foreground">{currency} • One-time</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Globe className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Destination</p>
-                    <p className="text-sm font-semibold">{application.destination_country || "To be determined"}</p>
+
+                  <Button
+                    size="lg"
+                    variant="gold"
+                    className="mt-5 w-full gap-2 text-base"
+                    onClick={handleProceedToPayment}
+                    disabled={processing}
+                  >
+                    {processing ? "Preparing…" : (
+                      <>Pay Now <ArrowRight className="h-4 w-4" /></>
+                    )}
+                  </Button>
+
+                  <div className="mt-4 flex flex-col items-center gap-2 text-[11px] text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                      <span className="flex items-center gap-1"><Lock className="h-3 w-3 text-gold" /> 256-bit SSL</span>
+                      <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Secure</span>
+                    </div>
+                    <span>Powered by Whop · Instant confirmation</span>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FileText className="mt-0.5 h-4 w-4 text-muted-foreground" />
-                  <div>
-                    <p className="text-xs text-muted-foreground">Service</p>
-                    <p className="text-sm font-semibold">{application.application_type}</p>
-                  </div>
-                </div>
+                </CardContent>
+              </Card>
+
+              {/* Need Help */}
+              <div className="mt-4 rounded-xl border border-border bg-card p-4 text-center">
+                <p className="text-xs font-medium text-foreground">Need help?</p>
+                <a href="mailto:support@globallinkmigration.com" className="mt-1 flex items-center justify-center gap-1 text-xs text-primary hover:underline">
+                  <Mail className="h-3 w-3" /> support@globallinkmigration.com
+                </a>
               </div>
-
-              <Separator className="my-5" />
-
-              {/* Amount */}
-              <div className="flex items-center justify-between rounded-xl bg-gold/5 p-4">
-                <div>
-                  <p className="text-xs font-medium text-muted-foreground">Total Amount Due</p>
-                  <p className="text-sm text-muted-foreground">Application processing fee</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-3xl font-bold text-foreground">${Number(amount).toFixed(2)}</p>
-                  <p className="text-xs text-muted-foreground">{currency}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* What's Included */}
-          <div className="mb-6 grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardContent className="p-5">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-foreground">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                  What Your Payment Covers
-                </h3>
-                <ul className="space-y-2">
-                  {INCLUDED.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <CheckCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-green-500" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-5">
-                <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-foreground">
-                  <XCircle className="h-4 w-4 text-muted-foreground" />
-                  Not Included
-                </h3>
-                <ul className="space-y-2">
-                  {NOT_INCLUDED.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* What Happens After Payment */}
-          <Card className="mb-6">
-            <CardContent className="p-5">
-              <h3 className="mb-4 flex items-center gap-2 text-sm font-bold">
-                <Sparkles className="h-4 w-4 text-gold" />
-                What Happens After Payment
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { step: "1", text: "Your payment is confirmed instantly and recorded securely" },
-                  { step: "2", text: "Our team reviews your application within 24 hours" },
-                  { step: "3", text: "You receive your personalised next steps and document checklist" },
-                  { step: "4", text: "We contact you by email or dashboard support" },
-                  { step: "5", text: "Your visa application process officially begins" },
-                ].map(({ step, text }) => (
-                  <div key={step} className="flex items-start gap-3">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{step}</span>
-                    <p className="text-sm text-muted-foreground">{text}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Disclaimer */}
-          <Card className="mb-6 border-amber-200 bg-amber-50/50">
-            <CardContent className="p-4">
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-                <p className="text-xs leading-relaxed text-amber-800">
-                  <strong>Important:</strong> We provide professional visa application support and application management services. 
-                  Final decisions on visa applications are made solely by embassies, consulates, institutions, employers, and immigration authorities. 
-                  Payment covers our professional services only.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Payment CTA */}
-          <div className="rounded-2xl border-2 border-gold/30 bg-card p-6 text-center shadow-lg">
-            <Button
-              size="lg"
-              variant="gold"
-              className="w-full max-w-sm text-base"
-              onClick={handleProceedToPayment}
-              disabled={processing}
-            >
-              {processing ? "Preparing checkout..." : (
-                <>Proceed to Secure Payment <ArrowRight className="ml-2 h-4 w-4" /></>
-              )}
-            </Button>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> 256-bit encryption</span>
-              <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Secure checkout via Whop</span>
-              <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Instant confirmation</span>
             </div>
-          </div>
-
-          {/* Support */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground">
-            <a href="mailto:support@globallinkmigration.com" className="flex items-center gap-1 hover:text-foreground transition-colors">
-              <Mail className="h-3 w-3" /> support@globallinkmigration.com
-            </a>
-            <span className="flex items-center gap-1">
-              <HelpCircle className="h-3 w-3" /> Need help? Contact our team
-            </span>
           </div>
         </motion.div>
+      </div>
+    </div>
+  );
+}
+
+function InfoRow({ icon: Icon, label, value, highlight }: { icon: any; label: string; value: string; highlight?: boolean }) {
+  return (
+    <div className="flex items-start gap-3">
+      <Icon className="mt-0.5 h-4 w-4 text-muted-foreground" />
+      <div>
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className={`text-sm font-semibold ${highlight ? "text-primary" : ""}`}>{value}</p>
       </div>
     </div>
   );
