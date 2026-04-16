@@ -67,28 +67,28 @@ function AnimatedCounter({ value, isDark }: { value: string; isDark: boolean }) 
 
 const METRICS = {
   work: [
-    { value: "2,400+", label: "Applications Processed", icon: TrendingUp },
-    { value: "15+", label: "Destination Countries", icon: Globe },
+    { value: "Multi-country", label: "Work Visa Pathways", icon: Globe },
+    { value: "Structured", label: "Step-by-Step Process", icon: TrendingUp },
     { value: "24hr", label: "Average Response Time", icon: Clock },
-    { value: "4.8/5", label: "Client Satisfaction", icon: Star },
+    { value: "Dedicated", label: "Case Officer Support", icon: Users },
   ],
   study: [
-    { value: "1,800+", label: "Students Placed", icon: Users },
-    { value: "120+", label: "Partner Universities", icon: Award },
-    { value: "6", label: "Countries Covered", icon: Globe },
-    { value: "4.9/5", label: "Student Rating", icon: Star },
+    { value: "Multi-country", label: "Study Destinations", icon: Globe },
+    { value: "University", label: "Program Matching", icon: Award },
+    { value: "Personalised", label: "Application Guidance", icon: Users },
+    { value: "End-to-end", label: "Visa Support", icon: Star },
   ],
   jobs: [
-    { value: "3,500+", label: "Jobs Matched", icon: TrendingUp },
-    { value: "850+", label: "Employer Partners", icon: Users },
-    { value: "6", label: "Countries", icon: Globe },
-    { value: "4.7/5", label: "Placement Rating", icon: Star },
+    { value: "Visa-Sponsored", label: "Roles & Listings", icon: TrendingUp },
+    { value: "Verified", label: "Employer Partners", icon: Users },
+    { value: "Multi-country", label: "Job Markets", icon: Globe },
+    { value: "Fresh", label: "Listings Updated Regularly", icon: Star },
   ],
   general: [
-    { value: "2,400+", label: "Applications Processed", icon: TrendingUp },
-    { value: "35+", label: "Countries Covered", icon: Globe },
+    { value: "Professional", label: "Application Support", icon: TrendingUp },
+    { value: "Multi-country", label: "Visa Programs", icon: Globe },
     { value: "24hr", label: "Response Time", icon: Clock },
-    { value: "98%", label: "Client Satisfaction", icon: Star },
+    { value: "Transparent", label: "Pricing & Process", icon: Star },
   ],
 };
 
