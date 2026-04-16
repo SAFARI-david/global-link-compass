@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as JobsIndexRouteImport } from './routes/jobs/index'
+import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as AgentsSettingsRouteImport } from './routes/agents/settings'
 import { Route as AgentsRegisterRouteImport } from './routes/agents/register'
@@ -26,6 +28,16 @@ import { Route as AgentsApplicationsStudyVisaRouteImport } from './routes/agents
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobsIndexRoute = JobsIndexRouteImport.update({
+  id: '/jobs/',
+  path: '/jobs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobsJobIdRoute = JobsJobIdRouteImport.update({
+  id: '/jobs/$jobId',
+  path: '/jobs/$jobId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyWorkVisaRoute = ApplyWorkVisaRouteImport.update({
@@ -100,6 +112,8 @@ export interface FileRoutesByFullPath {
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/jobs/$jobId': typeof JobsJobIdRoute
+  '/jobs/': typeof JobsIndexRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -115,6 +129,8 @@ export interface FileRoutesByTo {
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/jobs/$jobId': typeof JobsJobIdRoute
+  '/jobs': typeof JobsIndexRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -131,6 +147,8 @@ export interface FileRoutesById {
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/jobs/$jobId': typeof JobsJobIdRoute
+  '/jobs/': typeof JobsIndexRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -148,6 +166,8 @@ export interface FileRouteTypes {
     | '/agents/register'
     | '/agents/settings'
     | '/apply/work-visa'
+    | '/jobs/$jobId'
+    | '/jobs/'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -163,6 +183,8 @@ export interface FileRouteTypes {
     | '/agents/register'
     | '/agents/settings'
     | '/apply/work-visa'
+    | '/jobs/$jobId'
+    | '/jobs'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -178,6 +200,8 @@ export interface FileRouteTypes {
     | '/agents/register'
     | '/agents/settings'
     | '/apply/work-visa'
+    | '/jobs/$jobId'
+    | '/jobs/'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -194,6 +218,8 @@ export interface RootRouteChildren {
   AgentsRegisterRoute: typeof AgentsRegisterRoute
   AgentsSettingsRoute: typeof AgentsSettingsRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
+  JobsJobIdRoute: typeof JobsJobIdRoute
+  JobsIndexRoute: typeof JobsIndexRoute
   AgentsApplicationsStudyVisaRoute: typeof AgentsApplicationsStudyVisaRoute
   AgentsApplicationsWorkVisaRoute: typeof AgentsApplicationsWorkVisaRoute
   AgentsClientsNewRoute: typeof AgentsClientsNewRoute
@@ -208,6 +234,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs/': {
+      id: '/jobs/'
+      path: '/jobs'
+      fullPath: '/jobs/'
+      preLoaderRoute: typeof JobsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs/$jobId': {
+      id: '/jobs/$jobId'
+      path: '/jobs/$jobId'
+      fullPath: '/jobs/$jobId'
+      preLoaderRoute: typeof JobsJobIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/work-visa': {
@@ -306,6 +346,8 @@ const rootRouteChildren: RootRouteChildren = {
   AgentsRegisterRoute: AgentsRegisterRoute,
   AgentsSettingsRoute: AgentsSettingsRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
+  JobsJobIdRoute: JobsJobIdRoute,
+  JobsIndexRoute: JobsIndexRoute,
   AgentsApplicationsStudyVisaRoute: AgentsApplicationsStudyVisaRoute,
   AgentsApplicationsWorkVisaRoute: AgentsApplicationsWorkVisaRoute,
   AgentsClientsNewRoute: AgentsClientsNewRoute,
