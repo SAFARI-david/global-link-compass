@@ -156,6 +156,57 @@ export type Database = {
           },
         ]
       }
+      documents: {
+        Row: {
+          admin_notes: string | null
+          application_id: string
+          created_at: string
+          document_type: string
+          file_name: string
+          file_path: string
+          file_size: number
+          id: string
+          mime_type: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["document_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          application_id: string
+          created_at?: string
+          document_type: string
+          file_name: string
+          file_path: string
+          file_size?: number
+          id?: string
+          mime_type?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_notes?: string | null
+          application_id?: string
+          created_at?: string
+          document_type?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          id?: string
+          mime_type?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["document_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           converted: boolean
@@ -667,6 +718,7 @@ export type Database = {
         | "approved"
         | "rejected"
       commission_status: "pending" | "approved" | "paid" | "rejected"
+      document_status: "pending" | "approved" | "rejected"
       payer_type: "applicant" | "agent"
       payment_status:
         | "unpaid"
@@ -812,6 +864,7 @@ export const Constants = {
         "rejected",
       ],
       commission_status: ["pending", "approved", "paid", "rejected"],
+      document_status: ["pending", "approved", "rejected"],
       payer_type: ["applicant", "agent"],
       payment_status: [
         "unpaid",
