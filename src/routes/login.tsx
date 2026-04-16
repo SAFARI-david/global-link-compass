@@ -9,6 +9,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    redirect: (search.redirect as string) || "",
+  }),
   head: () => ({
     meta: [
       { title: "Sign In — Global Link Migration Services" },
