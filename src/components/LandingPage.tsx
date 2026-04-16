@@ -217,10 +217,6 @@ export function LandingPage({ variant }: LandingPageProps) {
                   <Clock className="h-4 w-4" />
                   <span>Takes 30 seconds</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Star className="h-4 w-4" />
-                  <span>Free Assessment</span>
-                </div>
               </div>
             </motion.div>
           </div>
@@ -229,7 +225,7 @@ export function LandingPage({ variant }: LandingPageProps) {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
             <Card className="shadow-xl border-2">
               <CardContent className="p-6 md:p-8">
-                <h2 className="text-lg font-bold mb-1">Quick Assessment</h2>
+                <h2 className="text-lg font-bold mb-1">Begin Your Application</h2>
                 <p className="text-sm text-muted-foreground mb-6">Answer a few questions to get started</p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
@@ -281,11 +277,11 @@ export function LandingPage({ variant }: LandingPageProps) {
                   ))}
 
                   <Button type="submit" size="lg" className="w-full" disabled={!allFieldsFilled}>
-                    Get My Free Assessment <ArrowRight className="ml-1 h-4 w-4" />
+                    Start Your Application <ArrowRight className="ml-1 h-4 w-4" />
                   </Button>
 
                   <p className="text-center text-xs text-muted-foreground">
-                    No payment required. Your data is kept private.
+                    Your data is kept private. Service fees apply — see pricing details.
                   </p>
                 </form>
               </CardContent>
