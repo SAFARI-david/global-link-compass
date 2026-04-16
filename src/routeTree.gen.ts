@@ -36,6 +36,8 @@ import { Route as LpStudyVisaRouteImport } from './routes/lp/study-visa'
 import { Route as LpJobsRouteImport } from './routes/lp/jobs'
 import { Route as LpCanadaWorkVisaRouteImport } from './routes/lp/canada-work-visa'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
+import { Route as GuideWorkRouteImport } from './routes/guide/work'
+import { Route as GuideStudyRouteImport } from './routes/guide/study'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
 import { Route as AgentsSettingsRouteImport } from './routes/agents/settings'
@@ -199,6 +201,16 @@ const LpCanadaWorkVisaRoute = LpCanadaWorkVisaRouteImport.update({
 const JobsJobIdRoute = JobsJobIdRouteImport.update({
   id: '/jobs/$jobId',
   path: '/jobs/$jobId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideWorkRoute = GuideWorkRouteImport.update({
+  id: '/guide/work',
+  path: '/guide/work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideStudyRoute = GuideStudyRouteImport.update({
+  id: '/guide/study',
+  path: '/guide/study',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyWorkVisaRoute = ApplyWorkVisaRouteImport.update({
@@ -375,6 +387,8 @@ export interface FileRoutesByFullPath {
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/guide/study': typeof GuideStudyRoute
+  '/guide/work': typeof GuideWorkRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
   '/lp/jobs': typeof LpJobsRoute
@@ -432,6 +446,8 @@ export interface FileRoutesByTo {
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/guide/study': typeof GuideStudyRoute
+  '/guide/work': typeof GuideWorkRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
   '/lp/jobs': typeof LpJobsRoute
@@ -490,6 +506,8 @@ export interface FileRoutesById {
   '/agents/settings': typeof AgentsSettingsRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/guide/study': typeof GuideStudyRoute
+  '/guide/work': typeof GuideWorkRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
   '/lp/jobs': typeof LpJobsRoute
@@ -549,6 +567,8 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/apply/study'
     | '/apply/work-visa'
+    | '/guide/study'
+    | '/guide/work'
     | '/jobs/$jobId'
     | '/lp/canada-work-visa'
     | '/lp/jobs'
@@ -606,6 +626,8 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/apply/study'
     | '/apply/work-visa'
+    | '/guide/study'
+    | '/guide/work'
     | '/jobs/$jobId'
     | '/lp/canada-work-visa'
     | '/lp/jobs'
@@ -663,6 +685,8 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/apply/study'
     | '/apply/work-visa'
+    | '/guide/study'
+    | '/guide/work'
     | '/jobs/$jobId'
     | '/lp/canada-work-visa'
     | '/lp/jobs'
@@ -703,6 +727,8 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
+  GuideStudyRoute: typeof GuideStudyRoute
+  GuideWorkRoute: typeof GuideWorkRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
   LpCanadaWorkVisaRoute: typeof LpCanadaWorkVisaRoute
   LpJobsRoute: typeof LpJobsRoute
@@ -912,6 +938,20 @@ declare module '@tanstack/react-router' {
       path: '/jobs/$jobId'
       fullPath: '/jobs/$jobId'
       preLoaderRoute: typeof JobsJobIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide/work': {
+      id: '/guide/work'
+      path: '/guide/work'
+      fullPath: '/guide/work'
+      preLoaderRoute: typeof GuideWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide/study': {
+      id: '/guide/study'
+      path: '/guide/study'
+      fullPath: '/guide/study'
+      preLoaderRoute: typeof GuideStudyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/work-visa': {
@@ -1203,6 +1243,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
+  GuideStudyRoute: GuideStudyRoute,
+  GuideWorkRoute: GuideWorkRoute,
   JobsJobIdRoute: JobsJobIdRoute,
   LpCanadaWorkVisaRoute: LpCanadaWorkVisaRoute,
   LpJobsRoute: LpJobsRoute,
