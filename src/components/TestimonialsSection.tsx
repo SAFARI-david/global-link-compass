@@ -25,8 +25,7 @@ const testimonials = [
     country: "India",
     type: "Agent Partner",
     rating: 5,
-    avatar: "PM",
-    color: "bg-purple-600",
+    photo: priyaAvatar,
   },
   {
     text: "I was matched with the perfect university program within days. The study application process was guided and easy to follow. I never felt lost or confused at any step of the journey.",
@@ -34,8 +33,7 @@ const testimonials = [
     country: "Philippines → UK",
     type: "Study Visa",
     rating: 5,
-    avatar: "SL",
-    color: "bg-emerald-600",
+    photo: sarahAvatar,
   },
   {
     text: "The transparent pricing was what convinced me. I knew exactly what the service fee covered and what government fees were separate. No surprises — just professional, honest service from start to finish.",
@@ -43,8 +41,7 @@ const testimonials = [
     country: "Ghana → Australia",
     type: "Work Visa",
     rating: 5,
-    avatar: "DO",
-    color: "bg-amber-600",
+    photo: davidAvatar,
   },
   {
     text: "I applied for a visa-sponsored job through Global Link and received interview coaching that made all the difference. Within 3 months I had an offer and my visa was in process. Highly recommend.",
@@ -52,8 +49,7 @@ const testimonials = [
     country: "Pakistan → UAE",
     type: "Job Placement",
     rating: 5,
-    avatar: "FR",
-    color: "bg-rose-600",
+    photo: fatimaAvatar,
   },
   {
     text: "The step-by-step process removed all the anxiety. Every document was clearly listed, every deadline was tracked, and I could see my application status in real time. Truly professional service.",
@@ -61,8 +57,7 @@ const testimonials = [
     country: "Kenya → Germany",
     type: "Work Visa",
     rating: 5,
-    avatar: "JT",
-    color: "bg-cyan-600",
+    photo: jamesAvatar,
   },
 ];
 
