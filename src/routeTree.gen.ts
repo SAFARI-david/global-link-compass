@@ -21,7 +21,11 @@ import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
 import { Route as StudyProgramIdRouteImport } from './routes/study/$programId'
+import { Route as ServicesUkStudyVisaRouteImport } from './routes/services/uk-study-visa'
+import { Route as ServicesUaeWorkVisaRouteImport } from './routes/services/uae-work-visa'
+import { Route as ServicesGermanyWorkVisaRouteImport } from './routes/services/germany-work-visa'
 import { Route as ServicesCanadaWorkVisaRouteImport } from './routes/services/canada-work-visa'
+import { Route as ServicesAustraliaWorkVisaRouteImport } from './routes/services/australia-work-visa'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
@@ -107,11 +111,32 @@ const StudyProgramIdRoute = StudyProgramIdRouteImport.update({
   path: '/study/$programId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesUkStudyVisaRoute = ServicesUkStudyVisaRouteImport.update({
+  id: '/services/uk-study-visa',
+  path: '/services/uk-study-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesUaeWorkVisaRoute = ServicesUaeWorkVisaRouteImport.update({
+  id: '/services/uae-work-visa',
+  path: '/services/uae-work-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesGermanyWorkVisaRoute = ServicesGermanyWorkVisaRouteImport.update({
+  id: '/services/germany-work-visa',
+  path: '/services/germany-work-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesCanadaWorkVisaRoute = ServicesCanadaWorkVisaRouteImport.update({
   id: '/services/canada-work-visa',
   path: '/services/canada-work-visa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesAustraliaWorkVisaRoute =
+  ServicesAustraliaWorkVisaRouteImport.update({
+    id: '/services/australia-work-visa',
+    path: '/services/australia-work-visa',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/services/$slug',
   path: '/services/$slug',
@@ -261,7 +286,11 @@ export interface FileRoutesByFullPath {
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
+  '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
+  '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
+  '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -300,7 +329,11 @@ export interface FileRoutesByTo {
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
+  '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
+  '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
+  '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs': typeof JobsIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -340,7 +373,11 @@ export interface FileRoutesById {
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
+  '/services/germany-work-visa': typeof ServicesGermanyWorkVisaRoute
+  '/services/uae-work-visa': typeof ServicesUaeWorkVisaRoute
+  '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -381,7 +418,11 @@ export interface FileRouteTypes {
     | '/apply/work-visa'
     | '/jobs/$jobId'
     | '/services/$slug'
+    | '/services/australia-work-visa'
     | '/services/canada-work-visa'
+    | '/services/germany-work-visa'
+    | '/services/uae-work-visa'
+    | '/services/uk-study-visa'
     | '/study/$programId'
     | '/jobs/'
     | '/services/'
@@ -420,7 +461,11 @@ export interface FileRouteTypes {
     | '/apply/work-visa'
     | '/jobs/$jobId'
     | '/services/$slug'
+    | '/services/australia-work-visa'
     | '/services/canada-work-visa'
+    | '/services/germany-work-visa'
+    | '/services/uae-work-visa'
+    | '/services/uk-study-visa'
     | '/study/$programId'
     | '/jobs'
     | '/services'
@@ -459,7 +504,11 @@ export interface FileRouteTypes {
     | '/apply/work-visa'
     | '/jobs/$jobId'
     | '/services/$slug'
+    | '/services/australia-work-visa'
     | '/services/canada-work-visa'
+    | '/services/germany-work-visa'
+    | '/services/uae-work-visa'
+    | '/services/uk-study-visa'
     | '/study/$programId'
     | '/jobs/'
     | '/services/'
@@ -486,7 +535,11 @@ export interface RootRouteChildren {
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesAustraliaWorkVisaRoute: typeof ServicesAustraliaWorkVisaRoute
   ServicesCanadaWorkVisaRoute: typeof ServicesCanadaWorkVisaRoute
+  ServicesGermanyWorkVisaRoute: typeof ServicesGermanyWorkVisaRoute
+  ServicesUaeWorkVisaRoute: typeof ServicesUaeWorkVisaRoute
+  ServicesUkStudyVisaRoute: typeof ServicesUkStudyVisaRoute
   StudyProgramIdRoute: typeof StudyProgramIdRoute
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -579,11 +632,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudyProgramIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/uk-study-visa': {
+      id: '/services/uk-study-visa'
+      path: '/services/uk-study-visa'
+      fullPath: '/services/uk-study-visa'
+      preLoaderRoute: typeof ServicesUkStudyVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/uae-work-visa': {
+      id: '/services/uae-work-visa'
+      path: '/services/uae-work-visa'
+      fullPath: '/services/uae-work-visa'
+      preLoaderRoute: typeof ServicesUaeWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/germany-work-visa': {
+      id: '/services/germany-work-visa'
+      path: '/services/germany-work-visa'
+      fullPath: '/services/germany-work-visa'
+      preLoaderRoute: typeof ServicesGermanyWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/canada-work-visa': {
       id: '/services/canada-work-visa'
       path: '/services/canada-work-visa'
       fullPath: '/services/canada-work-visa'
       preLoaderRoute: typeof ServicesCanadaWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/australia-work-visa': {
+      id: '/services/australia-work-visa'
+      path: '/services/australia-work-visa'
+      fullPath: '/services/australia-work-visa'
+      preLoaderRoute: typeof ServicesAustraliaWorkVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/$slug': {
@@ -837,7 +918,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   JobsJobIdRoute: JobsJobIdRoute,
   ServicesSlugRoute: ServicesSlugRoute,
+  ServicesAustraliaWorkVisaRoute: ServicesAustraliaWorkVisaRoute,
   ServicesCanadaWorkVisaRoute: ServicesCanadaWorkVisaRoute,
+  ServicesGermanyWorkVisaRoute: ServicesGermanyWorkVisaRoute,
+  ServicesUaeWorkVisaRoute: ServicesUaeWorkVisaRoute,
+  ServicesUkStudyVisaRoute: ServicesUkStudyVisaRoute,
   StudyProgramIdRoute: StudyProgramIdRoute,
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
@@ -846,3 +931,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
