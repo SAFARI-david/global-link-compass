@@ -1,4 +1,4 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, HeadContent, Scripts, useLocation } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/hooks/use-auth";
@@ -69,14 +69,25 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAgentRoute = location.pathname.startsWith("/agents/dashboard") ||
+    location.pathname.startsWith("/agents/clients") ||
+    location.pathname.startsWith("/agents/applications") ||
+    location.pathname.startsWith("/agents/payments") ||
+    location.pathname.startsWith("/agents/messages") ||
+    location.pathname.startsWith("/agents/settings");
+
+  const hideChrome = isAdminRoute || isAgentRoute;
+
   return (
     <AuthProvider>
       <div className="flex min-h-screen flex-col">
-        <Header />
+        {!hideChrome && <Header />}
         <main className="flex-1">
           <Outlet />
         </main>
-        <Footer />
+        {!hideChrome && <Footer />}
       </div>
     </AuthProvider>
   );
