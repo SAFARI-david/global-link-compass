@@ -316,11 +316,10 @@ function PaymentSummaryPage() {
                     <CardContent className="px-5 pb-5 pt-0">
                       <div className="space-y-3">
                         {[
-                          { step: "1", text: "Instant payment confirmation & receipt" },
-                          { step: "2", text: "Expert team reviews your application within 24 hours" },
-                          { step: "3", text: "Personalised document checklist delivered to your email" },
-                          { step: "4", text: "Dedicated case officer contacts you directly" },
-                          { step: "5", text: "Full visa processing begins with ongoing support" },
+                          { step: "1", text: "Your application is reviewed by our specialist team" },
+                          { step: "2", text: "You receive next steps and a personalised document checklist" },
+                          { step: "3", text: "Our team contacts you with your dedicated case officer" },
+                          { step: "4", text: "Your visa application process begins with full ongoing support" },
                         ].map(({ step, text }) => (
                           <div key={step} className="flex items-start gap-3">
                             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">{step}</span>
