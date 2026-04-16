@@ -1,7 +1,8 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
   { label: "Home", to: "/" },
@@ -24,6 +25,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
+  const { user, loading: authLoading } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-md">
@@ -85,9 +87,19 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 lg:flex">
-          <Link to="/consultation">
-            <Button variant="outline" size="default">Book Consultation</Button>
-          </Link>
+          {!authLoading && (
+            user ? (
+              <Link to="/profile">
+                <Button variant="outline" size="default" className="gap-1.5">
+                  <User className="h-4 w-4" /> My Account
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline" size="default">Sign In</Button>
+              </Link>
+            )
+          )}
           <Link to="/apply/work-visa">
             <Button variant="gold" size="default">Apply Now</Button>
           </Link>
@@ -134,9 +146,17 @@ export function Header() {
             )}
           </nav>
           <div className="mt-4 flex flex-col gap-2">
-            <Link to="/consultation" onClick={() => setMobileOpen(false)}>
-              <Button variant="outline" className="w-full">Book Consultation</Button>
-            </Link>
+            {!authLoading && (
+              user ? (
+                <Link to="/profile" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> My Account</Button>
+                </Link>
+              ) : (
+                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full">Sign In</Button>
+                </Link>
+              )
+            )}
             <Link to="/apply/work-visa" onClick={() => setMobileOpen(false)}>
               <Button variant="gold" className="w-full">Apply Now</Button>
             </Link>
