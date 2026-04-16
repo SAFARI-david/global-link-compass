@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   FileText, CreditCard, Clock, CheckCircle, XCircle, AlertTriangle,
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
-  Search, ArrowUpDown,
+  Search, ArrowUpDown, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
