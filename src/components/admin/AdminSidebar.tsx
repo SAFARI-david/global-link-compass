@@ -14,6 +14,7 @@ import {
   Target,
   FolderOpen,
   BarChart3,
+  FlaskConical,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const navItems = [
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
   { label: "Leads", to: "/admin/leads", icon: Target },
   { label: "Analytics", to: "/admin/analytics", icon: BarChart3 },
+  { label: "A/B Tests", to: "/admin/ab-tests", icon: FlaskConical },
   { label: "Documents", to: "/admin/documents", icon: FolderOpen },
 ];
 
