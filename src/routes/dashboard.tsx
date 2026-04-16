@@ -87,6 +87,10 @@ function UserDashboardPage() {
   const [payments, setPayments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [docCounts, setDocCounts] = useState<Record<string, number>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "status">("newest");
 
   useEffect(() => {
     if (authLoading) return;
