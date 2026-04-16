@@ -216,7 +216,7 @@ function EligibilityLeadsPage() {
                           <TableCell className="text-xs">{l.form_data?.experience || "—"}</TableCell>
                           <TableCell>
                             {l.form_data?.eligibility_result === "qualified" ? (
-                              <Badge className="bg-green-100 text-green-700 hover:bg-green-100 gap-1">
+                              <Badge className="bg-green-100 text-green-700 hover:bg-green-100 gap-1 dark:bg-green-900/30 dark:text-green-400">
                                 <CheckCircle2 className="h-3 w-3" /> Qualified
                               </Badge>
                             ) : (
