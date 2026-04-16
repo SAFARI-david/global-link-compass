@@ -24,10 +24,12 @@ function ProgramDetailPage() {
   const { slug } = Route.useParams();
   const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [eligibilityOpen, setEligibilityOpen] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     supabase
       .from("programs")
       .select("*")
@@ -40,7 +42,7 @@ function ProgramDetailPage() {
       });
   }, [slug]);
 
-  if (loading) return <div className="flex min-h-screen items-center justify-center"><p className="text-muted-foreground">Loading program...</p></div>;
+  if (!mounted || loading) return <div className="flex min-h-screen items-center justify-center"><p className="text-muted-foreground">Loading program...</p></div>;
   if (!program) return <div className="flex min-h-screen flex-col items-center justify-center gap-4"><h1 className="text-2xl font-bold">Program Not Found</h1><Link to="/"><Button>Back to Home</Button></Link></div>;
 
   const docs: { name: string; required: boolean }[] = program.required_documents || [];
