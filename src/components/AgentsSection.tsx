@@ -82,7 +82,7 @@ export function AgentsSection() {
             </div>
             <div className="mt-5 flex items-center gap-2 border-t border-primary-foreground/10 pt-4 text-xs text-primary-foreground/40">
               <Shield className="h-3.5 w-3.5 text-gold" />
-              Free to register. No upfront fees for agents.
+              No upfront fees for agents. Commission-based partnership.
             </div>
           </motion.div>
         </div>

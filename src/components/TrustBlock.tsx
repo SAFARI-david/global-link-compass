@@ -88,7 +88,7 @@ export function TrustBlock() {
             </div>
             <Link to="/apply/work-visa">
               <Button variant="gold" size="default">
-                Start Free Application <ArrowRight className="ml-1 h-4 w-4" />
+                Start Your Application <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </Link>
           </div>
