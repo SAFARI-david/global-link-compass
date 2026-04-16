@@ -287,6 +287,11 @@ function AdminApplicationsPage() {
                   <div><p className="text-xs text-muted-foreground">Country</p><p className="font-medium">{selectedApp.destination_country || "—"}</p></div>
                   <div><p className="text-xs text-muted-foreground">Submitted</p><p className="font-medium">{new Date(selectedApp.created_at).toLocaleString()}</p></div>
                   <div><p className="text-xs text-muted-foreground">Last Updated</p><p className="font-medium">{new Date(selectedApp.updated_at).toLocaleString()}</p></div>
+                  <div><p className="text-xs text-muted-foreground">Payment Status</p><p className="font-medium capitalize">{selectedApp.payment_status}</p></div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Payment Link</p>
+                    <Link to="/admin/payments" className="text-sm text-primary underline">View Payments →</Link>
+                  </div>
                 </div>
 
                 <div>
