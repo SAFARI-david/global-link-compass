@@ -422,8 +422,8 @@ function JobsLP() {
             <h2 className="text-2xl font-bold text-primary-foreground md:text-3xl">Find Your Next Opportunity Today</h2>
             <p className="mt-3 text-sm text-primary-foreground/60">Take the first step towards an international career with professional support.</p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a href="#apply-form"><Button variant="heroGold" size="xl">Start Application <ArrowRight className="ml-1 h-5 w-5" /></Button></a>
-              <Link to="/advisor"><Button variant="heroOutline" size="xl">Book Consultation</Button></Link>
+              <a href="#apply-form"><Button variant="heroGold" size="xl">Start Your Application <ArrowRight className="ml-1 h-5 w-5" /></Button></a>
+              <Link to="/advisor"><Button variant="heroOutline" size="xl">Check Your Eligibility</Button></Link>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
+import { EligibilityCheck } from "./EligibilityCheck";
 import type { LucideIcon } from "lucide-react";
 
 type Program = {
@@ -73,6 +74,7 @@ export function VisaCategoryPage({ config }: { config: CategoryPageConfig }) {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -109,10 +111,12 @@ export function VisaCategoryPage({ config }: { config: CategoryPageConfig }) {
           <div className="flex flex-wrap gap-3 mb-6">
             <Link to={config.applyRoute}>
               <Button variant="heroGold" size="lg">
-                {isStudy ? "Start Study Visa Application" : "Start Work Visa Application"}
+                Start Your Application <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </Link>
-            <Button variant="heroOutline" size="lg">Book Consultation</Button>
+            <Button variant="heroOutline" size="lg" onClick={() => setEligibilityOpen(true)}>
+              Check Your Eligibility
+            </Button>
           </div>
           <div className="flex flex-wrap gap-4 text-sm opacity-70">
             <span className="flex items-center gap-1.5"><Shield className="h-4 w-4" />Structured application support</span>
@@ -152,10 +156,10 @@ export function VisaCategoryPage({ config }: { config: CategoryPageConfig }) {
                     </div>
                     <div className="flex gap-2 mt-auto">
                       <Link to="/services/$slug" params={{ slug: p.slug }} className="flex-1">
-                        <Button variant="outline" className="w-full" size="sm">View Program</Button>
+                        <Button variant="outline" className="w-full" size="sm">View Details</Button>
                       </Link>
                       <Link to={config.applyRoute} className="flex-1">
-                        <Button variant="gold" className="w-full" size="sm">Apply Now</Button>
+                        <Button variant="gold" className="w-full" size="sm">Start Your Application</Button>
                       </Link>
                     </div>
                   </CardContent>
@@ -291,12 +295,17 @@ export function VisaCategoryPage({ config }: { config: CategoryPageConfig }) {
           <h2 className="text-2xl font-bold mb-3 font-heading">{config.ctaTitle}</h2>
           <p className="opacity-80 mb-6 max-w-xl mx-auto">{config.ctaText}</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to={config.applyRoute}><Button variant="heroGold" size="lg">Start Application</Button></Link>
-            <Button variant="heroOutline" size="lg">Book Consultation</Button>
+            <Link to={config.applyRoute}>
+              <Button variant="heroGold" size="lg">Start Your Application <ArrowRight className="ml-1 h-4 w-4" /></Button>
+            </Link>
+            <Button variant="heroOutline" size="lg" onClick={() => setEligibilityOpen(true)}>
+              Check Your Eligibility
+            </Button>
           </div>
           <p className="mt-4 text-xs opacity-50">No payment required at this stage. Service fees are separate from government costs.</p>
         </section>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </div>
   );
 }
