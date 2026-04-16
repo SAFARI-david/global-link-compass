@@ -105,6 +105,9 @@ function AdminApplicationsPage() {
   const [notes, setNotes] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkUpdating, setBulkUpdating] = useState(false);
+  const [linkedPayments, setLinkedPayments] = useState<LinkedPayment[]>([]);
+  const [linkedDocs, setLinkedDocs] = useState<LinkedDocument[]>([]);
+  const [linkedLead, setLinkedLead] = useState<any>(null);
 
   const fetchApplications = async () => {
     const { data, error } = await supabase
