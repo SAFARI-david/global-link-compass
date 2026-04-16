@@ -23,6 +23,13 @@ interface Props {
 }
 
 export function HeroVariantB({ onCtaClick }: Props) {
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
+
+  function openEligibility() {
+    onCtaClick?.("check_eligibility");
+    setEligibilityOpen(true);
+  }
+
   return (
     <section className="relative overflow-hidden bg-navy-gradient">
       <div className="absolute inset-0 opacity-8">
@@ -34,19 +41,19 @@ export function HeroVariantB({ onCtaClick }: Props) {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Left — headline + CTA */}
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gold/10 px-4 py-1.5 text-xs font-semibold text-gold">
-              <Globe className="h-3.5 w-3.5" />
-              Your Immigration Journey Starts Here
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-semibold text-gold">
+              <Zap className="h-3.5 w-3.5 animate-pulse" />
+              Limited processing capacity this month
             </div>
 
             <h1 className="text-3xl font-extrabold leading-[1.1] tracking-tight text-primary-foreground md:text-5xl lg:text-[3.5rem]">
-              Build Your Future{" "}
-              <span className="block text-gradient-gold">Work & Study Abroad</span>
+              Apply Now,{" "}
+              <span className="block text-gradient-gold">Move Abroad in 2026</span>
             </h1>
 
             <p className="mt-5 max-w-lg text-base leading-relaxed text-primary-foreground/65 md:text-lg">
               Professional visa application support with a clear, structured process.
-              From initial consultation to final approval — we guide you at every step.
+              From eligibility check to final approval — we guide you every step of the way.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -55,11 +62,9 @@ export function HeroVariantB({ onCtaClick }: Props) {
                   Start Your Application <ArrowRight className="ml-1 h-5 w-5" />
                 </Button>
               </Link>
-              <Link to="/services" onClick={() => onCtaClick?.("explore_services")}>
-                <Button variant="heroOutline" size="xl" className="w-full sm:w-auto">
-                  Explore Services
-                </Button>
-              </Link>
+              <Button variant="heroOutline" size="xl" className="w-full sm:w-auto" onClick={openEligibility}>
+                Check Your Eligibility
+              </Button>
             </div>
 
             {/* Stats row */}
