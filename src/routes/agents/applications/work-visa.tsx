@@ -22,7 +22,7 @@ const steps = [
   "Education & Work",
   "Destination",
   "Documents",
-  "Review & Submit",
+  "Review & Proceed",
 ];
 
 function AgentWorkVisaPage() {
@@ -250,7 +250,7 @@ function AgentWorkVisaPage() {
                 </Button>
               ) : (
                 <Button variant="gold" onClick={() => setSubmitted(true)}>
-                  Submit Application <CheckCircle2 className="ml-2 h-4 w-4" />
+                  Proceed with Application <CheckCircle2 className="ml-2 h-4 w-4" />
                 </Button>
               )}
             </div>
