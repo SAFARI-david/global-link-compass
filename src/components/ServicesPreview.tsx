@@ -42,7 +42,7 @@ export function ServicesPreview() {
                 <h3 className="text-base font-bold">{s.title}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
                 <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-primary transition-all group-hover:gap-2">
-                  Learn more <ArrowRight className="h-3 w-3" />
+                  Start Application <ArrowRight className="h-3 w-3" />
                 </span>
               </Link>
             </motion.div>

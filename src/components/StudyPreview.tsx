@@ -61,7 +61,7 @@ export function StudyPreview() {
               </ul>
               <div className="mt-5 border-t border-primary-foreground/10 pt-4">
                 <p className="text-xs text-primary-foreground/40">
-                  Free to apply. No payment until you approve your study plan.
+                  Service fees apply. No payment until you approve your study plan. Government and tuition fees are separate.
                 </p>
               </div>
             </div>
