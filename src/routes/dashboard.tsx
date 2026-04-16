@@ -266,6 +266,13 @@ function UserDashboardPage() {
                               </div>
                             </div>
 
+                            {/* Progress Bar */}
+                            <ApplicationProgress
+                              paymentStatus={app.payment_status}
+                              applicationStatus={app.status}
+                              documentCount={docCounts[app.id] || 0}
+                            />
+
                             {/* Next Step */}
                             <div className="mt-3 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
                               <ArrowRight className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
