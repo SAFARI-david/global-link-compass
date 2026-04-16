@@ -11,6 +11,8 @@ import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
+import { PricingSection } from "@/components/PricingSection";
+import { SectionCTA } from "@/components/SectionCTA";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,6 +32,24 @@ function Index() {
       <HeroSection />
       <SocialProofBar context="general" />
       <ServicesSection />
+      <SectionCTA
+        variant="compact"
+        title="Ready to start?"
+        subtitle="Pick a service above or check your eligibility in 2 minutes."
+      />
+      <HowItWorks />
+      <TrustBlock />
+      <ServicesPreview />
+      <SectionCTA
+        variant="compact"
+        title="Find your visa pathway"
+        subtitle="Get matched with the right program for your goals."
+      />
+      <JobsPreview />
+      <StudyPreview />
+      <PricingSection />
+      <AgentsSection />
+      <TestimonialsSection />
       {/* Mid-page lead capture */}
       <section className="section-padding bg-muted/30">
         <div className="container-narrow">
@@ -38,13 +58,11 @@ function Index() {
           </div>
         </div>
       </section>
-      <HowItWorks />
-      <TrustBlock />
-      <ServicesPreview />
-      <JobsPreview />
-      <StudyPreview />
-      <AgentsSection />
-      <TestimonialsSection />
+      <SectionCTA
+        variant="navy"
+        title="Your visa journey starts with one step"
+        subtitle="Join thousands who've trusted us with their applications. Start today — no payment required until we confirm your eligibility."
+      />
       <FinalCTA />
     </>
   );
