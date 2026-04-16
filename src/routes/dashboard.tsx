@@ -1,10 +1,19 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   FileText, CreditCard, Clock, CheckCircle, XCircle, AlertTriangle,
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
+  Search, ArrowUpDown,
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { DocumentUpload } from "@/components/DocumentUpload";
 import { ApplicationProgress } from "@/components/ApplicationProgress";
 import { ApplicationTimeline } from "@/components/ApplicationTimeline";
