@@ -50,6 +50,126 @@ export type Database = {
         }
         Relationships: []
       }
+      programs: {
+        Row: {
+          benefits: Json | null
+          best_for: string | null
+          category: string | null
+          country: string
+          created_at: string
+          cta_apply_text: string | null
+          cta_consult_text: string | null
+          currency: string | null
+          education_requirement: string | null
+          eligibility_summary: string | null
+          family_dependant_option: string | null
+          faqs: Json | null
+          featured: boolean
+          full_description: string | null
+          government_fees_included: boolean | null
+          id: string
+          language_requirement: string | null
+          meta_description: string | null
+          meta_title: string | null
+          name: string
+          other_conditions: string | null
+          payment_note: string | null
+          process_steps: Json | null
+          processing_time: string | null
+          required_documents: Json | null
+          separate_costs: string | null
+          service_fee: number | null
+          short_overview: string | null
+          slug: string
+          status: string
+          tagline: string | null
+          updated_at: string
+          visa_type: string
+          whats_included: Json | null
+          whats_not_included: Json | null
+          why_choose: string | null
+          work_experience_requirement: string | null
+        }
+        Insert: {
+          benefits?: Json | null
+          best_for?: string | null
+          category?: string | null
+          country: string
+          created_at?: string
+          cta_apply_text?: string | null
+          cta_consult_text?: string | null
+          currency?: string | null
+          education_requirement?: string | null
+          eligibility_summary?: string | null
+          family_dependant_option?: string | null
+          faqs?: Json | null
+          featured?: boolean
+          full_description?: string | null
+          government_fees_included?: boolean | null
+          id?: string
+          language_requirement?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name: string
+          other_conditions?: string | null
+          payment_note?: string | null
+          process_steps?: Json | null
+          processing_time?: string | null
+          required_documents?: Json | null
+          separate_costs?: string | null
+          service_fee?: number | null
+          short_overview?: string | null
+          slug: string
+          status?: string
+          tagline?: string | null
+          updated_at?: string
+          visa_type: string
+          whats_included?: Json | null
+          whats_not_included?: Json | null
+          why_choose?: string | null
+          work_experience_requirement?: string | null
+        }
+        Update: {
+          benefits?: Json | null
+          best_for?: string | null
+          category?: string | null
+          country?: string
+          created_at?: string
+          cta_apply_text?: string | null
+          cta_consult_text?: string | null
+          currency?: string | null
+          education_requirement?: string | null
+          eligibility_summary?: string | null
+          family_dependant_option?: string | null
+          faqs?: Json | null
+          featured?: boolean
+          full_description?: string | null
+          government_fees_included?: boolean | null
+          id?: string
+          language_requirement?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string
+          other_conditions?: string | null
+          payment_note?: string | null
+          process_steps?: Json | null
+          processing_time?: string | null
+          required_documents?: Json | null
+          separate_costs?: string | null
+          service_fee?: number | null
+          short_overview?: string | null
+          slug?: string
+          status?: string
+          tagline?: string | null
+          updated_at?: string
+          visa_type?: string
+          whats_included?: Json | null
+          whats_not_included?: Json | null
+          why_choose?: string | null
+          work_experience_requirement?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
