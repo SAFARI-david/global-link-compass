@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle, CheckSquare } from "lucide-react";
+import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle, CheckSquare, CreditCard } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { AdminHeader } from "@/components/admin/AdminHeader";
