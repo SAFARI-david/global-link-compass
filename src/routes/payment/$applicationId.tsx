@@ -392,7 +392,7 @@ function PaymentSummaryPage() {
                       <span className="flex items-center gap-1"><Lock className="h-3 w-3 text-gold" /> 256-bit SSL</span>
                       <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Secure</span>
                     </div>
-                    <span>Powered by Whop · Instant confirmation</span>
+                    <span>Instant payment confirmation</span>
                   </div>
                 </CardContent>
               </Card>
@@ -400,8 +400,8 @@ function PaymentSummaryPage() {
               {/* Need Help */}
               <div className="mt-4 rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-xs font-medium text-foreground">Need help?</p>
-                <a href="mailto:support@globallinkmigration.com" className="mt-1 flex items-center justify-center gap-1 text-xs text-primary hover:underline">
-                  <Mail className="h-3 w-3" /> support@globallinkmigration.com
+                <a href="mailto:info@global-linkmigration.ca" className="mt-1 flex items-center justify-center gap-1 text-xs text-primary hover:underline">
+                  <Mail className="h-3 w-3" /> info@global-linkmigration.ca
                 </a>
               </div>
             </div>
