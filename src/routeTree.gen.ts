@@ -32,6 +32,9 @@ import { Route as ServicesAustraliaWorkVisaRouteImport } from './routes/services
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as PaymentSuccessRouteImport } from './routes/payment/success'
 import { Route as PaymentApplicationIdRouteImport } from './routes/payment/$applicationId'
+import { Route as LpStudyVisaRouteImport } from './routes/lp/study-visa'
+import { Route as LpJobsRouteImport } from './routes/lp/jobs'
+import { Route as LpCanadaWorkVisaRouteImport } from './routes/lp/canada-work-visa'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
@@ -174,6 +177,21 @@ const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
 const PaymentApplicationIdRoute = PaymentApplicationIdRouteImport.update({
   id: '/payment/$applicationId',
   path: '/payment/$applicationId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LpStudyVisaRoute = LpStudyVisaRouteImport.update({
+  id: '/lp/study-visa',
+  path: '/lp/study-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LpJobsRoute = LpJobsRouteImport.update({
+  id: '/lp/jobs',
+  path: '/lp/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LpCanadaWorkVisaRoute = LpCanadaWorkVisaRouteImport.update({
+  id: '/lp/canada-work-visa',
+  path: '/lp/canada-work-visa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsJobIdRoute = JobsJobIdRouteImport.update({
@@ -344,6 +362,9 @@ export interface FileRoutesByFullPath {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
+  '/lp/jobs': typeof LpJobsRoute
+  '/lp/study-visa': typeof LpStudyVisaRoute
   '/payment/$applicationId': typeof PaymentApplicationIdRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -396,6 +417,9 @@ export interface FileRoutesByTo {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
+  '/lp/jobs': typeof LpJobsRoute
+  '/lp/study-visa': typeof LpStudyVisaRoute
   '/payment/$applicationId': typeof PaymentApplicationIdRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -449,6 +473,9 @@ export interface FileRoutesById {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/lp/canada-work-visa': typeof LpCanadaWorkVisaRoute
+  '/lp/jobs': typeof LpJobsRoute
+  '/lp/study-visa': typeof LpStudyVisaRoute
   '/payment/$applicationId': typeof PaymentApplicationIdRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
@@ -503,6 +530,9 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/lp/canada-work-visa'
+    | '/lp/jobs'
+    | '/lp/study-visa'
     | '/payment/$applicationId'
     | '/payment/success'
     | '/services/$slug'
@@ -555,6 +585,9 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/lp/canada-work-visa'
+    | '/lp/jobs'
+    | '/lp/study-visa'
     | '/payment/$applicationId'
     | '/payment/success'
     | '/services/$slug'
@@ -607,6 +640,9 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/lp/canada-work-visa'
+    | '/lp/jobs'
+    | '/lp/study-visa'
     | '/payment/$applicationId'
     | '/payment/success'
     | '/services/$slug'
@@ -644,6 +680,9 @@ export interface RootRouteChildren {
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
+  LpCanadaWorkVisaRoute: typeof LpCanadaWorkVisaRoute
+  LpJobsRoute: typeof LpJobsRoute
+  LpStudyVisaRoute: typeof LpStudyVisaRoute
   PaymentApplicationIdRoute: typeof PaymentApplicationIdRoute
   PaymentSuccessRoute: typeof PaymentSuccessRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
@@ -821,6 +860,27 @@ declare module '@tanstack/react-router' {
       path: '/payment/$applicationId'
       fullPath: '/payment/$applicationId'
       preLoaderRoute: typeof PaymentApplicationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lp/study-visa': {
+      id: '/lp/study-visa'
+      path: '/lp/study-visa'
+      fullPath: '/lp/study-visa'
+      preLoaderRoute: typeof LpStudyVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lp/jobs': {
+      id: '/lp/jobs'
+      path: '/lp/jobs'
+      fullPath: '/lp/jobs'
+      preLoaderRoute: typeof LpJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lp/canada-work-visa': {
+      id: '/lp/canada-work-visa'
+      path: '/lp/canada-work-visa'
+      fullPath: '/lp/canada-work-visa'
+      preLoaderRoute: typeof LpCanadaWorkVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/$jobId': {
@@ -1102,6 +1162,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   JobsJobIdRoute: JobsJobIdRoute,
+  LpCanadaWorkVisaRoute: LpCanadaWorkVisaRoute,
+  LpJobsRoute: LpJobsRoute,
+  LpStudyVisaRoute: LpStudyVisaRoute,
   PaymentApplicationIdRoute: PaymentApplicationIdRoute,
   PaymentSuccessRoute: PaymentSuccessRoute,
   ServicesSlugRoute: ServicesSlugRoute,
