@@ -130,6 +130,7 @@ function ServicesIndexPage() {
           {[
             { label: "🇨🇦 Canada Work Visa", to: "/services/canada-work-visa" },
             { label: "🇬🇧 UK Work Visa", to: "/services/uk-work-visa" },
+            { label: "🇬🇧 UK Study Visa", to: "/services/uk-study-visa" },
             { label: "🇦🇺 Australia Work Visa", to: "/services/australia-work-visa" },
             { label: "🇩🇪 Germany Work Visa", to: "/services/germany-work-visa" },
             { label: "🇦🇪 UAE Work Visa", to: "/services/uae-work-visa" },
