@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle, CheckSquare } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -73,6 +74,8 @@ const STATUS_LABELS: Record<string, string> = {
   rejected: "Rejected",
 };
 
+const ALL_STATUSES = ["submitted", "under_review", "in_progress", "pending_documents", "approved", "rejected"];
+
 function AdminApplicationsPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +84,8 @@ function AdminApplicationsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
   const [notes, setNotes] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkUpdating, setBulkUpdating] = useState(false);
 
   const fetchApplications = async () => {
     const { data, error } = await supabase
@@ -124,6 +129,24 @@ function AdminApplicationsPage() {
     if (selectedApp?.id === id) setSelectedApp({ ...selectedApp, status });
   };
 
+  const bulkUpdateStatus = async (status: string) => {
+    if (selectedIds.size === 0) return;
+    setBulkUpdating(true);
+    const ids = Array.from(selectedIds);
+    const { error } = await supabase
+      .from("applications")
+      .update({ status } as any)
+      .in("id", ids);
+    setBulkUpdating(false);
+    if (error) {
+      toast.error("Failed to update applications");
+      return;
+    }
+    toast.success(`${ids.length} application${ids.length > 1 ? "s" : ""} updated to ${STATUS_LABELS[status]}`);
+    setSelectedIds(new Set());
+    fetchApplications();
+  };
+
   const saveNotes = async (id: string) => {
     const { error } = await supabase.from("applications").update({ admin_notes: notes } as any).eq("id", id);
     if (error) { toast.error("Failed to save notes"); return; }
@@ -135,6 +158,25 @@ function AdminApplicationsPage() {
     setSelectedApp(app);
     setNotes(app.admin_notes || "");
   };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((a) => a.id)));
+    }
+  };
+
+  const allSelected = filtered.length > 0 && selectedIds.size === filtered.length;
+  const someSelected = selectedIds.size > 0;
 
   return (
     <div className="flex min-h-screen bg-surface">
@@ -184,6 +226,31 @@ function AdminApplicationsPage() {
                 </div>
               </div>
             </CardHeader>
+
+            {/* Bulk action bar */}
+            {someSelected && (
+              <div className="mx-6 mb-2 flex flex-wrap items-center gap-3 rounded-lg border bg-muted/40 px-4 py-2.5">
+                <CheckSquare className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">{selectedIds.size} selected</span>
+                <span className="text-sm text-muted-foreground">— Change status to:</span>
+                {ALL_STATUSES.map((s) => (
+                  <Button
+                    key={s}
+                    variant="outline"
+                    size="sm"
+                    disabled={bulkUpdating}
+                    onClick={() => bulkUpdateStatus(s)}
+                    className="h-7 text-xs"
+                  >
+                    {STATUS_LABELS[s]}
+                  </Button>
+                ))}
+                <Button variant="ghost" size="sm" className="ml-auto h-7 text-xs" onClick={() => setSelectedIds(new Set())}>
+                  Clear
+                </Button>
+              </div>
+            )}
+
             <CardContent>
               {loading ? (
                 <p className="py-8 text-center text-muted-foreground">Loading applications...</p>
@@ -194,6 +261,13 @@ function AdminApplicationsPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b text-left text-muted-foreground">
+                        <th className="pb-3 pr-2 font-medium w-10">
+                          <Checkbox
+                            checked={allSelected}
+                            onCheckedChange={toggleSelectAll}
+                            aria-label="Select all"
+                          />
+                        </th>
                         <th className="pb-3 pr-4 font-medium">Reference</th>
                         <th className="pb-3 pr-4 font-medium">Applicant</th>
                         <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Type</th>
@@ -208,8 +282,16 @@ function AdminApplicationsPage() {
                       {filtered.map((a) => {
                         const fd = a.form_data || {};
                         const name = fd.fullName || fd.full_name || "—";
+                        const isSelected = selectedIds.has(a.id);
                         return (
-                          <tr key={a.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30">
+                          <tr key={a.id} className={`border-b border-border/50 last:border-0 hover:bg-muted/30 ${isSelected ? "bg-primary/5" : ""}`}>
+                            <td className="py-3 pr-2">
+                              <Checkbox
+                                checked={isSelected}
+                                onCheckedChange={() => toggleSelect(a.id)}
+                                aria-label={`Select ${a.reference_number}`}
+                              />
+                            </td>
                             <td className="py-3 pr-4 font-medium text-primary">{a.reference_number}</td>
                             <td className="py-3 pr-4">
                               <p className="font-medium">{name}</p>
@@ -313,7 +395,7 @@ function AdminApplicationsPage() {
                 <div>
                   <h3 className="font-semibold mb-2">Update Status</h3>
                   <div className="flex flex-wrap gap-2">
-                    {["submitted", "under_review", "in_progress", "pending_documents", "approved", "rejected"].map((s) => (
+                    {ALL_STATUSES.map((s) => (
                       <Button
                         key={s}
                         variant={selectedApp.status === s ? "default" : "outline"}
