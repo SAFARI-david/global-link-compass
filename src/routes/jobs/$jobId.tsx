@@ -104,7 +104,7 @@ function JobDetailPage() {
                 <div>
                   <h2 className="text-lg font-bold">Responsibilities</h2>
                   <ul className="mt-2 space-y-1.5">
-                    {job.responsibilities.map((r) => (
+                    {job.responsibilities.map((r: string) => (
                       <li key={r} className="flex items-start gap-2 text-sm text-muted-foreground">
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {r}
                       </li>
@@ -115,7 +115,7 @@ function JobDetailPage() {
                 <div>
                   <h2 className="text-lg font-bold">Requirements</h2>
                   <ul className="mt-2 space-y-1.5">
-                    {job.requirements.map((r) => (
+                    {job.requirements.map((r: string) => (
                       <li key={r} className="flex items-start gap-2 text-sm text-muted-foreground">
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold" /> {r}
                       </li>
@@ -126,9 +126,9 @@ function JobDetailPage() {
                 <div>
                   <h2 className="text-lg font-bold">Benefits</h2>
                   <ul className="mt-2 space-y-1.5">
-                    {job.benefits.map((b) => (
+                    {job.benefits.map((b: string) => (
                       <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-600" /> {b}
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {b}
                       </li>
                     ))}
                   </ul>
