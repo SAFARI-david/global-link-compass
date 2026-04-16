@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, RefreshCw, Users, TrendingUp, Target, CheckCircle, Download } from "lucide-react";
+import { format } from "date-fns";
+import { Search, RefreshCw, Users, TrendingUp, Target, CheckCircle, Download, CalendarIcon, X } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,9 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/admin/leads")({
   head: () => ({ meta: [{ title: "Leads — Admin" }] }),
@@ -28,14 +32,22 @@ function AdminLeadsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [dateFrom, setDateFrom] = useState<Date | undefined>();
+  const [dateTo, setDateTo] = useState<Date | undefined>();
 
-  useEffect(() => { load(); }, [sourceFilter]);
+  useEffect(() => { load(); }, [sourceFilter, dateFrom, dateTo]);
 
   async function load() {
     setLoading(true);
     try {
       let q = supabase.from("leads").select("*").order("created_at", { ascending: false });
       if (sourceFilter !== "all") q = q.eq("source", sourceFilter);
+      if (dateFrom) q = q.gte("created_at", dateFrom.toISOString());
+      if (dateTo) {
+        const endOfDay = new Date(dateTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        q = q.lte("created_at", endOfDay.toISOString());
+      }
       const { data, error } = await q;
       if (error) throw error;
       setLeads(data || []);
@@ -57,6 +69,12 @@ function AdminLeadsPage() {
     }
   }
 
+  const filtered = leads.filter(
+    (l) =>
+      l.name?.toLowerCase().includes(search.toLowerCase()) ||
+      l.email?.toLowerCase().includes(search.toLowerCase()),
+  );
+
   function exportToCSV() {
     const headers = ["Name", "Email", "Source", "UTM Source", "UTM Medium", "UTM Campaign", "Status", "Converted", "Date", "Form Data"];
     const rows = filtered.map((l) => [
@@ -77,7 +95,10 @@ function AdminLeadsPage() {
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `leads-export-${new Date().toISOString().split("T")[0]}.csv`;
+    const dateLabel = dateFrom || dateTo
+      ? `-${dateFrom ? format(dateFrom, "yyyy-MM-dd") : "start"}-to-${dateTo ? format(dateTo, "yyyy-MM-dd") : "now"}`
+      : "";
+    link.download = `leads-export${dateLabel}-${new Date().toISOString().split("T")[0]}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -86,11 +107,10 @@ function AdminLeadsPage() {
     toast.success(`Exported ${filtered.length} leads to CSV`);
   }
 
-  const filtered = leads.filter(
-    (l) =>
-      l.name?.toLowerCase().includes(search.toLowerCase()) ||
-      l.email?.toLowerCase().includes(search.toLowerCase()),
-  );
+  function clearDateFilter() {
+    setDateFrom(undefined);
+    setDateTo(undefined);
+  }
 
   const stats = {
     total: leads.length,
@@ -98,6 +118,8 @@ function AdminLeadsPage() {
     converted: leads.filter((l) => l.converted).length,
     conversionRate: leads.length > 0 ? Math.round((leads.filter((l) => l.converted).length / leads.length) * 100) : 0,
   };
+
+  const hasDateFilter = dateFrom || dateTo;
 
   return (
     <div className="flex min-h-screen bg-surface">
@@ -114,13 +136,18 @@ function AdminLeadsPage() {
           </div>
 
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between gap-4">
-              <CardTitle className="text-lg">Lead Submissions</CardTitle>
-              <div className="flex items-center gap-3">
-                <Button variant="outline" size="sm" onClick={exportToCSV} className="gap-2">
-                  <Download className="h-4 w-4" />
-                  Export CSV
-                </Button>
+            <CardHeader className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Lead Submissions</CardTitle>
+                <div className="flex items-center gap-3">
+                  <Button variant="outline" size="sm" onClick={exportToCSV} className="gap-2">
+                    <Download className="h-4 w-4" />
+                    Export CSV
+                  </Button>
+                  <Button variant="outline" size="icon" onClick={load}><RefreshCw className="h-4 w-4" /></Button>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input placeholder="Search name or email…" className="w-52 pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -134,7 +161,34 @@ function AdminLeadsPage() {
                     <SelectItem value="jobs">Jobs</SelectItem>
                   </SelectContent>
                 </Select>
-                <Button variant="outline" size="icon" onClick={load}><RefreshCw className="h-4 w-4" /></Button>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" size="sm" className={cn("gap-2 text-xs", dateFrom && "border-primary text-primary")}>
+                      <CalendarIcon className="h-3.5 w-3.5" />
+                      {dateFrom ? format(dateFrom, "MMM d, yyyy") : "From date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar mode="single" selected={dateFrom} onSelect={setDateFrom} disabled={(d) => (dateTo ? d > dateTo : false)} initialFocus className={cn("p-3 pointer-events-auto")} />
+                  </PopoverContent>
+                </Popover>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" size="sm" className={cn("gap-2 text-xs", dateTo && "border-primary text-primary")}>
+                      <CalendarIcon className="h-3.5 w-3.5" />
+                      {dateTo ? format(dateTo, "MMM d, yyyy") : "To date"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar mode="single" selected={dateTo} onSelect={setDateTo} disabled={(d) => (dateFrom ? d < dateFrom : false)} initialFocus className={cn("p-3 pointer-events-auto")} />
+                  </PopoverContent>
+                </Popover>
+                {hasDateFilter && (
+                  <Button variant="ghost" size="sm" onClick={clearDateFilter} className="h-8 gap-1 text-xs text-muted-foreground">
+                    <X className="h-3.5 w-3.5" />
+                    Clear dates
+                  </Button>
+                )}
               </div>
             </CardHeader>
             <CardContent>
