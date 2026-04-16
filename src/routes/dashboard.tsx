@@ -131,20 +131,6 @@ function UserDashboardPage() {
     }
   }
 
-  if (authLoading || loading) {
-    return (
-      <>
-        <Header />
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </div>
-        <Footer />
-      </>
-    );
-  }
-
-  if (!user) return null;
-
   const STATUS_ORDER = ["pending_documents", "submitted", "under_review", "in_progress", "approved", "rejected"];
 
   const filteredApplications = useMemo(() => {
@@ -168,6 +154,21 @@ function UserDashboardPage() {
 
     return list;
   }, [applications, searchQuery, statusFilter, typeFilter, sortBy]);
+
+  if (authLoading || loading) {
+    return (
+      <>
+        <Header />
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!user) return null;
+
 
   const activeApps = applications.filter((a) =>
     !["approved", "rejected"].includes(a.status)
