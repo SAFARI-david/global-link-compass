@@ -48,6 +48,7 @@ import { Route as AgentsCommissionsRouteImport } from './routes/agents/commissio
 import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminLeadsRouteImport } from './routes/admin/leads'
 import { Route as AdminJobsRouteImport } from './routes/admin/jobs'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminCommissionsRouteImport } from './routes/admin/commissions'
@@ -259,6 +260,11 @@ const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
   path: '/payments',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminJobsRoute = AdminJobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
@@ -349,6 +355,7 @@ export interface FileRoutesByFullPath {
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
@@ -404,6 +411,7 @@ export interface FileRoutesByTo {
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
@@ -460,6 +468,7 @@ export interface FileRoutesById {
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
+  '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
@@ -517,6 +526,7 @@ export interface FileRouteTypes {
     | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
+    | '/admin/leads'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
@@ -572,6 +582,7 @@ export interface FileRouteTypes {
     | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
+    | '/admin/leads'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
@@ -627,6 +638,7 @@ export interface FileRouteTypes {
     | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
+    | '/admin/leads'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
@@ -974,6 +986,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPaymentsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/jobs': {
       id: '/admin/jobs'
       path: '/jobs'
@@ -1096,6 +1115,7 @@ interface AdminRouteChildren {
   AdminCommissionsRoute: typeof AdminCommissionsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminJobsRoute: typeof AdminJobsRoute
+  AdminLeadsRoute: typeof AdminLeadsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProgramsRoute: typeof AdminProgramsRouteWithChildren
@@ -1108,6 +1128,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCommissionsRoute: AdminCommissionsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminJobsRoute: AdminJobsRoute,
+  AdminLeadsRoute: AdminLeadsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminProgramsRoute: AdminProgramsRouteWithChildren,
