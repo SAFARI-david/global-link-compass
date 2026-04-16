@@ -332,9 +332,17 @@ function UserDashboardPage() {
                         <Link to="/apply/study"><Button variant="outline" size="sm">Apply for Study Visa</Button></Link>
                       </div>
                     </div>
+                  ) : filteredApplications.length === 0 ? (
+                    <div className="py-8 text-center">
+                      <Search className="mx-auto h-10 w-10 text-muted-foreground/30" />
+                      <p className="mt-3 text-sm text-muted-foreground">No applications match your filters.</p>
+                      <Button variant="link" size="sm" className="mt-1" onClick={() => { setSearchQuery(""); setStatusFilter("all"); setTypeFilter("all"); }}>
+                        Clear all filters
+                      </Button>
+                    </div>
                   ) : (
                     <div className="space-y-4">
-                      {applications.map((app) => {
+                      {filteredApplications.map((app) => {
                         const statusConf = STATUS_CONFIG[app.status] || STATUS_CONFIG.submitted;
                         const paymentConf = PAYMENT_STATUS_CONFIG[app.payment_status] || PAYMENT_STATUS_CONFIG.unpaid;
                         const nextStep = getNextStep(app);
