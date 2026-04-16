@@ -67,7 +67,7 @@ export function HeroSection() {
           >
             <Link to="/apply/work-visa">
               <Button variant="heroGold" size="xl">
-                Apply Now <ArrowRight className="ml-1 h-5 w-5" />
+                Start Your Application <ArrowRight className="ml-1 h-5 w-5" />
               </Button>
             </Link>
             <Link to="/advisor">
