@@ -117,6 +117,10 @@ function AdminLeadsPage() {
             <CardHeader className="flex flex-row items-center justify-between gap-4">
               <CardTitle className="text-lg">Lead Submissions</CardTitle>
               <div className="flex items-center gap-3">
+                <Button variant="outline" size="sm" onClick={exportToCSV} className="gap-2">
+                  <Download className="h-4 w-4" />
+                  Export CSV
+                </Button>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input placeholder="Search name or email…" className="w-52 pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
