@@ -353,6 +353,7 @@ function UserDashboardPage() {
                       </Button>
                     </div>
                   ) : (
+                    <>
                     <div className="space-y-4">
                       {paginatedApplications.map((app) => {
                         const statusConf = STATUS_CONFIG[app.status] || STATUS_CONFIG.submitted;
