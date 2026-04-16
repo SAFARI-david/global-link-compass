@@ -239,39 +239,57 @@ export type Database = {
       }
       leads: {
         Row: {
+          application_id: string | null
+          assigned_agent_id: string | null
           converted: boolean
+          country: string | null
           created_at: string
           email: string
           form_data: Json
           id: string
+          interest: string | null
           name: string
+          phone: string | null
           source: string
+          status: string
           updated_at: string
           utm_campaign: string | null
           utm_medium: string | null
           utm_source: string | null
         }
         Insert: {
+          application_id?: string | null
+          assigned_agent_id?: string | null
           converted?: boolean
+          country?: string | null
           created_at?: string
           email: string
           form_data?: Json
           id?: string
+          interest?: string | null
           name: string
+          phone?: string | null
           source: string
+          status?: string
           updated_at?: string
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
         }
         Update: {
+          application_id?: string | null
+          assigned_agent_id?: string | null
           converted?: boolean
+          country?: string | null
           created_at?: string
           email?: string
           form_data?: Json
           id?: string
+          interest?: string | null
           name?: string
+          phone?: string | null
           source?: string
+          status?: string
           updated_at?: string
           utm_campaign?: string | null
           utm_medium?: string | null
