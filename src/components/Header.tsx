@@ -89,9 +89,9 @@ export function Header() {
         <div className="hidden items-center gap-3 lg:flex">
           {!authLoading && (
             user ? (
-              <Link to="/profile">
+              <Link to="/dashboard">
                 <Button variant="outline" size="default" className="gap-1.5">
-                  <User className="h-4 w-4" /> My Account
+                  <User className="h-4 w-4" /> Dashboard
                 </Button>
               </Link>
             ) : (
@@ -148,8 +148,8 @@ export function Header() {
           <div className="mt-4 flex flex-col gap-2">
             {!authLoading && (
               user ? (
-                <Link to="/profile" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> My Account</Button>
+                <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> Dashboard</Button>
                 </Link>
               ) : (
                 <Link to="/login" onClick={() => setMobileOpen(false)}>

@@ -147,18 +147,18 @@ function ProfilePage() {
 
             {/* Quick Links */}
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <Link to="/apply/work-visa" className="card-premium flex items-center gap-3 p-4 no-underline">
+              <Link to="/dashboard" className="card-premium flex items-center gap-3 p-4 no-underline">
                 <Shield className="h-5 w-5 text-gold" />
                 <div>
-                  <p className="text-sm font-semibold">Apply for Work Visa</p>
-                  <p className="text-xs text-muted-foreground">Start or continue your application</p>
+                  <p className="text-sm font-semibold">My Dashboard</p>
+                  <p className="text-xs text-muted-foreground">Track applications & payments</p>
                 </div>
               </Link>
-              <Link to="/apply/study" className="card-premium flex items-center gap-3 p-4 no-underline">
+              <Link to="/apply/work-visa" className="card-premium flex items-center gap-3 p-4 no-underline">
                 <Globe className="h-5 w-5 text-gold" />
                 <div>
-                  <p className="text-sm font-semibold">Apply for Study Visa</p>
-                  <p className="text-xs text-muted-foreground">Find and apply to programs</p>
+                  <p className="text-sm font-semibold">New Application</p>
+                  <p className="text-xs text-muted-foreground">Start a work or study visa application</p>
                 </div>
               </Link>
             </div>

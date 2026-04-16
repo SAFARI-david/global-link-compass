@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
@@ -45,6 +45,7 @@ type Application = {
   reference_number: string;
   application_type: string;
   status: string;
+  payment_status: string;
   destination_country: string | null;
   form_data: Record<string, any>;
   admin_notes: string | null;
@@ -111,7 +112,7 @@ function AdminApplicationsPage() {
     submitted: applications.filter((a) => a.status === "submitted").length,
     inProgress: applications.filter((a) => ["under_review", "in_progress"].includes(a.status)).length,
     approved: applications.filter((a) => a.status === "approved").length,
-    rejected: applications.filter((a) => a.status === "rejected").length,
+    unpaid: applications.filter((a) => a.payment_status === "unpaid" || a.payment_status === "pending").length,
   };
 
   const updateStatus = async (id: string, status: string) => {
@@ -146,7 +147,7 @@ function AdminApplicationsPage() {
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-amber-600">{stats.submitted}</p><p className="text-sm text-muted-foreground">New</p></CardContent></Card>
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-blue-600">{stats.inProgress}</p><p className="text-sm text-muted-foreground">In Progress</p></CardContent></Card>
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-green-600">{stats.approved}</p><p className="text-sm text-muted-foreground">Approved</p></CardContent></Card>
-            <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-destructive">{stats.rejected}</p><p className="text-sm text-muted-foreground">Rejected</p></CardContent></Card>
+            <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-destructive">{stats.unpaid}</p><p className="text-sm text-muted-foreground">Unpaid</p></CardContent></Card>
           </div>
 
           <Card>
@@ -197,6 +198,7 @@ function AdminApplicationsPage() {
                         <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Type</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Country</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
+                        <th className="pb-3 pr-4 font-medium">Payment</th>
                         <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Submitted</th>
                         <th className="pb-3 font-medium">Actions</th>
                       </tr>
@@ -217,6 +219,11 @@ function AdminApplicationsPage() {
                             <td className="py-3 pr-4">
                               <Badge variant={STATUS_COLORS[a.status] || "secondary"}>
                                 {STATUS_LABELS[a.status] || a.status}
+                              </Badge>
+                            </td>
+                            <td className="py-3 pr-4">
+                              <Badge variant={a.payment_status === "paid" ? "default" : a.payment_status === "unpaid" ? "secondary" : "outline"}>
+                                {a.payment_status}
                               </Badge>
                             </td>
                             <td className="py-3 pr-4 hidden lg:table-cell text-muted-foreground">
@@ -280,6 +287,11 @@ function AdminApplicationsPage() {
                   <div><p className="text-xs text-muted-foreground">Country</p><p className="font-medium">{selectedApp.destination_country || "—"}</p></div>
                   <div><p className="text-xs text-muted-foreground">Submitted</p><p className="font-medium">{new Date(selectedApp.created_at).toLocaleString()}</p></div>
                   <div><p className="text-xs text-muted-foreground">Last Updated</p><p className="font-medium">{new Date(selectedApp.updated_at).toLocaleString()}</p></div>
+                  <div><p className="text-xs text-muted-foreground">Payment Status</p><p className="font-medium capitalize">{selectedApp.payment_status}</p></div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Payment Link</p>
+                    <Link to="/admin/payments" className="text-sm text-primary underline">View Payments →</Link>
+                  </div>
                 </div>
 
                 <div>
