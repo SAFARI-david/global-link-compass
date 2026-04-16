@@ -61,7 +61,7 @@ function Index() {
       <SectionCTA
         variant="navy"
         title="Your visa journey starts with one step"
-        subtitle="Join thousands who've trusted us with their applications. Start today — no payment required until we confirm your eligibility."
+        subtitle="Start your application today. We'll review your eligibility, give you a clear plan, and only collect our service fee once you choose to proceed."
       />
       <FinalCTA />
     </>

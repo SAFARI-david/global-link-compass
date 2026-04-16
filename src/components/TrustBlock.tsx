@@ -11,10 +11,10 @@ const trustItems = [
 ];
 
 const stats = [
-  { value: "2,400+", label: "Applications Processed" },
+  { value: "Professional", label: "Application Support" },
   { value: "24hr", label: "Average Response Time" },
-  { value: "98%", label: "Client Satisfaction" },
-  { value: "35+", label: "Destination Countries" },
+  { value: "Transparent", label: "Pricing & Process" },
+  { value: "Multi-country", label: "Visa Programs" },
 ];
 
 export function TrustBlock() {

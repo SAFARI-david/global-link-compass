@@ -316,11 +316,10 @@ function PaymentSummaryPage() {
                     <CardContent className="px-5 pb-5 pt-0">
                       <div className="space-y-3">
                         {[
-                          { step: "1", text: "Instant payment confirmation & receipt" },
-                          { step: "2", text: "Expert team reviews your application within 24 hours" },
-                          { step: "3", text: "Personalised document checklist delivered to your email" },
-                          { step: "4", text: "Dedicated case officer contacts you directly" },
-                          { step: "5", text: "Full visa processing begins with ongoing support" },
+                          { step: "1", text: "Your application is reviewed by our specialist team" },
+                          { step: "2", text: "You receive next steps and a personalised document checklist" },
+                          { step: "3", text: "Our team contacts you with your dedicated case officer" },
+                          { step: "4", text: "Your visa application process begins with full ongoing support" },
                         ].map(({ step, text }) => (
                           <div key={step} className="flex items-start gap-3">
                             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">{step}</span>
@@ -339,9 +338,9 @@ function PaymentSummaryPage() {
                   <div className="flex items-start gap-3">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
                     <p className="text-xs leading-relaxed text-amber-800">
-                      <strong>Disclaimer:</strong> We provide professional visa application support services.
-                      Final visa decisions are made solely by embassies, consulates, and immigration authorities.
-                      Payment covers our professional services only.
+                      <strong>Disclaimer:</strong> We provide professional application support services.
+                      Final decisions are made by immigration authorities, embassies, consulates, institutions, and employers.
+                      Service fees cover our professional work only — government and third-party fees are paid separately.
                     </p>
                   </div>
                 </CardContent>
@@ -392,7 +391,7 @@ function PaymentSummaryPage() {
                       <span className="flex items-center gap-1"><Lock className="h-3 w-3 text-gold" /> 256-bit SSL</span>
                       <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Secure</span>
                     </div>
-                    <span>Powered by Whop · Instant confirmation</span>
+                    <span>Instant payment confirmation</span>
                   </div>
                 </CardContent>
               </Card>
@@ -400,8 +399,8 @@ function PaymentSummaryPage() {
               {/* Need Help */}
               <div className="mt-4 rounded-xl border border-border bg-card p-4 text-center">
                 <p className="text-xs font-medium text-foreground">Need help?</p>
-                <a href="mailto:support@globallinkmigration.com" className="mt-1 flex items-center justify-center gap-1 text-xs text-primary hover:underline">
-                  <Mail className="h-3 w-3" /> support@globallinkmigration.com
+                <a href="mailto:info@global-linkmigration.ca" className="mt-1 flex items-center justify-center gap-1 text-xs text-primary hover:underline">
+                  <Mail className="h-3 w-3" /> info@global-linkmigration.ca
                 </a>
               </div>
             </div>

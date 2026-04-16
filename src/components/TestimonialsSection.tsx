@@ -196,9 +196,9 @@ export function TestimonialsSection() {
             <Shield className="h-6 w-6 text-gold" />
           </div>
           <div className="flex-1">
-            <h4 className="text-sm font-bold">Join thousands of successful applicants</h4>
+            <h4 className="text-sm font-bold">Start your application with confidence</h4>
             <p className="mt-1 text-xs text-muted-foreground">
-              Start your application today. No payment required until we confirm your eligibility and you approve the plan.
+              Begin today. We'll review your eligibility and give you a clear plan before any service fee is collected.
             </p>
           </div>
           <Link to="/apply/work-visa">

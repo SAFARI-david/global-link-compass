@@ -9,11 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as AdvisorRouteImport } from './routes/advisor'
@@ -70,6 +73,11 @@ import { Route as AgentsApplicationsStudyVisaRouteImport } from './routes/agents
 import { Route as AdminProgramsNewRouteImport } from './routes/admin/programs.new'
 import { Route as AdminProgramsEditRouteImport } from './routes/admin/programs.edit'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -85,6 +93,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -93,6 +106,11 @@ const LoginRoute = LoginRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -380,11 +398,14 @@ export interface FileRoutesByFullPath {
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
   '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -442,11 +463,14 @@ export interface FileRoutesByTo {
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
   '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -505,11 +529,14 @@ export interface FileRoutesById {
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
   '/dashboard': typeof DashboardRoute
+  '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/terms': typeof TermsRoute
   '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -569,11 +596,14 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/agents'
     | '/dashboard'
+    | '/disclaimer'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/terms'
     | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
@@ -631,11 +661,14 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/agents'
     | '/dashboard'
+    | '/disclaimer'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/terms'
     | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
@@ -693,11 +726,14 @@ export interface FileRouteTypes {
     | '/advisor'
     | '/agents'
     | '/dashboard'
+    | '/disclaimer'
     | '/forgot-password'
     | '/login'
+    | '/privacy'
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/terms'
     | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
@@ -756,11 +792,14 @@ export interface RootRouteChildren {
   AdvisorRoute: typeof AdvisorRoute
   AgentsRoute: typeof AgentsRouteWithChildren
   DashboardRoute: typeof DashboardRoute
+  DisclaimerRoute: typeof DisclaimerRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TermsRoute: typeof TermsRoute
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   GuideStudyRoute: typeof GuideStudyRoute
@@ -787,6 +826,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -808,6 +854,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -820,6 +873,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -1299,11 +1359,14 @@ const rootRouteChildren: RootRouteChildren = {
   AdvisorRoute: AdvisorRoute,
   AgentsRoute: AgentsRouteWithChildren,
   DashboardRoute: DashboardRoute,
+  DisclaimerRoute: DisclaimerRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TermsRoute: TermsRoute,
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   GuideStudyRoute: GuideStudyRoute,

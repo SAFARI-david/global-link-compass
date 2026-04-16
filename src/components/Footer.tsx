@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Globe, Mail, Phone, MapPin } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 
 const footerLinks = {
   Services: [
@@ -18,8 +18,8 @@ const footerLinks = {
   ],
   Legal: [
     { label: "Privacy Policy", to: "/privacy" },
-    { label: "Terms and Conditions", to: "/terms" },
-    { label: "Refund Policy", to: "/refund-policy" },
+    { label: "Terms & Conditions", to: "/terms" },
+    { label: "Disclaimer", to: "/disclaimer" },
   ],
 };
 
@@ -43,12 +43,9 @@ export function Footer() {
               Professional visa application support and international opportunity management services.
             </p>
             <div className="flex flex-col gap-2.5 text-sm opacity-70">
-              <a href="mailto:info@globallinkms.com" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
+              <a href="mailto:info@global-linkmigration.ca" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
                 <Mail className="h-4 w-4" />
-                <span>info@globallinkms.com</span>
-              </a>
-              <a href="tel:+1234567890" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
-                <Phone className="h-4 w-4" /><span>+1 (234) 567-890</span>
+                <span>info@global-linkmigration.ca</span>
               </a>
             </div>
           </div>
@@ -73,7 +70,7 @@ export function Footer() {
         {/* Disclaimer */}
         <div className="mt-12 border-t border-primary-foreground/10 pt-8">
           <p className="text-xs leading-relaxed opacity-50">
-            We provide professional visa application support and application management services. Final decisions are made by embassies, consulates, institutions, employers, and immigration authorities. We do not guarantee visa approval or job placement outcomes.
+            We provide professional application support services. Final decisions are made by immigration authorities, embassies, consulates, institutions, and employers. We do not guarantee visa approval or job placement outcomes.
           </p>
           <p className="mt-4 text-xs opacity-40">
             © 2026 Global Link Migration Services. All rights reserved.
