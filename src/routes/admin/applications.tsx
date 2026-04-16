@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -323,6 +324,11 @@ function AdminApplicationsPage() {
                       </Button>
                     ))}
                   </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-2">Status Timeline</h3>
+                  <ApplicationTimeline applicationId={selectedApp.id} />
                 </div>
 
                 <div>
