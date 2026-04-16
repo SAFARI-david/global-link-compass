@@ -45,6 +45,7 @@ function ServicesIndexPage() {
   const [loading, setLoading] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedVisa, setSelectedVisa] = useState("all");
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
 
   useEffect(() => {
     supabase
@@ -88,11 +89,12 @@ function ServicesIndexPage() {
             Explore available visa programs by country and visa type. Find the right immigration pathway for your qualifications, goals, and career.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">Start Application</Button></Link>
-            <Button variant="heroOutline" size="lg">Book Consultation</Button>
+            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">Start Your Application</Button></Link>
+            <Button variant="heroOutline" size="lg" onClick={() => setEligibilityOpen(true)}>Check Your Eligibility</Button>
           </div>
         </div>
       </section>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
 
       {/* Filters */}
       <section className="border-b bg-card">

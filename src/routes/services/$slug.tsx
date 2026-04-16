@@ -25,6 +25,7 @@ function ProgramDetailPage() {
   const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [eligibilityOpen, setEligibilityOpen] = useState(false);
 
   useEffect(() => {
     supabase
