@@ -161,6 +161,34 @@ function AdminLeadsPage() {
                     <SelectItem value="jobs">Jobs</SelectItem>
                   </SelectContent>
                 </Select>
+                <div className="flex items-center gap-1.5 rounded-md border border-border/50 bg-muted/30 p-1">
+                  {[
+                    { label: "7d", days: 7 },
+                    { label: "30d", days: 30 },
+                    { label: "This month", days: 0 },
+                  ].map((preset) => {
+                    const isActive = preset.days === 0
+                      ? dateFrom?.toDateString() === new Date(new Date().getFullYear(), new Date().getMonth(), 1).toDateString() && !dateTo
+                      : dateFrom?.toDateString() === new Date(Date.now() - preset.days * 86400000).toDateString() && !dateTo;
+                    return (
+                      <Button
+                        key={preset.label}
+                        variant={isActive ? "default" : "ghost"}
+                        size="sm"
+                        className="h-7 px-2.5 text-xs"
+                        onClick={() => {
+                          const from = preset.days === 0
+                            ? new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                            : new Date(Date.now() - preset.days * 86400000);
+                          setDateFrom(from);
+                          setDateTo(undefined);
+                        }}
+                      >
+                        {preset.label}
+                      </Button>
+                    );
+                  })}
+                </div>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button variant="outline" size="sm" className={cn("gap-2 text-xs", dateFrom && "border-primary text-primary")}>
