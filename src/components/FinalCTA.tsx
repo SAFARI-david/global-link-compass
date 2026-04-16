@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 
 const reassurances = [
-  { icon: Shield, text: "Application review is free" },
+  { icon: Shield, text: "Structured application process" },
   { icon: Clock, text: "Response within 24 hours" },
   { icon: CreditCard, text: "No payment until you approve" },
-  { icon: CheckCircle2, text: "Cancel anytime before processing" },
+  { icon: CheckCircle2, text: "Clear pricing — no hidden fees" },
 ];
 
 export function FinalCTA() {
@@ -38,10 +38,10 @@ export function FinalCTA() {
           <div className="p-8 md:p-14">
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-2xl font-extrabold text-primary-foreground md:text-4xl">
-                Ready to Start Your Journey?
+                Ready to Start Your Application?
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/60">
-                Tell us what you're looking for. We'll guide you to the right program, review your eligibility for free, and create a personalised plan — all before any payment.
+                Tell us what you're looking for. We'll guide you to the right program, review your eligibility, and create a personalised plan.
               </p>
             </div>
 
@@ -51,7 +51,7 @@ export function FinalCTA() {
             </div>
 
             <p className="mt-4 text-center text-xs text-primary-foreground/40">
-              No credit card required. No commitment until you approve the plan.
+              Service fees apply. Government and third-party fees are separate.
             </p>
           </div>
         </motion.div>

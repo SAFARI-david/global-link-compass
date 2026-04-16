@@ -82,7 +82,7 @@ export function LeadCaptureForm({ variant = "default", redirectTo, source = "hom
       {!isCompact && (
         <div className="mb-1">
           <h3 className={`flex items-center gap-2 text-base font-bold ${isDark ? "text-primary-foreground" : ""}`}>
-            <Sparkles className="h-4 w-4 text-gold" /> Get a Free Assessment
+            <Sparkles className="h-4 w-4 text-gold" /> Start Your Application
           </h3>
           <p className={`mt-0.5 text-xs ${isDark ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
             Tell us what you're looking for — takes 30 seconds
@@ -151,7 +151,7 @@ export function LeadCaptureForm({ variant = "default", redirectTo, source = "hom
           disabled={!isValid || submitting}
         >
           {submitting ? "Saving…" : (
-            <>{isCompact ? "Go" : "Get Started"} <ArrowRight className="ml-1 h-4 w-4" /></>
+            <>{isCompact ? "Go" : "Begin Application"} <ArrowRight className="ml-1 h-4 w-4" /></>
           )}
         </Button>
       </div>
@@ -159,7 +159,7 @@ export function LeadCaptureForm({ variant = "default", redirectTo, source = "hom
       {!isCompact && (
         <div className={`flex items-center justify-center gap-4 text-[11px] ${isDark ? "text-primary-foreground/40" : "text-muted-foreground"}`}>
           <span className="flex items-center gap-1"><Shield className="h-3 w-3" /> Private & secure</span>
-          <span className="flex items-center gap-1"><CheckCircle2 className="h-3 w-3" /> No payment required</span>
+          <span className="flex items-center gap-1"><CheckCircle2 className="h-3 w-3" /> Service fees apply separately</span>
         </div>
       )}
     </form>
