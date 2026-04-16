@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -30,6 +31,16 @@ export const Route = createFileRoute("/admin/eligibility-leads")({
   head: () => ({ meta: [{ title: "Eligibility Leads — Admin" }] }),
   component: EligibilityLeadsPage,
 });
+
+const LEAD_STATUSES = ["new", "contacted", "qualified", "converted", "lost"] as const;
+
+const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  new: { label: "New", color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" },
+  contacted: { label: "Contacted", color: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" },
+  qualified: { label: "Qualified", color: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" },
+  converted: { label: "Converted", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+  lost: { label: "Lost", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" },
+};
 
 type EligibilityLead = {
   id: string;
@@ -73,6 +84,21 @@ function EligibilityLeadsPage() {
   useEffect(() => {
     loadLeads();
   }, []);
+
+  async function updateStatus(id: string, status: string) {
+    const prev = leads;
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status, converted: status === "converted" ? true : l.converted } : l)));
+    const { error } = await supabase
+      .from("leads")
+      .update({ status, ...(status === "converted" ? { converted: true } : {}) })
+      .eq("id", id);
+    if (error) {
+      setLeads(prev);
+      toast.error("Failed to update status");
+    } else {
+      toast.success("Status updated");
+    }
+  }
 
   const filtered = leads.filter((l) => {
     if (!search.trim()) return true;
@@ -184,19 +210,20 @@ function EligibilityLeadsPage() {
                       <TableHead>Education</TableHead>
                       <TableHead>Experience</TableHead>
                       <TableHead>Result</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead className="w-[80px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={8} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
                           Loading...
                         </TableCell>
                       </TableRow>
                     ) : filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={8} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
                           No eligibility submissions yet.
                         </TableCell>
                       </TableRow>
@@ -222,6 +249,20 @@ function EligibilityLeadsPage() {
                             ) : (
                               <Badge variant="outline">—</Badge>
                             )}
+                          </TableCell>
+                          <TableCell onClick={(e) => e.stopPropagation()}>
+                            <Select value={l.status} onValueChange={(v) => updateStatus(l.id, v)}>
+                              <SelectTrigger className={`h-8 w-[130px] text-xs font-medium border-0 ${STATUS_CONFIG[l.status]?.color || ""}`}>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {LEAD_STATUSES.map((s) => (
+                                  <SelectItem key={s} value={s} className="text-xs">
+                                    {STATUS_CONFIG[s].label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </TableCell>
                           <TableCell>
                             <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setSelected(l); }}>
