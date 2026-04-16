@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { Briefcase, GraduationCap, Plane, Users, CheckCircle2, Shield, ArrowRight } from "lucide-react";
+import { Briefcase, GraduationCap, Plane, Users, CheckCircle2, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 const entryCards = [
   { icon: Briefcase, title: "Work Visas", desc: "Answer 3 questions — get matched with the right program", to: "/guide/work", color: "text-primary" },
