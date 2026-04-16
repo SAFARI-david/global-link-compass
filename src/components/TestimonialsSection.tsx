@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { Star, Quote, ArrowRight, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ahmedAvatar from "@/assets/avatars/ahmed.jpg";
+import priyaAvatar from "@/assets/avatars/priya.jpg";
+import sarahAvatar from "@/assets/avatars/sarah.jpg";
+import davidAvatar from "@/assets/avatars/david.jpg";
+import fatimaAvatar from "@/assets/avatars/fatima.jpg";
+import jamesAvatar from "@/assets/avatars/james.jpg";
 
 const testimonials = [
   {
@@ -11,8 +17,7 @@ const testimonials = [
     country: "Nigeria → Canada",
     type: "Work Visa",
     rating: 5,
-    avatar: "AK",
-    color: "bg-blue-600",
+    photo: ahmedAvatar,
   },
   {
     text: "As an agent, the portal saves me hours every week. I can manage multiple client applications and track statuses in one place. The dashboard is professional and the commission tracking is transparent.",
@@ -20,8 +25,7 @@ const testimonials = [
     country: "India",
     type: "Agent Partner",
     rating: 5,
-    avatar: "PM",
-    color: "bg-purple-600",
+    photo: priyaAvatar,
   },
   {
     text: "I was matched with the perfect university program within days. The study application process was guided and easy to follow. I never felt lost or confused at any step of the journey.",
@@ -29,8 +33,7 @@ const testimonials = [
     country: "Philippines → UK",
     type: "Study Visa",
     rating: 5,
-    avatar: "SL",
-    color: "bg-emerald-600",
+    photo: sarahAvatar,
   },
   {
     text: "The transparent pricing was what convinced me. I knew exactly what the service fee covered and what government fees were separate. No surprises — just professional, honest service from start to finish.",
@@ -38,8 +41,7 @@ const testimonials = [
     country: "Ghana → Australia",
     type: "Work Visa",
     rating: 5,
-    avatar: "DO",
-    color: "bg-amber-600",
+    photo: davidAvatar,
   },
   {
     text: "I applied for a visa-sponsored job through Global Link and received interview coaching that made all the difference. Within 3 months I had an offer and my visa was in process. Highly recommend.",
@@ -47,8 +49,7 @@ const testimonials = [
     country: "Pakistan → UAE",
     type: "Job Placement",
     rating: 5,
-    avatar: "FR",
-    color: "bg-rose-600",
+    photo: fatimaAvatar,
   },
   {
     text: "The step-by-step process removed all the anxiety. Every document was clearly listed, every deadline was tracked, and I could see my application status in real time. Truly professional service.",
@@ -56,8 +57,7 @@ const testimonials = [
     country: "Kenya → Germany",
     type: "Work Visa",
     rating: 5,
-    avatar: "JT",
-    color: "bg-cyan-600",
+    photo: jamesAvatar,
   },
 ];
 
@@ -155,10 +155,8 @@ export function TestimonialsSection() {
                   </div>
 
                   {/* Author */}
-                  <div className="mt-3 flex items-center gap-3 border-t border-border pt-3">
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${t.color}`}>
-                      {t.avatar}
-                    </div>
+                    <div className="mt-3 flex items-center gap-3 border-t border-border pt-3">
+                      <img src={t.photo} alt={t.name} loading="lazy" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />
                     <div>
                       <p className="text-sm font-semibold">{t.name}</p>
                       <p className="text-xs text-muted-foreground">
