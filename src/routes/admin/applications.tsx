@@ -176,9 +176,22 @@ function AdminApplicationsPage() {
     fetchApplications();
   };
 
-  const openDetail = (app: Application) => {
+  const openDetail = async (app: Application) => {
     setSelectedApp(app);
     setNotes(app.admin_notes || "");
+    setLinkedPayments([]);
+    setLinkedDocs([]);
+    setLinkedLead(null);
+
+    // Fetch linked data in parallel
+    const [paymentsRes, docsRes, leadRes] = await Promise.all([
+      supabase.from("payments").select("id, internal_reference, amount, currency, payment_status, paid_at, created_at").eq("application_id", app.id).order("created_at", { ascending: false }),
+      supabase.from("documents").select("id, document_type, file_name, status, created_at").eq("application_id", app.id).order("created_at", { ascending: false }),
+      supabase.from("leads").select("*").eq("application_id", app.id).limit(1).maybeSingle(),
+    ]);
+    if (paymentsRes.data) setLinkedPayments(paymentsRes.data as LinkedPayment[]);
+    if (docsRes.data) setLinkedDocs(docsRes.data as LinkedDocument[]);
+    if (leadRes.data) setLinkedLead(leadRes.data);
   };
 
   const toggleSelect = (id: string) => {
