@@ -11,6 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
+import { Route as AgentsSettingsRouteImport } from './routes/agents/settings'
+import { Route as AgentsRegisterRouteImport } from './routes/agents/register'
+import { Route as AgentsPaymentsRouteImport } from './routes/agents/payments'
+import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
+import { Route as AgentsLoginRouteImport } from './routes/agents/login'
+import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
+import { Route as AgentsClientsIndexRouteImport } from './routes/agents/clients/index'
+import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/applications/index'
+import { Route as AgentsClientsNewRouteImport } from './routes/agents/clients/new'
+import { Route as AgentsApplicationsWorkVisaRouteImport } from './routes/agents/applications/work-visa'
+import { Route as AgentsApplicationsStudyVisaRouteImport } from './routes/agents/applications/study-visa'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +33,172 @@ const ApplyWorkVisaRoute = ApplyWorkVisaRouteImport.update({
   path: '/apply/work-visa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgentsSettingsRoute = AgentsSettingsRouteImport.update({
+  id: '/agents/settings',
+  path: '/agents/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsRegisterRoute = AgentsRegisterRouteImport.update({
+  id: '/agents/register',
+  path: '/agents/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsPaymentsRoute = AgentsPaymentsRouteImport.update({
+  id: '/agents/payments',
+  path: '/agents/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsMessagesRoute = AgentsMessagesRouteImport.update({
+  id: '/agents/messages',
+  path: '/agents/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsLoginRoute = AgentsLoginRouteImport.update({
+  id: '/agents/login',
+  path: '/agents/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsDashboardRoute = AgentsDashboardRouteImport.update({
+  id: '/agents/dashboard',
+  path: '/agents/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsClientsIndexRoute = AgentsClientsIndexRouteImport.update({
+  id: '/agents/clients/',
+  path: '/agents/clients/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsApplicationsIndexRoute = AgentsApplicationsIndexRouteImport.update({
+  id: '/agents/applications/',
+  path: '/agents/applications/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsClientsNewRoute = AgentsClientsNewRouteImport.update({
+  id: '/agents/clients/new',
+  path: '/agents/clients/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentsApplicationsWorkVisaRoute =
+  AgentsApplicationsWorkVisaRouteImport.update({
+    id: '/agents/applications/work-visa',
+    path: '/agents/applications/work-visa',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AgentsApplicationsStudyVisaRoute =
+  AgentsApplicationsStudyVisaRouteImport.update({
+    id: '/agents/applications/study-visa',
+    path: '/agents/applications/study-visa',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agents/dashboard': typeof AgentsDashboardRoute
+  '/agents/login': typeof AgentsLoginRoute
+  '/agents/messages': typeof AgentsMessagesRoute
+  '/agents/payments': typeof AgentsPaymentsRoute
+  '/agents/register': typeof AgentsRegisterRoute
+  '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
+  '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
+  '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/agents/applications/': typeof AgentsApplicationsIndexRoute
+  '/agents/clients/': typeof AgentsClientsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agents/dashboard': typeof AgentsDashboardRoute
+  '/agents/login': typeof AgentsLoginRoute
+  '/agents/messages': typeof AgentsMessagesRoute
+  '/agents/payments': typeof AgentsPaymentsRoute
+  '/agents/register': typeof AgentsRegisterRoute
+  '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
+  '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
+  '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/agents/applications': typeof AgentsApplicationsIndexRoute
+  '/agents/clients': typeof AgentsClientsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agents/dashboard': typeof AgentsDashboardRoute
+  '/agents/login': typeof AgentsLoginRoute
+  '/agents/messages': typeof AgentsMessagesRoute
+  '/agents/payments': typeof AgentsPaymentsRoute
+  '/agents/register': typeof AgentsRegisterRoute
+  '/agents/settings': typeof AgentsSettingsRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
+  '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
+  '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
+  '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/agents/applications/': typeof AgentsApplicationsIndexRoute
+  '/agents/clients/': typeof AgentsClientsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/apply/work-visa'
+  fullPaths:
+    | '/'
+    | '/agents/dashboard'
+    | '/agents/login'
+    | '/agents/messages'
+    | '/agents/payments'
+    | '/agents/register'
+    | '/agents/settings'
+    | '/apply/work-visa'
+    | '/agents/applications/study-visa'
+    | '/agents/applications/work-visa'
+    | '/agents/clients/new'
+    | '/agents/applications/'
+    | '/agents/clients/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/apply/work-visa'
-  id: '__root__' | '/' | '/apply/work-visa'
+  to:
+    | '/'
+    | '/agents/dashboard'
+    | '/agents/login'
+    | '/agents/messages'
+    | '/agents/payments'
+    | '/agents/register'
+    | '/agents/settings'
+    | '/apply/work-visa'
+    | '/agents/applications/study-visa'
+    | '/agents/applications/work-visa'
+    | '/agents/clients/new'
+    | '/agents/applications'
+    | '/agents/clients'
+  id:
+    | '__root__'
+    | '/'
+    | '/agents/dashboard'
+    | '/agents/login'
+    | '/agents/messages'
+    | '/agents/payments'
+    | '/agents/register'
+    | '/agents/settings'
+    | '/apply/work-visa'
+    | '/agents/applications/study-visa'
+    | '/agents/applications/work-visa'
+    | '/agents/clients/new'
+    | '/agents/applications/'
+    | '/agents/clients/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentsDashboardRoute: typeof AgentsDashboardRoute
+  AgentsLoginRoute: typeof AgentsLoginRoute
+  AgentsMessagesRoute: typeof AgentsMessagesRoute
+  AgentsPaymentsRoute: typeof AgentsPaymentsRoute
+  AgentsRegisterRoute: typeof AgentsRegisterRoute
+  AgentsSettingsRoute: typeof AgentsSettingsRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
+  AgentsApplicationsStudyVisaRoute: typeof AgentsApplicationsStudyVisaRoute
+  AgentsApplicationsWorkVisaRoute: typeof AgentsApplicationsWorkVisaRoute
+  AgentsClientsNewRoute: typeof AgentsClientsNewRoute
+  AgentsApplicationsIndexRoute: typeof AgentsApplicationsIndexRoute
+  AgentsClientsIndexRoute: typeof AgentsClientsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +217,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplyWorkVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/agents/settings': {
+      id: '/agents/settings'
+      path: '/agents/settings'
+      fullPath: '/agents/settings'
+      preLoaderRoute: typeof AgentsSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/register': {
+      id: '/agents/register'
+      path: '/agents/register'
+      fullPath: '/agents/register'
+      preLoaderRoute: typeof AgentsRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/payments': {
+      id: '/agents/payments'
+      path: '/agents/payments'
+      fullPath: '/agents/payments'
+      preLoaderRoute: typeof AgentsPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/messages': {
+      id: '/agents/messages'
+      path: '/agents/messages'
+      fullPath: '/agents/messages'
+      preLoaderRoute: typeof AgentsMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/login': {
+      id: '/agents/login'
+      path: '/agents/login'
+      fullPath: '/agents/login'
+      preLoaderRoute: typeof AgentsLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/dashboard': {
+      id: '/agents/dashboard'
+      path: '/agents/dashboard'
+      fullPath: '/agents/dashboard'
+      preLoaderRoute: typeof AgentsDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/clients/': {
+      id: '/agents/clients/'
+      path: '/agents/clients'
+      fullPath: '/agents/clients/'
+      preLoaderRoute: typeof AgentsClientsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/applications/': {
+      id: '/agents/applications/'
+      path: '/agents/applications'
+      fullPath: '/agents/applications/'
+      preLoaderRoute: typeof AgentsApplicationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/clients/new': {
+      id: '/agents/clients/new'
+      path: '/agents/clients/new'
+      fullPath: '/agents/clients/new'
+      preLoaderRoute: typeof AgentsClientsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/applications/work-visa': {
+      id: '/agents/applications/work-visa'
+      path: '/agents/applications/work-visa'
+      fullPath: '/agents/applications/work-visa'
+      preLoaderRoute: typeof AgentsApplicationsWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agents/applications/study-visa': {
+      id: '/agents/applications/study-visa'
+      path: '/agents/applications/study-visa'
+      fullPath: '/agents/applications/study-visa'
+      preLoaderRoute: typeof AgentsApplicationsStudyVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentsDashboardRoute: AgentsDashboardRoute,
+  AgentsLoginRoute: AgentsLoginRoute,
+  AgentsMessagesRoute: AgentsMessagesRoute,
+  AgentsPaymentsRoute: AgentsPaymentsRoute,
+  AgentsRegisterRoute: AgentsRegisterRoute,
+  AgentsSettingsRoute: AgentsSettingsRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
+  AgentsApplicationsStudyVisaRoute: AgentsApplicationsStudyVisaRoute,
+  AgentsApplicationsWorkVisaRoute: AgentsApplicationsWorkVisaRoute,
+  AgentsClientsNewRoute: AgentsClientsNewRoute,
+  AgentsApplicationsIndexRoute: AgentsApplicationsIndexRoute,
+  AgentsClientsIndexRoute: AgentsClientsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
