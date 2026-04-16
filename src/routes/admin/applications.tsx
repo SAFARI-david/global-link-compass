@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle, CheckSquare } from "lucide-react";
+import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle, CheckSquare, CreditCard } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { AdminHeader } from "@/components/admin/AdminHeader";
@@ -54,6 +54,25 @@ type Application = {
   created_at: string;
   updated_at: string;
   user_id: string | null;
+  assigned_agent_id: string | null;
+};
+
+type LinkedPayment = {
+  id: string;
+  internal_reference: string;
+  amount: number;
+  currency: string;
+  payment_status: string;
+  paid_at: string | null;
+  created_at: string;
+};
+
+type LinkedDocument = {
+  id: string;
+  document_type: string;
+  file_name: string;
+  status: string;
+  created_at: string;
 };
 
 const STATUS_COLORS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
@@ -86,6 +105,9 @@ function AdminApplicationsPage() {
   const [notes, setNotes] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkUpdating, setBulkUpdating] = useState(false);
+  const [linkedPayments, setLinkedPayments] = useState<LinkedPayment[]>([]);
+  const [linkedDocs, setLinkedDocs] = useState<LinkedDocument[]>([]);
+  const [linkedLead, setLinkedLead] = useState<any>(null);
 
   const fetchApplications = async () => {
     const { data, error } = await supabase
@@ -154,9 +176,22 @@ function AdminApplicationsPage() {
     fetchApplications();
   };
 
-  const openDetail = (app: Application) => {
+  const openDetail = async (app: Application) => {
     setSelectedApp(app);
     setNotes(app.admin_notes || "");
+    setLinkedPayments([]);
+    setLinkedDocs([]);
+    setLinkedLead(null);
+
+    // Fetch linked data in parallel
+    const [paymentsRes, docsRes, leadRes] = await Promise.all([
+      supabase.from("payments").select("id, internal_reference, amount, currency, payment_status, paid_at, created_at").eq("application_id", app.id).order("created_at", { ascending: false }),
+      supabase.from("documents").select("id, document_type, file_name, status, created_at").eq("application_id", app.id).order("created_at", { ascending: false }),
+      supabase.from("leads").select("*").eq("application_id", app.id).limit(1).maybeSingle(),
+    ]);
+    if (paymentsRes.data) setLinkedPayments(paymentsRes.data as LinkedPayment[]);
+    if (docsRes.data) setLinkedDocs(docsRes.data as LinkedDocument[]);
+    if (leadRes.data) setLinkedLead(leadRes.data);
   };
 
   const toggleSelect = (id: string) => {
@@ -365,22 +400,95 @@ function AdminApplicationsPage() {
                 </DialogTitle>
               </DialogHeader>
               <div className="space-y-6">
+                {/* Lead Source */}
+                {linkedLead && (
+                  <div className="rounded-lg border border-indigo-200 bg-indigo-50/50 p-3">
+                    <p className="text-xs font-semibold text-indigo-700 mb-1">📋 Converted from Lead</p>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div><span className="text-muted-foreground">Lead Name:</span> <span className="font-medium">{linkedLead.name}</span></div>
+                      <div><span className="text-muted-foreground">Email:</span> <span className="font-medium">{linkedLead.email}</span></div>
+                      <div><span className="text-muted-foreground">Source:</span> <span className="font-medium">{linkedLead.source}</span></div>
+                      <div><span className="text-muted-foreground">Lead Date:</span> <span className="font-medium">{new Date(linkedLead.created_at).toLocaleDateString()}</span></div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div><p className="text-xs text-muted-foreground">Type</p><p className="font-medium">{selectedApp.application_type}</p></div>
                   <div><p className="text-xs text-muted-foreground">Country</p><p className="font-medium">{selectedApp.destination_country || "—"}</p></div>
                   <div><p className="text-xs text-muted-foreground">Submitted</p><p className="font-medium">{new Date(selectedApp.created_at).toLocaleString()}</p></div>
                   <div><p className="text-xs text-muted-foreground">Last Updated</p><p className="font-medium">{new Date(selectedApp.updated_at).toLocaleString()}</p></div>
                   <div><p className="text-xs text-muted-foreground">Payment Status</p><p className="font-medium capitalize">{selectedApp.payment_status}</p></div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Payment Link</p>
-                    <Link to="/admin/payments" className="text-sm text-primary underline">View Payments →</Link>
-                  </div>
+                  <div><p className="text-xs text-muted-foreground">Assigned Agent</p><p className="font-medium">{selectedApp.assigned_agent_id || "Unassigned"}</p></div>
+                </div>
+
+                {/* Linked Payments */}
+                <div>
+                  <h3 className="font-semibold mb-2 flex items-center gap-2">
+                    <CreditCard className="h-4 w-4" /> Payments ({linkedPayments.length})
+                  </h3>
+                  {linkedPayments.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No payments recorded for this application.</p>
+                  ) : (
+                    <div className="rounded-lg border overflow-hidden">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="bg-muted/50 text-left text-muted-foreground">
+                            <th className="px-3 py-2 font-medium">Reference</th>
+                            <th className="px-3 py-2 font-medium">Amount</th>
+                            <th className="px-3 py-2 font-medium">Status</th>
+                            <th className="px-3 py-2 font-medium">Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {linkedPayments.map((p) => (
+                            <tr key={p.id} className="border-t">
+                              <td className="px-3 py-2 font-medium text-primary">{p.internal_reference}</td>
+                              <td className="px-3 py-2 font-semibold">${Number(p.amount).toFixed(2)} {p.currency}</td>
+                              <td className="px-3 py-2">
+                                <Badge variant={p.payment_status === "paid" ? "default" : "secondary"} className="text-xs">
+                                  {p.payment_status}
+                                </Badge>
+                              </td>
+                              <td className="px-3 py-2 text-muted-foreground">
+                                {p.paid_at ? new Date(p.paid_at).toLocaleDateString() : new Date(p.created_at).toLocaleDateString()}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* Linked Documents */}
+                <div>
+                  <h3 className="font-semibold mb-2 flex items-center gap-2">
+                    <FileText className="h-4 w-4" /> Documents ({linkedDocs.length})
+                  </h3>
+                  {linkedDocs.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No documents uploaded for this application.</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {linkedDocs.map((d) => (
+                        <div key={d.id} className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm">
+                          <div>
+                            <p className="font-medium">{d.file_name}</p>
+                            <p className="text-xs text-muted-foreground capitalize">{d.document_type.replace(/_/g, " ")}</p>
+                          </div>
+                          <Badge variant={d.status === "approved" ? "default" : d.status === "rejected" ? "destructive" : "secondary"} className="text-xs">
+                            {d.status}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div>
                   <h3 className="font-semibold mb-3">Form Data</h3>
                   <div className="rounded-lg border bg-muted/30 p-4 space-y-2">
-                    {Object.entries(selectedApp.form_data || {}).map(([key, val]) => (
+                    {Object.entries(selectedApp.form_data || {}).filter(([key]) => !["lead_source", "lead_id"].includes(key)).map(([key, val]) => (
                       <div key={key} className="flex gap-2 text-sm">
                         <span className="text-muted-foreground min-w-[140px] capitalize">{key.replace(/([A-Z])/g, " $1").trim()}:</span>
                         <span className="font-medium">{String(val)}</span>
