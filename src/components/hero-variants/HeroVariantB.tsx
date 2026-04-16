@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Globe, TrendingUp, Users, FileCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, Globe, TrendingUp, Users, FileCheck, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 const stats = [
   { value: "15+", label: "Countries Covered" },

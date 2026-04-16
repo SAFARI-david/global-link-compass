@@ -104,6 +104,7 @@ export function HeroVariantA({ onCtaClick }: Props) {
           ))}
         </div>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </section>
   );
 }

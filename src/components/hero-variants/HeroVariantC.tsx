@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, CheckCircle2, Briefcase, GraduationCap, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle2, Briefcase, GraduationCap, MapPin, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 const pathways = [
   {
