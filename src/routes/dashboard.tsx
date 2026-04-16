@@ -354,7 +354,7 @@ function UserDashboardPage() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {filteredApplications.map((app) => {
+                      {paginatedApplications.map((app) => {
                         const statusConf = STATUS_CONFIG[app.status] || STATUS_CONFIG.submitted;
                         const paymentConf = PAYMENT_STATUS_CONFIG[app.payment_status] || PAYMENT_STATUS_CONFIG.unpaid;
                         const nextStep = getNextStep(app);
