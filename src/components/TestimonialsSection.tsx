@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { Star, Quote, ArrowRight, Shield, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ahmedAvatar from "@/assets/avatars/ahmed.jpg";
+import priyaAvatar from "@/assets/avatars/priya.jpg";
+import sarahAvatar from "@/assets/avatars/sarah.jpg";
+import davidAvatar from "@/assets/avatars/david.jpg";
+import fatimaAvatar from "@/assets/avatars/fatima.jpg";
+import jamesAvatar from "@/assets/avatars/james.jpg";
 
 const testimonials = [
   {
