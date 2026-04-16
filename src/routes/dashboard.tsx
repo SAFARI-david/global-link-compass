@@ -268,7 +268,12 @@ function UserDashboardPage() {
                             {/* Documents section */}
                             {app.payment_status === "paid" && (
                               <div className="mt-3">
-                                <DocumentUpload applicationId={app.id} userId={user.id} />
+                                <DocumentUpload
+                                  applicationId={app.id}
+                                  userId={user.id}
+                                  destinationCountry={app.destination_country}
+                                  applicationType={app.application_type}
+                                />
                               </div>
                             )}
                           </div>
