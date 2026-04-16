@@ -260,9 +260,67 @@ function UserDashboardPage() {
               {/* Applications List */}
               <Card className="mb-6">
                 <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <FileText className="h-5 w-5" /> My Applications
-                  </CardTitle>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <FileText className="h-5 w-5" /> My Applications
+                    </CardTitle>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="relative">
+                        <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          placeholder="Search ref, name, country..."
+                          className="h-8 w-44 pl-8 text-xs"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                      </div>
+                      <Select value={statusFilter} onValueChange={setStatusFilter}>
+                        <SelectTrigger className="h-8 w-[120px] text-xs">
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Status</SelectItem>
+                          <SelectItem value="submitted">Submitted</SelectItem>
+                          <SelectItem value="under_review">Under Review</SelectItem>
+                          <SelectItem value="in_progress">In Progress</SelectItem>
+                          <SelectItem value="pending_documents">Docs Needed</SelectItem>
+                          <SelectItem value="approved">Approved</SelectItem>
+                          <SelectItem value="rejected">Rejected</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select value={typeFilter} onValueChange={setTypeFilter}>
+                        <SelectTrigger className="h-8 w-[110px] text-xs">
+                          <SelectValue placeholder="Type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Types</SelectItem>
+                          <SelectItem value="Work Visa">Work Visa</SelectItem>
+                          <SelectItem value="Study Visa">Study Visa</SelectItem>
+                          <SelectItem value="Visit Visa">Visit Visa</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select value={sortBy} onValueChange={(v) => setSortBy(v as any)}>
+                        <SelectTrigger className="h-8 w-[110px] text-xs">
+                          <ArrowUpDown className="mr-1 h-3 w-3" />
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="newest">Newest</SelectItem>
+                          <SelectItem value="oldest">Oldest</SelectItem>
+                          <SelectItem value="status">By Status</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  {(searchQuery || statusFilter !== "all" || typeFilter !== "all") && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Showing {filteredApplications.length} of {applications.length} application{applications.length !== 1 ? "s" : ""}
+                      {searchQuery || statusFilter !== "all" || typeFilter !== "all" ? " · " : ""}
+                      <button className="text-primary hover:underline" onClick={() => { setSearchQuery(""); setStatusFilter("all"); setTypeFilter("all"); }}>
+                        Clear filters
+                      </button>
+                    </p>
+                  )}
                 </CardHeader>
                 <CardContent>
                   {applications.length === 0 ? (
