@@ -123,7 +123,30 @@ function ServicesIndexPage() {
       </section>
 
       {/* Programs */}
-      <div className="container-narrow py-12 lg:py-16">
+      {/* Category Pages */}
+      <section className="container-narrow pt-12 lg:pt-16 pb-8">
+        <h2 className="text-xl font-bold mb-4 font-heading">Browse by Category</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {[
+            { label: "🇨🇦 Canada Work Visa", to: "/services/canada-work-visa" },
+            { label: "🇬🇧 UK Study Visa", to: "/services/uk-study-visa" },
+            { label: "🇦🇺 Australia Work Visa", to: "/services/australia-work-visa" },
+            { label: "🇩🇪 Germany Work Visa", to: "/services/germany-work-visa" },
+            { label: "🇦🇪 UAE Work Visa", to: "/services/uae-work-visa" },
+          ].map((cat) => (
+            <Link key={cat.to} to={cat.to}>
+              <Card className="transition-shadow hover:shadow-md cursor-pointer group">
+                <CardContent className="p-4 flex items-center justify-between">
+                  <span className="text-sm font-medium group-hover:text-primary transition-colors">{cat.label}</span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary" />
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <div className="container-narrow pb-12 lg:pb-16">
         {loading ? (
           <p className="text-center text-muted-foreground py-12">Loading programs...</p>
         ) : Object.keys(grouped).length === 0 ? (
