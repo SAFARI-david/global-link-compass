@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   User, Plane, GraduationCap, Briefcase, Languages,
   MapPin, Users, FileText, CheckCircle, Shield,
@@ -297,7 +297,9 @@ export function WorkVisaForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+  const [applicationId, setApplicationId] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -347,13 +349,21 @@ export function WorkVisaForm() {
         destination_country: formData.destinationCountry || null,
         form_data: formData as any,
         reference_number: "",
-      } as any).select("reference_number").single();
+      } as any).select("id, reference_number").single();
 
       if (error) throw error;
 
       setRefNumber(data?.reference_number || "");
+      setApplicationId(data?.id || "");
       setSubmitted(true);
       toast.success("Application submitted successfully!");
+
+      // Redirect to payment page if user is logged in
+      if (user && data?.id) {
+        setTimeout(() => {
+          navigate({ to: "/payment/$applicationId", params: { applicationId: data.id } });
+        }, 2000);
+      }
     } catch (err: any) {
       console.error("Submission error:", err);
       toast.error("Failed to submit. Please try again.");
@@ -380,8 +390,15 @@ export function WorkVisaForm() {
               <p className="mt-2 text-sm font-medium text-primary">Reference: {refNumber}</p>
             )}
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Thank you for submitting your work visa application. <strong className="text-foreground">No payment has been taken.</strong>
+              Thank you for submitting your work visa application. {applicationId ? <strong className="text-foreground">Redirecting to payment...</strong> : <strong className="text-foreground">No payment has been taken.</strong>}
             </p>
+            {applicationId && (
+              <div className="mt-4">
+                <Link to="/payment/$applicationId" params={{ applicationId }}>
+                  <Button variant="gold" size="lg">Proceed to Payment <ArrowRight className="ml-1 h-4 w-4" /></Button>
+                </Link>
+              </div>
+            )}
 
             <div className="mt-6 rounded-xl border border-border bg-muted/30 p-5 text-left">
               <h3 className="text-sm font-bold">Here's exactly what happens next:</h3>

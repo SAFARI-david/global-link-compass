@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +42,9 @@ function StudyApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [refNumber, setRefNumber] = useState("");
+  const [applicationId, setApplicationId] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -62,11 +64,18 @@ function StudyApplicationForm() {
         destination_country: formData.destCountry || null,
         form_data: formData as any,
         reference_number: "",
-      } as any).select("reference_number").single();
+      } as any).select("id, reference_number").single();
       if (error) throw error;
       setRefNumber(data?.reference_number || "");
+      setApplicationId(data?.id || "");
       setSubmitted(true);
       toast.success("Application submitted!");
+
+      if (user && data?.id) {
+        setTimeout(() => {
+          navigate({ to: "/payment/$applicationId", params: { applicationId: data.id } });
+        }, 2000);
+      }
     } catch (err: any) {
       console.error("Submit error:", err);
       toast.error("Failed to submit. Please try again.");
@@ -99,13 +108,21 @@ function StudyApplicationForm() {
             <h1 className="text-2xl font-bold">Application Submitted!</h1>
             {refNumber && <p className="mt-1 text-sm font-medium text-primary">Reference: {refNumber}</p>}
             <p className="mt-3 text-sm text-muted-foreground">
+              {applicationId ? "Redirecting you to complete payment..." : "We'll review your application and be in touch."}
             </p>
+            {applicationId && (
+              <div className="mt-4">
+                <Link to="/payment/$applicationId" params={{ applicationId }}>
+                  <Button variant="gold" size="lg">Proceed to Payment</Button>
+                </Link>
+              </div>
+            )}
             <div className="mt-6 rounded-lg bg-muted/50 p-4 text-left text-sm">
               <h3 className="mb-2 font-semibold">What happens next?</h3>
               <ol className="space-y-1.5 text-muted-foreground">
-                <li className="flex gap-2"><span className="font-bold text-gold">1.</span> We review your education profile and preferences</li>
-                <li className="flex gap-2"><span className="font-bold text-gold">2.</span> We match you with suitable programs and institutions</li>
-                <li className="flex gap-2"><span className="font-bold text-gold">3.</span> We send you a personalised program shortlist</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">1.</span> Complete your payment to begin processing</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">2.</span> We review your education profile and preferences</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">3.</span> We match you with suitable programs and institutions</li>
                 <li className="flex gap-2"><span className="font-bold text-gold">4.</span> You choose and we begin the application process</li>
               </ol>
             </div>
