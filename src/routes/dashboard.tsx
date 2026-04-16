@@ -5,6 +5,7 @@ import {
   FileText, CreditCard, Clock, CheckCircle, XCircle, AlertTriangle,
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
 } from "lucide-react";
+import { DocumentUpload } from "@/components/DocumentUpload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -263,6 +264,13 @@ function UserDashboardPage() {
                                 </Link>
                               )}
                             </div>
+
+                            {/* Documents section */}
+                            {app.payment_status === "paid" && (
+                              <div className="mt-3">
+                                <DocumentUpload applicationId={app.id} userId={user.id} />
+                              </div>
+                            )}
                           </div>
                         );
                       })}
