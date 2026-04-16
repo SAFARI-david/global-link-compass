@@ -44,7 +44,7 @@ function LoginPage() {
     setLoading(true);
     const { error } = await signIn(email, password);
     if (error) setError(error.message);
-    else navigate({ to: "/profile" });
+    else navigate({ to: redirectTo || "/profile" });
     setLoading(false);
   }
 
