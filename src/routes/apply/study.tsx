@@ -108,13 +108,21 @@ function StudyApplicationForm() {
             <h1 className="text-2xl font-bold">Application Submitted!</h1>
             {refNumber && <p className="mt-1 text-sm font-medium text-primary">Reference: {refNumber}</p>}
             <p className="mt-3 text-sm text-muted-foreground">
+              {applicationId ? "Redirecting you to complete payment..." : "We'll review your application and be in touch."}
             </p>
+            {applicationId && (
+              <div className="mt-4">
+                <Link to="/payment/$applicationId" params={{ applicationId }}>
+                  <Button variant="gold" size="lg">Proceed to Payment</Button>
+                </Link>
+              </div>
+            )}
             <div className="mt-6 rounded-lg bg-muted/50 p-4 text-left text-sm">
               <h3 className="mb-2 font-semibold">What happens next?</h3>
               <ol className="space-y-1.5 text-muted-foreground">
-                <li className="flex gap-2"><span className="font-bold text-gold">1.</span> We review your education profile and preferences</li>
-                <li className="flex gap-2"><span className="font-bold text-gold">2.</span> We match you with suitable programs and institutions</li>
-                <li className="flex gap-2"><span className="font-bold text-gold">3.</span> We send you a personalised program shortlist</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">1.</span> Complete your payment to begin processing</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">2.</span> We review your education profile and preferences</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">3.</span> We match you with suitable programs and institutions</li>
                 <li className="flex gap-2"><span className="font-bold text-gold">4.</span> You choose and we begin the application process</li>
               </ol>
             </div>
