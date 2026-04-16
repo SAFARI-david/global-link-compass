@@ -77,8 +77,9 @@ function RootComponent() {
     location.pathname.startsWith("/agents/payments") ||
     location.pathname.startsWith("/agents/messages") ||
     location.pathname.startsWith("/agents/settings");
+  const isPaymentRoute = location.pathname.startsWith("/payment");
 
-  const hideChrome = isAdminRoute || isAgentRoute;
+  const hideChrome = isAdminRoute || isAgentRoute || isPaymentRoute;
 
   return (
     <AuthProvider>
