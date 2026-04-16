@@ -9,6 +9,7 @@ import { StudyPreview } from "@/components/StudyPreview";
 import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
+import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,6 +28,14 @@ function Index() {
     <>
       <HeroSection />
       <ServicesSection />
+      {/* Mid-page lead capture */}
+      <section className="section-padding bg-muted/30">
+        <div className="container-narrow">
+          <div className="mx-auto max-w-2xl">
+            <LeadCaptureForm source="homepage-mid" />
+          </div>
+        </div>
+      </section>
       <HowItWorks />
       <TrustBlock />
       <ServicesPreview />
