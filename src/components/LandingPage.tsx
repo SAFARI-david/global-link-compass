@@ -36,7 +36,7 @@ const CONFIG = {
     trustPoints: [
       "LMIA, Express Entry & Francophone programs",
       "Average processing: 8–16 weeks",
-      "97% application acceptance rate",
+      "Structured and transparent process",
     ],
     formFields: [
       { id: "job_offer", label: "Do you have a job offer from a Canadian employer?", type: "radio", options: ["Yes", "No"] },
@@ -56,8 +56,8 @@ const CONFIG = {
     bgAccent: "from-blue-600/20 to-primary/20",
     trustPoints: [
       "UK, Canada, Australia & more",
-      "Scholarships & financial aid guidance",
-      "Work while you study options",
+      "Scholarship & financial aid guidance",
+      "Work-while-you-study options",
     ],
     formFields: [
       { id: "country", label: "Preferred country", type: "select", options: ["United Kingdom", "Canada", "Australia", "Germany", "Not sure yet"] },
