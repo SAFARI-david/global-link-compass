@@ -20,7 +20,7 @@ const STEPS = [
   { label: "Job Preference", icon: MapPin },
   { label: "Dependants", icon: Users },
   { label: "Documents", icon: FileText },
-  { label: "Review & Submit", icon: CheckCircle },
+  { label: "Review & Proceed", icon: CheckCircle },
 ];
 
 const STEP_TIPS: Record<number, { title: string; tip: string; why: string }> = {
@@ -32,7 +32,7 @@ const STEP_TIPS: Record<number, { title: string; tip: string; why: string }> = {
   5: { title: "Your preferences", tip: "Tell us where and what type of work you're interested in. We'll match you with real opportunities.", why: "Being open to multiple options increases your chances significantly." },
   6: { title: "Family applications", tip: "If you're bringing family, we include them in the same application to keep costs down.", why: "Dependent visas are processed alongside your main application." },
   7: { title: "Document upload", tip: "Upload what you have now. You can add more documents later — nothing is finalized yet.", why: "We'll send you a complete checklist after reviewing your profile." },
-  8: { title: "Almost done!", tip: "Review your information and submit. This is a free submission — no payment at this stage.", why: "You'll receive a detailed plan and fee breakdown before any payment." },
+  8: { title: "Almost done!", tip: "Review your information and proceed. No payment is taken at this stage.", why: "You'll receive a detailed plan and fee breakdown before any payment." },
 };
 
 function InputField({ label, placeholder, type = "text", required = true, helpText, value, onChange }: {
@@ -225,8 +225,8 @@ function StepContent({ step, data, update }: { step: number; data: Record<string
               <div>
                 <h4 className="text-sm font-bold">About Payment</h4>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                  <strong className="text-foreground">This submission is completely free.</strong> After we review your profile, 
-                  you'll receive a detailed service plan with a transparent fee breakdown. 
+                  <strong className="text-foreground">No payment is required at this stage.</strong> After we review your profile, 
+                  you'll receive a detailed service plan with a transparent fee breakdown. Service fees are separate from government and third-party costs.
                   No payment is taken until you review and approve the plan.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-3 text-[10px] text-muted-foreground">
@@ -444,7 +444,7 @@ export function WorkVisaForm() {
           <div className="mb-8 text-center">
             <h1 className="text-2xl font-bold md:text-3xl">Work Visa Application</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Complete the guided form below. <strong className="text-foreground">This submission is free</strong> — we only discuss fees after reviewing your profile.
+              Complete the guided form below. <strong className="text-foreground">No payment required at this stage</strong> — fees are discussed after reviewing your profile.
             </p>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
               <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> ~15 minutes</span>
@@ -510,7 +510,7 @@ export function WorkVisaForm() {
               </Button>
             ) : (
               <Button variant="gold" size="lg" onClick={handleSubmit} disabled={submitting}>
-                {submitting ? "Submitting..." : "Submit Application"} <CheckCircle className="ml-1 h-4 w-4" />
+                {submitting ? "Processing..." : "Proceed with Application"} <CheckCircle className="ml-1 h-4 w-4" />
               </Button>
             )}
           </div>
