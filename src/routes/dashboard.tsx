@@ -91,6 +91,8 @@ function UserDashboardPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "status">("newest");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     if (authLoading) return;
