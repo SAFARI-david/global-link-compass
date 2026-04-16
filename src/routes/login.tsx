@@ -34,7 +34,7 @@ function LoginPage() {
 
   // Redirect if already signed in
   if (user) {
-    navigate({ to: "/profile" });
+    navigate({ to: redirectTo || "/profile" });
     return null;
   }
 
