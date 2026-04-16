@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import {
   User, BookOpen, GraduationCap, DollarSign, FileText, Upload,
   Sparkles, ArrowLeft, ArrowRight, CheckCircle2, Shield, Clock,
@@ -38,15 +40,44 @@ const STEPS = [
 function StudyApplicationForm() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [refNumber, setRefNumber] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   }
 
+  async function handleSubmit() {
+    if (!formData.fullName || !formData.email) {
+      toast.error("Please fill in at least your name and email.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      const { data, error } = await supabase.from("applications").insert({
+        user_id: user?.id || null,
+        application_type: "Study Visa" as any,
+        destination_country: formData.destCountry || null,
+        form_data: formData as any,
+        reference_number: "",
+      } as any).select("reference_number").single();
+      if (error) throw error;
+      setRefNumber(data?.reference_number || "");
+      setSubmitted(true);
+      toast.success("Application submitted!");
+    } catch (err: any) {
+      console.error("Submit error:", err);
+      toast.error("Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   function next() {
     if (step < STEPS.length - 1) setStep(step + 1);
-    else setSubmitted(true);
+    else handleSubmit();
   }
 
   function back() {
@@ -66,8 +97,8 @@ function StudyApplicationForm() {
               <CheckCircle2 className="h-8 w-8 text-gold" />
             </div>
             <h1 className="text-2xl font-bold">Application Submitted!</h1>
+            {refNumber && <p className="mt-1 text-sm font-medium text-primary">Reference: {refNumber}</p>}
             <p className="mt-3 text-sm text-muted-foreground">
-              Thank you for your study application. Our team will review your profile and contact you within 24 hours with program recommendations.
             </p>
             <div className="mt-6 rounded-lg bg-muted/50 p-4 text-left text-sm">
               <h3 className="mb-2 font-semibold">What happens next?</h3>
