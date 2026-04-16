@@ -102,7 +102,7 @@ export const getAllPayments = createServerFn({ method: "POST" })
       .select("*")
       .order("created_at", { ascending: false });
     if (data.status && data.status !== "all") {
-      query = query.eq("payment_status", data.status);
+      query = query.eq("payment_status", data.status as any);
     }
     const { data: payments, error } = await query;
     if (error) throw new Error("Failed to fetch payments");
@@ -114,12 +114,12 @@ export const updatePaymentStatus = createServerFn({ method: "POST" })
   .inputValidator((data: { paymentId: string; status: string; notes?: string }) => data)
   .handler(async ({ data, context }) => {
     const { supabase } = context;
-    const updateData: Record<string, any> = { payment_status: data.status };
-    if (data.status === "paid") updateData.paid_at = new Date().toISOString();
-    if (data.notes) updateData.notes = data.notes;
+    const updateObj: any = { payment_status: data.status };
+    if (data.status === "paid") updateObj.paid_at = new Date().toISOString();
+    if (data.notes) updateObj.notes = data.notes;
     const { error } = await supabase
       .from("payments")
-      .update(updateData)
+      .update(updateObj as any)
       .eq("id", data.paymentId);
     if (error) throw new Error("Failed to update payment");
     return { success: true };
