@@ -57,6 +57,7 @@ import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminCommissionsRouteImport } from './routes/admin/commissions'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
 import { Route as AdminApplicantsRouteImport } from './routes/admin/applicants'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
 import { Route as AgentsClientsIndexRouteImport } from './routes/agents/clients/index'
 import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/applications/index'
@@ -308,6 +309,11 @@ const AdminApplicantsRoute = AdminApplicantsRouteImport.update({
   path: '/applicants',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAgentsRoute = AdminAgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
@@ -368,6 +374,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/agents': typeof AdminAgentsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -427,6 +434,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/agents': typeof AdminAgentsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -487,6 +495,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin/agents': typeof AdminAgentsRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -548,6 +557,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/admin/agents'
+    | '/admin/analytics'
     | '/admin/applicants'
     | '/admin/applications'
     | '/admin/commissions'
@@ -607,6 +617,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/admin/agents'
+    | '/admin/analytics'
     | '/admin/applicants'
     | '/admin/applications'
     | '/admin/commissions'
@@ -666,6 +677,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/admin/agents'
+    | '/admin/analytics'
     | '/admin/applicants'
     | '/admin/applications'
     | '/admin/commissions'
@@ -1087,6 +1099,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminApplicantsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/agents': {
       id: '/admin/agents'
       path: '/agents'
@@ -1169,6 +1188,7 @@ const AdminProgramsRouteWithChildren = AdminProgramsRoute._addFileChildren(
 
 interface AdminRouteChildren {
   AdminAgentsRoute: typeof AdminAgentsRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminApplicantsRoute: typeof AdminApplicantsRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   AdminCommissionsRoute: typeof AdminCommissionsRoute
@@ -1183,6 +1203,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAgentsRoute: AdminAgentsRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminApplicantsRoute: AdminApplicantsRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,
   AdminCommissionsRoute: AdminCommissionsRoute,
