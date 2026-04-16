@@ -162,6 +162,14 @@ function AdminLeadsPage() {
                   </SelectContent>
                 </Select>
                 <div className="flex items-center gap-1.5 rounded-md border border-border/50 bg-muted/30 p-1">
+                  <Button
+                    variant={!dateFrom && !dateTo ? "default" : "ghost"}
+                    size="sm"
+                    className="h-7 px-2.5 text-xs"
+                    onClick={clearDateFilter}
+                  >
+                    All time
+                  </Button>
                   {[
                     { label: "7d", days: 7 },
                     { label: "30d", days: 30 },
