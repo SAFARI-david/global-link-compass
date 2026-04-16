@@ -78,7 +78,7 @@ export function DocumentUpload({ applicationId, userId, destinationCountry, appl
       if (applicationType) query = query.eq("visa_type", applicationType);
       const { data } = await query.limit(1).maybeSingle();
       if (data?.required_documents && Array.isArray(data.required_documents)) {
-        setRequiredDocs(data.required_documents as RequiredDoc[]);
+        setRequiredDocs(data.required_documents as unknown as RequiredDoc[]);
       }
     }
     fetchRequiredDocs();
