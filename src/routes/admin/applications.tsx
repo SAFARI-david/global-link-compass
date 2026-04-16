@@ -327,6 +327,11 @@ function AdminApplicationsPage() {
                 </div>
 
                 <div>
+                  <h3 className="font-semibold mb-2">Status Timeline</h3>
+                  <ApplicationTimeline applicationId={selectedApp.id} />
+                </div>
+
+                <div>
                   <h3 className="font-semibold mb-2">Admin Notes</h3>
                   <Textarea rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Internal notes about this application..." />
                   <Button className="mt-2" size="sm" onClick={() => saveNotes(selectedApp.id)}>Save Notes</Button>
