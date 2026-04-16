@@ -303,9 +303,37 @@ export function WorkVisaForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   }
 
+  function validateForm(): string | null {
+    const name = (formData.fullName || "").trim();
+    const email = (formData.email || "").trim();
+
+    if (!name || !email) {
+      return "Please fill in at least your name and email before submitting.";
+    }
+    if (name.length > 255) {
+      return "Full name must be under 255 characters.";
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email) || email.length > 255) {
+      return "Please enter a valid email address (max 255 characters).";
+    }
+    if ((formData.phone || "").length > 30) {
+      return "Phone number must be under 30 characters.";
+    }
+    // Check all free-text fields for excessive length
+    const maxFieldLength = 1000;
+    for (const [key, value] of Object.entries(formData)) {
+      if (typeof value === "string" && value.length > maxFieldLength) {
+        return `The field "${key}" exceeds the maximum length of ${maxFieldLength} characters.`;
+      }
+    }
+    return null;
+  }
+
   async function handleSubmit() {
-    if (!formData.fullName || !formData.email) {
-      toast.error("Please fill in at least your name and email before submitting.");
+    const validationError = validateForm();
+    if (validationError) {
+      toast.error(validationError);
       return;
     }
 
