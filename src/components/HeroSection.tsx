@@ -4,8 +4,8 @@ import { Briefcase, GraduationCap, Plane, Users, CheckCircle2, Shield, ArrowRigh
 import { Button } from "@/components/ui/button";
 
 const entryCards = [
-  { icon: Briefcase, title: "Work Visas", desc: "LMIA, skilled worker & employer-sponsored programs", to: "/apply/work-visa", color: "text-primary" },
-  { icon: GraduationCap, title: "Study Visas", desc: "University, college & language program applications", to: "/study", color: "text-accent" },
+  { icon: Briefcase, title: "Work Visas", desc: "Answer 3 questions — get matched with the right program", to: "/guide/work", color: "text-primary" },
+  { icon: GraduationCap, title: "Study Visas", desc: "Find the perfect study program for your goals & budget", to: "/guide/study", color: "text-accent" },
   { icon: Plane, title: "Find Jobs", desc: "Browse visa-sponsored jobs by country & category", to: "/jobs", color: "text-primary" },
   { icon: Users, title: "For Agents", desc: "Submit & manage client applications at scale", to: "/agents", color: "text-accent" },
 ];
