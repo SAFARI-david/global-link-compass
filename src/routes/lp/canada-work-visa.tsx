@@ -447,12 +447,12 @@ function CanadaWorkVisaLP() {
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <a href="#apply-form">
                 <Button variant="heroGold" size="xl">
-                  Start Application <ArrowRight className="ml-1 h-5 w-5" />
+                  Start Your Application <ArrowRight className="ml-1 h-5 w-5" />
                 </Button>
               </a>
               <Link to="/advisor">
                 <Button variant="heroOutline" size="xl">
-                  Book Consultation
+                  Check Your Eligibility
                 </Button>
               </Link>
             </div>

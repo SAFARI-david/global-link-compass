@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 export const Route = createFileRoute("/services/")({
   head: () => ({
