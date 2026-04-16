@@ -121,6 +121,7 @@ export function HeroVariantB({ onCtaClick }: Props) {
           ))}
         </motion.div>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </section>
   );
 }
