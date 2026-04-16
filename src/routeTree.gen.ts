@@ -40,6 +40,7 @@ import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
 import { Route as AgentsLoginRouteImport } from './routes/agents/login'
 import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
 import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
+import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminJobsRouteImport } from './routes/admin/jobs'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
@@ -211,6 +212,11 @@ const AdminProgramsRoute = AdminProgramsRouteImport.update({
   path: '/programs',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPricingRoute = AdminPricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
   id: '/payments',
   path: '/payments',
@@ -299,6 +305,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -346,6 +353,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -394,6 +402,7 @@ export interface FileRoutesById {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -443,6 +452,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
+    | '/admin/pricing'
     | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
@@ -490,6 +500,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
+    | '/admin/pricing'
     | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
@@ -537,6 +548,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
+    | '/admin/pricing'
     | '/admin/programs'
     | '/agents/dashboard'
     | '/agents/login'
@@ -817,6 +829,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProgramsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/pricing': {
+      id: '/admin/pricing'
+      path: '/pricing'
+      fullPath: '/admin/pricing'
+      preLoaderRoute: typeof AdminPricingRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/payments': {
       id: '/admin/payments'
       path: '/payments'
@@ -939,6 +958,7 @@ interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminJobsRoute: typeof AdminJobsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminPricingRoute: typeof AdminPricingRoute
   AdminProgramsRoute: typeof AdminProgramsRouteWithChildren
 }
 
@@ -949,6 +969,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminJobsRoute: AdminJobsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminPricingRoute: AdminPricingRoute,
   AdminProgramsRoute: AdminProgramsRouteWithChildren,
 }
 

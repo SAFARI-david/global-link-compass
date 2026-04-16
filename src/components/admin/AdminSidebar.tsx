@@ -9,6 +9,7 @@ import {
   GraduationCap,
   Globe,
   Shield,
+  Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ const navItems = [
   { label: "Jobs", to: "/admin/jobs", icon: Briefcase },
   { label: "Programs", to: "/admin/programs", icon: GraduationCap },
   { label: "Payments", to: "/admin/payments", icon: CreditCard },
+  { label: "Pricing", to: "/admin/pricing", icon: Tag },
 ];
 
 export function AdminSidebar() {
