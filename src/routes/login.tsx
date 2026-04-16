@@ -9,6 +9,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    redirect: (search.redirect as string) || "",
+  }),
   head: () => ({
     meta: [
       { title: "Sign In — Global Link Migration Services" },
@@ -21,6 +24,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { signIn, user } = useAuth();
   const navigate = useNavigate();
+  const { redirect: redirectTo } = Route.useSearch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +34,7 @@ function LoginPage() {
 
   // Redirect if already signed in
   if (user) {
-    navigate({ to: "/profile" });
+    navigate({ to: redirectTo || "/profile" });
     return null;
   }
 
@@ -40,7 +44,7 @@ function LoginPage() {
     setLoading(true);
     const { error } = await signIn(email, password);
     if (error) setError(error.message);
-    else navigate({ to: "/profile" });
+    else navigate({ to: redirectTo || "/profile" });
     setLoading(false);
   }
 
