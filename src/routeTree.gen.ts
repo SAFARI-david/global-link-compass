@@ -16,8 +16,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
 import { Route as StudyProgramIdRouteImport } from './routes/study/$programId'
+import { Route as ServicesCanadaWorkVisaRouteImport } from './routes/services/canada-work-visa'
+import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
@@ -39,6 +42,8 @@ import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/app
 import { Route as AgentsClientsNewRouteImport } from './routes/agents/clients/new'
 import { Route as AgentsApplicationsWorkVisaRouteImport } from './routes/agents/applications/work-visa'
 import { Route as AgentsApplicationsStudyVisaRouteImport } from './routes/agents/applications/study-visa'
+import { Route as AdminProgramsNewRouteImport } from './routes/admin/programs.new'
+import { Route as AdminProgramsEditRouteImport } from './routes/admin/programs.edit'
 
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -75,6 +80,11 @@ const StudyIndexRoute = StudyIndexRouteImport.update({
   path: '/study/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsIndexRoute = JobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
@@ -83,6 +93,16 @@ const JobsIndexRoute = JobsIndexRouteImport.update({
 const StudyProgramIdRoute = StudyProgramIdRouteImport.update({
   id: '/study/$programId',
   path: '/study/$programId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesCanadaWorkVisaRoute = ServicesCanadaWorkVisaRouteImport.update({
+  id: '/services/canada-work-visa',
+  path: '/services/canada-work-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/services/$slug',
+  path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsJobIdRoute = JobsJobIdRouteImport.update({
@@ -192,6 +212,16 @@ const AgentsApplicationsStudyVisaRoute =
     path: '/agents/applications/study-visa',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AdminProgramsNewRoute = AdminProgramsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminProgramsRoute,
+} as any)
+const AdminProgramsEditRoute = AdminProgramsEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AdminProgramsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -206,7 +236,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -216,9 +246,14 @@ export interface FileRoutesByFullPath {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/admin/programs/edit': typeof AdminProgramsEditRoute
+  '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -238,7 +273,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -248,9 +283,14 @@ export interface FileRoutesByTo {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs': typeof JobsIndexRoute
+  '/services': typeof ServicesIndexRoute
   '/study': typeof StudyIndexRoute
+  '/admin/programs/edit': typeof AdminProgramsEditRoute
+  '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -271,7 +311,7 @@ export interface FileRoutesById {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
-  '/admin/programs': typeof AdminProgramsRoute
+  '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -281,9 +321,14 @@ export interface FileRoutesById {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
   '/jobs/': typeof JobsIndexRoute
+  '/services/': typeof ServicesIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/admin/programs/edit': typeof AdminProgramsEditRoute
+  '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
@@ -315,9 +360,14 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/services/$slug'
+    | '/services/canada-work-visa'
     | '/study/$programId'
     | '/jobs/'
+    | '/services/'
     | '/study/'
+    | '/admin/programs/edit'
+    | '/admin/programs/new'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -347,9 +397,14 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/services/$slug'
+    | '/services/canada-work-visa'
     | '/study/$programId'
     | '/jobs'
+    | '/services'
     | '/study'
+    | '/admin/programs/edit'
+    | '/admin/programs/new'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -379,9 +434,14 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/services/$slug'
+    | '/services/canada-work-visa'
     | '/study/$programId'
     | '/jobs/'
+    | '/services/'
     | '/study/'
+    | '/admin/programs/edit'
+    | '/admin/programs/new'
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
@@ -402,7 +462,7 @@ export interface RootRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminJobsRoute: typeof AdminJobsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
-  AdminProgramsRoute: typeof AdminProgramsRoute
+  AdminProgramsRoute: typeof AdminProgramsRouteWithChildren
   AgentsDashboardRoute: typeof AgentsDashboardRoute
   AgentsLoginRoute: typeof AgentsLoginRoute
   AgentsMessagesRoute: typeof AgentsMessagesRoute
@@ -412,8 +472,11 @@ export interface RootRouteChildren {
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
+  ServicesSlugRoute: typeof ServicesSlugRoute
+  ServicesCanadaWorkVisaRoute: typeof ServicesCanadaWorkVisaRoute
   StudyProgramIdRoute: typeof StudyProgramIdRoute
   JobsIndexRoute: typeof JobsIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
   AgentsApplicationsStudyVisaRoute: typeof AgentsApplicationsStudyVisaRoute
   AgentsApplicationsWorkVisaRoute: typeof AgentsApplicationsWorkVisaRoute
@@ -473,6 +536,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services/'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs/': {
       id: '/jobs/'
       path: '/jobs'
@@ -485,6 +555,20 @@ declare module '@tanstack/react-router' {
       path: '/study/$programId'
       fullPath: '/study/$programId'
       preLoaderRoute: typeof StudyProgramIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/canada-work-visa': {
+      id: '/services/canada-work-visa'
+      path: '/services/canada-work-visa'
+      fullPath: '/services/canada-work-visa'
+      preLoaderRoute: typeof ServicesCanadaWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/$jobId': {
@@ -634,8 +718,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsApplicationsStudyVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/programs/new': {
+      id: '/admin/programs/new'
+      path: '/new'
+      fullPath: '/admin/programs/new'
+      preLoaderRoute: typeof AdminProgramsNewRouteImport
+      parentRoute: typeof AdminProgramsRoute
+    }
+    '/admin/programs/edit': {
+      id: '/admin/programs/edit'
+      path: '/edit'
+      fullPath: '/admin/programs/edit'
+      preLoaderRoute: typeof AdminProgramsEditRouteImport
+      parentRoute: typeof AdminProgramsRoute
+    }
   }
 }
+
+interface AdminProgramsRouteChildren {
+  AdminProgramsEditRoute: typeof AdminProgramsEditRoute
+  AdminProgramsNewRoute: typeof AdminProgramsNewRoute
+}
+
+const AdminProgramsRouteChildren: AdminProgramsRouteChildren = {
+  AdminProgramsEditRoute: AdminProgramsEditRoute,
+  AdminProgramsNewRoute: AdminProgramsNewRoute,
+}
+
+const AdminProgramsRouteWithChildren = AdminProgramsRoute._addFileChildren(
+  AdminProgramsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -650,7 +762,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminJobsRoute: AdminJobsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
-  AdminProgramsRoute: AdminProgramsRoute,
+  AdminProgramsRoute: AdminProgramsRouteWithChildren,
   AgentsDashboardRoute: AgentsDashboardRoute,
   AgentsLoginRoute: AgentsLoginRoute,
   AgentsMessagesRoute: AgentsMessagesRoute,
@@ -660,8 +772,11 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   JobsJobIdRoute: JobsJobIdRoute,
+  ServicesSlugRoute: ServicesSlugRoute,
+  ServicesCanadaWorkVisaRoute: ServicesCanadaWorkVisaRoute,
   StudyProgramIdRoute: StudyProgramIdRoute,
   JobsIndexRoute: JobsIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
   AgentsApplicationsStudyVisaRoute: AgentsApplicationsStudyVisaRoute,
   AgentsApplicationsWorkVisaRoute: AgentsApplicationsWorkVisaRoute,

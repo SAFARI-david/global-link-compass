@@ -116,27 +116,27 @@ export function ProgramForm({ program, onSuccess }: { program?: any; onSuccess: 
       work_experience_requirement: workExpReq || null,
       language_requirement: languageReq || null,
       other_conditions: otherConditions || null,
-      required_documents: documents.filter((d) => d.name),
-      process_steps: steps.filter((s) => s.title).map((s, i) => ({ ...s, order: i + 1 })),
+      required_documents: documents.filter((d) => d.name) as unknown as any,
+      process_steps: steps.filter((s) => s.title).map((s, i) => ({ ...s, order: i + 1 })) as unknown as any,
       service_fee: serviceFee ? parseFloat(serviceFee) : null,
       currency, processing_time: processingTime || null,
       government_fees_included: govFeesIncluded,
       separate_costs: separateCosts || null,
       payment_note: paymentNote || null,
-      benefits: benefits.filter(Boolean),
-      faqs: faqs.filter((f) => f.question),
+      benefits: benefits.filter(Boolean) as unknown as any,
+      faqs: faqs.filter((f) => f.question) as unknown as any,
       family_dependant_option: familyOption || null,
-      whats_included: whatsIncluded.filter(Boolean),
-      whats_not_included: whatsNotIncluded.filter(Boolean),
+      whats_included: whatsIncluded.filter(Boolean) as unknown as any,
+      whats_not_included: whatsNotIncluded.filter(Boolean) as unknown as any,
       meta_title: metaTitle || null, meta_description: metaDescription || null,
       cta_apply_text: ctaApply, cta_consult_text: ctaConsult,
     };
 
     let error;
     if (isEdit) {
-      ({ error } = await supabase.from("programs").update(payload).eq("id", program.id));
+      ({ error } = await supabase.from("programs").update(payload as any).eq("id", program.id));
     } else {
-      ({ error } = await supabase.from("programs").insert(payload));
+      ({ error } = await supabase.from("programs").insert(payload as any));
     }
 
     setSaving(false);
