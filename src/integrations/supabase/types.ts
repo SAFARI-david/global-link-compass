@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      applications: {
+        Row: {
+          admin_notes: string | null
+          application_type: string
+          assigned_agent_id: string | null
+          created_at: string
+          destination_country: string | null
+          form_data: Json
+          id: string
+          reference_number: string
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          application_type: string
+          assigned_agent_id?: string | null
+          created_at?: string
+          destination_country?: string | null
+          form_data?: Json
+          id?: string
+          reference_number: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          application_type?: string
+          assigned_agent_id?: string | null
+          created_at?: string
+          destination_country?: string | null
+          form_data?: Json
+          id?: string
+          reference_number?: string
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -206,6 +248,13 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "moderator" | "agent" | "applicant"
+      application_status:
+        | "submitted"
+        | "under_review"
+        | "in_progress"
+        | "pending_documents"
+        | "approved"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -334,6 +383,14 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "moderator", "agent", "applicant"],
+      application_status: [
+        "submitted",
+        "under_review",
+        "in_progress",
+        "pending_documents",
+        "approved",
+        "rejected",
+      ],
     },
   },
 } as const
