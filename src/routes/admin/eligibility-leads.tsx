@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { Search, RefreshCw, Sparkles, CheckCircle2, Download, Eye } from "lucide-react";
+import { Search, RefreshCw, Sparkles, CheckCircle2, Download, Eye, UserCheck } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,10 +56,14 @@ type EligibilityLead = {
   utm_source: string | null;
   utm_medium: string | null;
   utm_campaign: string | null;
+  assigned_agent_id: string | null;
 };
+
+type Agent = { user_id: string; full_name: string | null };
 
 function EligibilityLeadsPage() {
   const [leads, setLeads] = useState<EligibilityLead[]>([]);
+  const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<EligibilityLead | null>(null);
@@ -81,8 +85,23 @@ function EligibilityLeadsPage() {
     setLoading(false);
   }
 
+  async function loadAgents() {
+    const { data: roleRows } = await supabase
+      .from("user_roles")
+      .select("user_id")
+      .eq("role", "agent");
+    const ids = (roleRows || []).map((r) => r.user_id);
+    if (!ids.length) return;
+    const { data: profs } = await supabase
+      .from("profiles")
+      .select("user_id, full_name")
+      .in("user_id", ids);
+    setAgents((profs || []) as Agent[]);
+  }
+
   useEffect(() => {
     loadLeads();
+    loadAgents();
   }, []);
 
   async function updateStatus(id: string, status: string) {
@@ -97,6 +116,21 @@ function EligibilityLeadsPage() {
       toast.error("Failed to update status");
     } else {
       toast.success("Status updated");
+    }
+  }
+
+  async function assignAgent(id: string, agentId: string | null) {
+    const prev = leads;
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, assigned_agent_id: agentId } : l)));
+    const { error } = await supabase
+      .from("leads")
+      .update({ assigned_agent_id: agentId })
+      .eq("id", id);
+    if (error) {
+      setLeads(prev);
+      toast.error("Failed to assign agent");
+    } else {
+      toast.success(agentId ? "Agent assigned" : "Agent unassigned");
     }
   }
 
@@ -211,19 +245,20 @@ function EligibilityLeadsPage() {
                       <TableHead>Experience</TableHead>
                       <TableHead>Result</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Agent</TableHead>
                       <TableHead className="w-[80px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={10} className="text-center py-12 text-muted-foreground text-sm">
                           Loading...
                         </TableCell>
                       </TableRow>
                     ) : filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={10} className="text-center py-12 text-muted-foreground text-sm">
                           No eligibility submissions yet.
                         </TableCell>
                       </TableRow>
@@ -259,6 +294,29 @@ function EligibilityLeadsPage() {
                                 {LEAD_STATUSES.map((s) => (
                                   <SelectItem key={s} value={s} className="text-xs">
                                     {STATUS_CONFIG[s].label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          <TableCell onClick={(e) => e.stopPropagation()}>
+                            <Select
+                              value={l.assigned_agent_id || "unassigned"}
+                              onValueChange={(v) => assignAgent(l.id, v === "unassigned" ? null : v)}
+                            >
+                              <SelectTrigger className="h-8 w-[150px] text-xs">
+                                <div className="flex items-center gap-1.5 truncate">
+                                  <UserCheck className="h-3 w-3 shrink-0 text-muted-foreground" />
+                                  <SelectValue placeholder="Unassigned" />
+                                </div>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="unassigned" className="text-xs text-muted-foreground">
+                                  Unassigned
+                                </SelectItem>
+                                {agents.map((a) => (
+                                  <SelectItem key={a.user_id} value={a.user_id} className="text-xs">
+                                    {a.full_name || a.user_id.slice(0, 8)}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
