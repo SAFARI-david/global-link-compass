@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/HeroSection";
+import { SocialProofBar } from "@/components/SocialProofBar";
 import { ServicesSection } from "@/components/ServicesSection";
 import { HowItWorks } from "@/components/HowItWorks";
 import { TrustBlock } from "@/components/TrustBlock";
@@ -27,6 +28,7 @@ function Index() {
   return (
     <>
       <HeroSection />
+      <SocialProofBar context="general" />
       <ServicesSection />
       {/* Mid-page lead capture */}
       <section className="section-padding bg-muted/30">
