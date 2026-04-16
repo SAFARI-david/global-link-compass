@@ -26,12 +26,12 @@ export function StudyPreview() {
               Answer a few questions about your education, budget, and goals — and we'll match you with the best study destinations, institutions, and programs.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link to="/study">
+              <Link to="/apply/study">
                 <Button variant="heroGold" size="lg">
                   Start Study Application <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/study-visas">
+              <Link to="/study">
                 <Button variant="heroOutline" size="lg" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/5">
                   Browse Programs
                 </Button>

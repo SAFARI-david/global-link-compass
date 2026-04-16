@@ -75,7 +75,7 @@ export function Footer() {
             We provide professional visa application support and application management services. Final decisions are made by embassies, consulates, institutions, employers, and immigration authorities. We do not guarantee visa approval or job placement outcomes.
           </p>
           <p className="mt-4 text-xs opacity-40">
-            © {new Date().getFullYear()} Global Link Migration Services. All rights reserved.
+            © 2026 Global Link Migration Services. All rights reserved.
           </p>
         </div>
       </div>
