@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,11 +104,27 @@ export function LandingPage({ variant }: LandingPageProps) {
     email.trim() !== "" &&
     config.formFields.every((f) => formData[f.id]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!allFieldsFilled) return;
     setSubmitted(true);
-    // Redirect after brief delay
+
+    // Parse UTM params from URL
+    const params = new URLSearchParams(window.location.search);
+
+    // Save lead to database (fire-and-forget, don't block redirect)
+    supabase.from("leads").insert({
+      name: name.trim(),
+      email: email.trim(),
+      source: variant,
+      form_data: formData,
+      utm_source: params.get("utm_source") || null,
+      utm_medium: params.get("utm_medium") || null,
+      utm_campaign: params.get("utm_campaign") || null,
+    } as any).then(({ error }) => {
+      if (error) console.error("Failed to save lead:", error);
+    });
+
     setTimeout(() => {
       navigate({ to: config.redirectTo as any });
     }, 2000);

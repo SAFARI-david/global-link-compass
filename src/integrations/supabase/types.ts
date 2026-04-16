@@ -156,6 +156,48 @@ export type Database = {
           },
         ]
       }
+      leads: {
+        Row: {
+          converted: boolean
+          created_at: string
+          email: string
+          form_data: Json
+          id: string
+          name: string
+          source: string
+          updated_at: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          converted?: boolean
+          created_at?: string
+          email: string
+          form_data?: Json
+          id?: string
+          name: string
+          source: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          converted?: boolean
+          created_at?: string
+          email?: string
+          form_data?: Json
+          id?: string
+          name?: string
+          source?: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
       payment_addons: {
         Row: {
           amount: number

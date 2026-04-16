@@ -11,6 +11,7 @@ import {
   Shield,
   Tag,
   Percent,
+  Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +25,7 @@ const navItems = [
   { label: "Payments", to: "/admin/payments", icon: CreditCard },
   { label: "Commissions", to: "/admin/commissions", icon: Percent },
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
+  { label: "Leads", to: "/admin/leads", icon: Target },
 ];
 
 export function AdminSidebar() {
