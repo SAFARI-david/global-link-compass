@@ -23,6 +23,7 @@ export type Database = {
           destination_country: string | null
           form_data: Json
           id: string
+          payment_status: Database["public"]["Enums"]["payment_status"]
           reference_number: string
           status: Database["public"]["Enums"]["application_status"]
           updated_at: string
@@ -36,6 +37,7 @@ export type Database = {
           destination_country?: string | null
           form_data?: Json
           id?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           reference_number: string
           status?: Database["public"]["Enums"]["application_status"]
           updated_at?: string
@@ -49,12 +51,205 @@ export type Database = {
           destination_country?: string | null
           form_data?: Json
           id?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           reference_number?: string
           status?: Database["public"]["Enums"]["application_status"]
           updated_at?: string
           user_id?: string | null
         }
         Relationships: []
+      }
+      payment_addons: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          agent_id: string | null
+          amount: number
+          applicant_id: string | null
+          application_id: string | null
+          country: string | null
+          created_at: string
+          currency: string
+          id: string
+          internal_reference: string
+          notes: string | null
+          paid_at: string | null
+          payer_type: Database["public"]["Enums"]["payer_type"]
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          program_id: string | null
+          provider: string
+          service_type: string | null
+          updated_at: string
+          verification_method: string | null
+          visa_type: string | null
+          whop_checkout_reference: string | null
+          whop_payment_id: string | null
+          whop_plan_id: string | null
+          whop_product_id: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          amount: number
+          applicant_id?: string | null
+          application_id?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          internal_reference: string
+          notes?: string | null
+          paid_at?: string | null
+          payer_type?: Database["public"]["Enums"]["payer_type"]
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          program_id?: string | null
+          provider?: string
+          service_type?: string | null
+          updated_at?: string
+          verification_method?: string | null
+          visa_type?: string | null
+          whop_checkout_reference?: string | null
+          whop_payment_id?: string | null
+          whop_plan_id?: string | null
+          whop_product_id?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          amount?: number
+          applicant_id?: string | null
+          application_id?: string | null
+          country?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          internal_reference?: string
+          notes?: string | null
+          paid_at?: string | null
+          payer_type?: Database["public"]["Enums"]["payer_type"]
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          program_id?: string | null
+          provider?: string
+          service_type?: string | null
+          updated_at?: string
+          verification_method?: string | null
+          visa_type?: string | null
+          whop_checkout_reference?: string | null
+          whop_payment_id?: string | null
+          whop_plan_id?: string | null
+          whop_product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "agent_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pricing: {
+        Row: {
+          base_amount: number
+          country: string | null
+          created_at: string
+          currency: string
+          id: string
+          is_active: boolean
+          notes: string | null
+          pricing_type: string
+          program_id: string | null
+          service_name: string
+          updated_at: string
+          visa_type: string | null
+          whop_plan_id: string | null
+          whop_product_id: string | null
+        }
+        Insert: {
+          base_amount: number
+          country?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          pricing_type?: string
+          program_id?: string | null
+          service_name: string
+          updated_at?: string
+          visa_type?: string | null
+          whop_plan_id?: string | null
+          whop_product_id?: string | null
+        }
+        Update: {
+          base_amount?: number
+          country?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          is_active?: boolean
+          notes?: string | null
+          pricing_type?: string
+          program_id?: string | null
+          service_name?: string
+          updated_at?: string
+          visa_type?: string | null
+          whop_plan_id?: string | null
+          whop_product_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pricing_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -233,6 +428,45 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_events: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          external_event_id: string | null
+          id: string
+          payload_json: Json
+          processed: boolean
+          processed_at: string | null
+          provider: string
+          signature_valid: boolean
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_type: string
+          external_event_id?: string | null
+          id?: string
+          payload_json?: Json
+          processed?: boolean
+          processed_at?: string | null
+          provider?: string
+          signature_valid?: boolean
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_type?: string
+          external_event_id?: string | null
+          id?: string
+          payload_json?: Json
+          processed?: boolean
+          processed_at?: string | null
+          provider?: string
+          signature_valid?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       agent_applications: {
@@ -293,6 +527,14 @@ export type Database = {
         | "pending_documents"
         | "approved"
         | "rejected"
+      payer_type: "applicant" | "agent"
+      payment_status:
+        | "unpaid"
+        | "pending"
+        | "paid"
+        | "failed"
+        | "refunded"
+        | "pending_verification"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -428,6 +670,15 @@ export const Constants = {
         "pending_documents",
         "approved",
         "rejected",
+      ],
+      payer_type: ["applicant", "agent"],
+      payment_status: [
+        "unpaid",
+        "pending",
+        "paid",
+        "failed",
+        "refunded",
+        "pending_verification",
       ],
     },
   },
