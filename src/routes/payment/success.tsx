@@ -209,7 +209,7 @@ function PaymentSuccessPage() {
               Go to Dashboard <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-          <a href="mailto:support@globallinkmigration.com">
+          <a href="mailto:info@global-linkmigration.ca">
             <Button variant="outline" size="lg" className="gap-2">
               <Mail className="h-4 w-4" /> Contact Support
             </Button>
@@ -218,7 +218,7 @@ function PaymentSuccessPage() {
 
         {/* Footer Support */}
         <div className="mt-8 text-center text-xs text-muted-foreground">
-          <p>Questions? Reach us at <a href="mailto:support@globallinkmigration.com" className="text-primary underline">support@globallinkmigration.com</a></p>
+          <p>Questions? Reach us at <a href="mailto:info@global-linkmigration.ca" className="text-primary underline">info@global-linkmigration.ca</a></p>
         </div>
       </div>
     </div>
