@@ -44,10 +44,10 @@ export function Footer() {
             </p>
             <div className="flex flex-col gap-2.5 text-sm opacity-70">
               <a href="mailto:info@globallinkms.com" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
-                <Mail className="h-4 w-4" /> info@globallinkms.com
+                <Mail className="h-4 w-4" /><span>info@globallinkms.com</span>
               </a>
               <a href="tel:+1234567890" className="flex items-center gap-2 hover:opacity-100 transition-opacity">
-                <Phone className="h-4 w-4" /> +1 (234) 567-890
+                <Phone className="h-4 w-4" /><span>+1 (234) 567-890</span>
               </a>
             </div>
           </div>
