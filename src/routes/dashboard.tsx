@@ -157,6 +157,16 @@ function UserDashboardPage() {
     return list;
   }, [applications, searchQuery, statusFilter, typeFilter, sortBy]);
 
+  // Reset to page 1 when filters change
+  useEffect(() => { setCurrentPage(1); }, [searchQuery, statusFilter, typeFilter, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredApplications.length / ITEMS_PER_PAGE));
+  const paginatedApplications = filteredApplications.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+
   if (authLoading || loading) {
     return (
       <>
