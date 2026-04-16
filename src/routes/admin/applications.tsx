@@ -45,6 +45,7 @@ type Application = {
   reference_number: string;
   application_type: string;
   status: string;
+  payment_status: string;
   destination_country: string | null;
   form_data: Record<string, any>;
   admin_notes: string | null;
@@ -111,7 +112,7 @@ function AdminApplicationsPage() {
     submitted: applications.filter((a) => a.status === "submitted").length,
     inProgress: applications.filter((a) => ["under_review", "in_progress"].includes(a.status)).length,
     approved: applications.filter((a) => a.status === "approved").length,
-    rejected: applications.filter((a) => a.status === "rejected").length,
+    unpaid: applications.filter((a) => a.payment_status === "unpaid" || a.payment_status === "pending").length,
   };
 
   const updateStatus = async (id: string, status: string) => {
@@ -146,7 +147,7 @@ function AdminApplicationsPage() {
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-amber-600">{stats.submitted}</p><p className="text-sm text-muted-foreground">New</p></CardContent></Card>
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-blue-600">{stats.inProgress}</p><p className="text-sm text-muted-foreground">In Progress</p></CardContent></Card>
             <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-green-600">{stats.approved}</p><p className="text-sm text-muted-foreground">Approved</p></CardContent></Card>
-            <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-destructive">{stats.rejected}</p><p className="text-sm text-muted-foreground">Rejected</p></CardContent></Card>
+            <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-destructive">{stats.unpaid}</p><p className="text-sm text-muted-foreground">Unpaid</p></CardContent></Card>
           </div>
 
           <Card>
