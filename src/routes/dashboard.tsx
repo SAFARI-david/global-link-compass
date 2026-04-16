@@ -271,6 +271,8 @@ function UserDashboardPage() {
                               paymentStatus={app.payment_status}
                               applicationStatus={app.status}
                               documentCount={docCounts[app.id] || 0}
+                              paidAt={payments.find((p: any) => p.application_id === app.id && p.payment_status === "paid")?.paid_at}
+                              adminNotes={app.admin_notes}
                             />
 
                             {/* Next Step */}
