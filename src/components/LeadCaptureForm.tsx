@@ -151,7 +151,7 @@ export function LeadCaptureForm({ variant = "default", redirectTo, source = "hom
           disabled={!isValid || submitting}
         >
           {submitting ? "Saving…" : (
-            <>{isCompact ? "Go" : "Begin Application"} <ArrowRight className="ml-1 h-4 w-4" /></>
+            <>{isCompact ? "Continue" : "Start Your Application"} <ArrowRight className="ml-1 h-4 w-4" /></>
           )}
         </Button>
       </div>
