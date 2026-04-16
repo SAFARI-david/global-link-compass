@@ -129,7 +129,7 @@ function ServicesIndexPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {[
             { label: "🇨🇦 Canada Work Visa", to: "/services/canada-work-visa" },
-            { label: "🇬🇧 UK Study Visa", to: "/services/uk-study-visa" },
+            { label: "🇬🇧 UK Work Visa", to: "/services/uk-work-visa" },
             { label: "🇦🇺 Australia Work Visa", to: "/services/australia-work-visa" },
             { label: "🇩🇪 Germany Work Visa", to: "/services/germany-work-visa" },
             { label: "🇦🇪 UAE Work Visa", to: "/services/uae-work-visa" },
