@@ -6,11 +6,13 @@ import {
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
 } from "lucide-react";
 import { DocumentUpload } from "@/components/DocumentUpload";
+import { ApplicationProgress } from "@/components/ApplicationProgress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 import { getUserApplications, getUserPayments } from "@/lib/dashboard.functions";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -74,6 +76,7 @@ function UserDashboardPage() {
   const [applications, setApplications] = useState<any[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [docCounts, setDocCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (authLoading) return;
@@ -93,6 +96,20 @@ function UserDashboardPage() {
       ]);
       setApplications(appsRes.applications);
       setPayments(paysRes.payments);
+
+      // Fetch document counts per application
+      if (appsRes.applications.length > 0) {
+        const appIds = appsRes.applications.map((a: any) => a.id);
+        const { data: docs } = await supabase
+          .from("documents")
+          .select("application_id")
+          .in("application_id", appIds);
+        const counts: Record<string, number> = {};
+        for (const d of docs || []) {
+          counts[d.application_id] = (counts[d.application_id] || 0) + 1;
+        }
+        setDocCounts(counts);
+      }
     } catch (err) {
       console.error("Failed to load dashboard data:", err);
     } finally {
@@ -248,6 +265,13 @@ function UserDashboardPage() {
                                 </p>
                               </div>
                             </div>
+
+                            {/* Progress Bar */}
+                            <ApplicationProgress
+                              paymentStatus={app.payment_status}
+                              applicationStatus={app.status}
+                              documentCount={docCounts[app.id] || 0}
+                            />
 
                             {/* Next Step */}
                             <div className="mt-3 flex items-start gap-2 rounded-lg bg-muted/50 p-3">
