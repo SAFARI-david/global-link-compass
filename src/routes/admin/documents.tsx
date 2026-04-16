@@ -49,7 +49,7 @@ function AdminDocumentsPage() {
     setLoading(true);
     try {
       let q = supabase.from("documents").select("*").order("created_at", { ascending: false });
-      if (statusFilter !== "all") q = q.eq("status", statusFilter);
+      if (statusFilter !== "all") q = q.eq("status", statusFilter as "pending" | "approved" | "rejected");
       const { data, error } = await q;
       if (error) throw error;
       setDocuments(data || []);
