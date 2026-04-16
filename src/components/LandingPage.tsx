@@ -113,10 +113,14 @@ export function LandingPage({ variant }: LandingPageProps) {
     const params = new URLSearchParams(window.location.search);
 
     // Save lead to database (fire-and-forget, don't block redirect)
+    const interestMap: Record<string, string> = { "canada-work": "work", study: "study", jobs: "jobs" };
     supabase.from("leads").insert({
       name: name.trim(),
       email: email.trim(),
       source: variant,
+      interest: interestMap[variant] || variant,
+      country: formData.country || null,
+      status: "new",
       form_data: formData,
       utm_source: params.get("utm_source") || null,
       utm_medium: params.get("utm_medium") || null,

@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { Search, RefreshCw, Users, TrendingUp, Target, CheckCircle, Download, CalendarIcon, X } from "lucide-react";
+import { Search, RefreshCw, Users, TrendingUp, Target, CheckCircle, Download, CalendarIcon, X, ArrowRight, MoreHorizontal } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +12,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -27,21 +34,41 @@ const sourceLabels: Record<string, string> = {
   jobs: "Jobs",
 };
 
+const LEAD_STATUSES = ["new", "contacted", "qualified", "converted", "lost"] as const;
+
+const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
+  new: { label: "New", color: "bg-amber-100 text-amber-700" },
+  contacted: { label: "Contacted", color: "bg-blue-100 text-blue-700" },
+  qualified: { label: "Qualified", color: "bg-indigo-100 text-indigo-700" },
+  converted: { label: "Converted", color: "bg-green-100 text-green-700" },
+  lost: { label: "Lost", color: "bg-red-100 text-red-700" },
+};
+
+const INTEREST_LABELS: Record<string, string> = {
+  work: "Work Visa",
+  study: "Study Visa",
+  jobs: "Job Placement",
+};
+
 function AdminLeadsPage() {
+  const navigate = useNavigate();
   const [leads, setLeads] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState<Date | undefined>();
   const [dateTo, setDateTo] = useState<Date | undefined>();
+  const [converting, setConverting] = useState<string | null>(null);
 
-  useEffect(() => { load(); }, [sourceFilter, dateFrom, dateTo]);
+  useEffect(() => { load(); }, [sourceFilter, statusFilter, dateFrom, dateTo]);
 
   async function load() {
     setLoading(true);
     try {
       let q = supabase.from("leads").select("*").order("created_at", { ascending: false });
       if (sourceFilter !== "all") q = q.eq("source", sourceFilter);
+      if (statusFilter !== "all") q = q.eq("status", statusFilter);
       if (dateFrom) q = q.gte("created_at", dateFrom.toISOString());
       if (dateTo) {
         const endOfDay = new Date(dateTo);
@@ -58,14 +85,67 @@ function AdminLeadsPage() {
     }
   }
 
-  async function toggleConverted(id: string, current: boolean) {
+  async function updateLeadStatus(id: string, status: string) {
     try {
-      const { error } = await supabase.from("leads").update({ converted: !current } as any).eq("id", id);
+      const updates: any = { status };
+      if (status === "converted") updates.converted = true;
+      const { error } = await supabase.from("leads").update(updates).eq("id", id);
       if (error) throw error;
-      toast.success(current ? "Marked as unconverted" : "Marked as converted");
+      toast.success(`Lead status updated to ${STATUS_CONFIG[status]?.label || status}`);
       load();
     } catch {
-      toast.error("Failed to update");
+      toast.error("Failed to update lead status");
+    }
+  }
+
+  async function convertToApplication(lead: any) {
+    setConverting(lead.id);
+    try {
+      const interestToType: Record<string, string> = {
+        work: "Work Visa",
+        study: "Study Visa",
+        jobs: "Work Visa",
+      };
+      const applicationType = interestToType[lead.interest] || "Work Visa";
+
+      // Create the application
+      const { data: app, error: appErr } = await supabase
+        .from("applications")
+        .insert({
+          application_type: applicationType,
+          destination_country: lead.country || lead.form_data?.country || null,
+          form_data: {
+            fullName: lead.name,
+            email: lead.email,
+            ...(lead.form_data || {}),
+            lead_source: lead.source,
+            lead_id: lead.id,
+          },
+          reference_number: "", // trigger will generate
+          user_id: null, // no user yet, admin-created
+        } as any)
+        .select("id, reference_number")
+        .single();
+
+      if (appErr) throw appErr;
+
+      // Link lead to application and mark as converted
+      await supabase
+        .from("leads")
+        .update({
+          status: "converted",
+          converted: true,
+          application_id: app.id,
+        } as any)
+        .eq("id", lead.id);
+
+      toast.success(`Lead converted! Application ${app.reference_number} created.`);
+      load();
+    } catch (err: any) {
+      console.error("Conversion error:", err);
+      toast.error("Failed to convert lead to application");
+    } finally {
+      setConverting(null);
     }
   }
 
@@ -76,22 +156,19 @@ function AdminLeadsPage() {
   );
 
   function exportToCSV() {
-    const headers = ["Name", "Email", "Source", "UTM Source", "UTM Medium", "UTM Campaign", "Status", "Converted", "Date", "Form Data"];
+    const headers = ["Name", "Email", "Source", "Interest", "Country", "Status", "UTM Source", "UTM Medium", "UTM Campaign", "Date", "Form Data"];
     const rows = filtered.map((l) => [
-      l.name,
-      l.email,
+      l.name, l.email,
       sourceLabels[l.source] || l.source,
-      l.utm_source || "",
-      l.utm_medium || "",
-      l.utm_campaign || "",
-      l.converted ? "Converted" : "New",
-      l.converted ? "Yes" : "No",
+      INTEREST_LABELS[l.interest] || l.interest || "",
+      l.country || "",
+      STATUS_CONFIG[l.status]?.label || l.status || "New",
+      l.utm_source || "", l.utm_medium || "", l.utm_campaign || "",
       new Date(l.created_at).toLocaleDateString(),
       JSON.stringify(l.form_data || {}),
     ]);
 
     const csvContent = [headers.join(","), ...rows.map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))].join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -103,7 +180,6 @@ function AdminLeadsPage() {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
-
     toast.success(`Exported ${filtered.length} leads to CSV`);
   }
 
@@ -115,8 +191,9 @@ function AdminLeadsPage() {
   const stats = {
     total: leads.length,
     today: leads.filter((l) => new Date(l.created_at).toDateString() === new Date().toDateString()).length,
-    converted: leads.filter((l) => l.converted).length,
-    conversionRate: leads.length > 0 ? Math.round((leads.filter((l) => l.converted).length / leads.length) * 100) : 0,
+    converted: leads.filter((l) => l.status === "converted" || l.converted).length,
+    qualified: leads.filter((l) => l.status === "qualified").length,
+    conversionRate: leads.length > 0 ? Math.round((leads.filter((l) => l.status === "converted" || l.converted).length / leads.length) * 100) : 0,
   };
 
   const hasDateFilter = dateFrom || dateTo;
@@ -131,8 +208,8 @@ function AdminLeadsPage() {
           <div className="mb-6 grid gap-4 sm:grid-cols-4">
             <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary"><Users className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.total}</p><p className="text-sm text-muted-foreground">Total Leads</p></div></div></CardContent></Card>
             <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600"><TrendingUp className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.today}</p><p className="text-sm text-muted-foreground">Today</p></div></div></CardContent></Card>
-            <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 text-green-600"><CheckCircle className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.converted}</p><p className="text-sm text-muted-foreground">Converted</p></div></div></CardContent></Card>
-            <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600"><Target className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.conversionRate}%</p><p className="text-sm text-muted-foreground">Conversion Rate</p></div></div></CardContent></Card>
+            <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600"><Target className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.qualified}</p><p className="text-sm text-muted-foreground">Qualified</p></div></div></CardContent></Card>
+            <Card><CardContent className="p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 text-green-600"><CheckCircle className="h-5 w-5" /></div><div><p className="text-2xl font-bold">{stats.conversionRate}%</p><p className="text-sm text-muted-foreground">Conversion Rate</p></div></div></CardContent></Card>
           </div>
 
           <Card>
@@ -141,8 +218,7 @@ function AdminLeadsPage() {
                 <CardTitle className="text-lg">Lead Submissions</CardTitle>
                 <div className="flex items-center gap-3">
                   <Button variant="outline" size="sm" onClick={exportToCSV} className="gap-2">
-                    <Download className="h-4 w-4" />
-                    Export CSV
+                    <Download className="h-4 w-4" />Export CSV
                   </Button>
                   <Button variant="outline" size="icon" onClick={load}><RefreshCw className="h-4 w-4" /></Button>
                 </div>
@@ -161,15 +237,17 @@ function AdminLeadsPage() {
                     <SelectItem value="jobs">Jobs</SelectItem>
                   </SelectContent>
                 </Select>
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Statuses</SelectItem>
+                    {LEAD_STATUSES.map((s) => (
+                      <SelectItem key={s} value={s}>{STATUS_CONFIG[s].label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <div className="flex items-center gap-1.5 rounded-md border border-border/50 bg-muted/30 p-1">
-                  <Button
-                    variant={!dateFrom && !dateTo ? "default" : "ghost"}
-                    size="sm"
-                    className="h-7 px-2.5 text-xs"
-                    onClick={clearDateFilter}
-                  >
-                    All time
-                  </Button>
+                  <Button variant={!dateFrom && !dateTo ? "default" : "ghost"} size="sm" className="h-7 px-2.5 text-xs" onClick={clearDateFilter}>All time</Button>
                   {[
                     { label: "7d", days: 7 },
                     { label: "30d", days: 30 },
@@ -221,8 +299,7 @@ function AdminLeadsPage() {
                 </Popover>
                 {hasDateFilter && (
                   <Button variant="ghost" size="sm" onClick={clearDateFilter} className="h-8 gap-1 text-xs text-muted-foreground">
-                    <X className="h-3.5 w-3.5" />
-                    Clear dates
+                    <X className="h-3.5 w-3.5" />Clear dates
                   </Button>
                 )}
               </div>
@@ -239,78 +316,113 @@ function AdminLeadsPage() {
                       <tr className="border-b text-left text-muted-foreground">
                         <th className="pb-3 pr-4 font-medium">Name</th>
                         <th className="pb-3 pr-4 font-medium">Email</th>
-                        <th className="pb-3 pr-4 font-medium">Source</th>
-                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">UTM</th>
+                        <th className="pb-3 pr-4 font-medium">Interest</th>
+                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Source</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Date</th>
                         <th className="pb-3 font-medium">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filtered.map((l) => (
-                        <tr key={l.id} className="border-b border-border/50 last:border-0">
-                          <td className="py-3 pr-4 font-medium">{l.name}</td>
-                          <td className="py-3 pr-4 text-primary">{l.email}</td>
-                          <td className="py-3 pr-4">
-                            <Badge variant="secondary" className="text-xs">{sourceLabels[l.source] || l.source}</Badge>
-                          </td>
-                          <td className="py-3 pr-4 hidden sm:table-cell text-xs text-muted-foreground">
-                            {l.utm_campaign || l.utm_source || "—"}
-                          </td>
-                          <td className="py-3 pr-4">
-                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${l.converted ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}>
-                              {l.converted ? "Converted" : "New"}
-                            </span>
-                          </td>
-                          <td className="py-3 pr-4 hidden md:table-cell text-muted-foreground">{new Date(l.created_at).toLocaleDateString()}</td>
-                          <td className="py-3">
-                            <div className="flex items-center gap-1">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button variant="ghost" size="sm" className="h-7 text-xs">View</Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                  <DialogHeader><DialogTitle>Lead: {l.name}</DialogTitle></DialogHeader>
-                                  <div className="space-y-3 text-sm">
-                                    <div className="grid grid-cols-2 gap-2">
-                                      <div><p className="text-xs text-muted-foreground">Email</p><p>{l.email}</p></div>
-                                      <div><p className="text-xs text-muted-foreground">Source</p><p>{sourceLabels[l.source] || l.source}</p></div>
-                                      <div><p className="text-xs text-muted-foreground">Date</p><p>{new Date(l.created_at).toLocaleString()}</p></div>
-                                      <div><p className="text-xs text-muted-foreground">Converted</p><p>{l.converted ? "Yes" : "No"}</p></div>
-                                    </div>
-                                    {(l.utm_source || l.utm_medium || l.utm_campaign) && (
+                      {filtered.map((l) => {
+                        const sc = STATUS_CONFIG[l.status] || STATUS_CONFIG.new;
+                        return (
+                          <tr key={l.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30">
+                            <td className="py-3 pr-4">
+                              <p className="font-medium">{l.name}</p>
+                              {l.country && <p className="text-xs text-muted-foreground">{l.country}</p>}
+                            </td>
+                            <td className="py-3 pr-4 text-primary">{l.email}</td>
+                            <td className="py-3 pr-4">
+                              <Badge variant="secondary" className="text-xs">
+                                {INTEREST_LABELS[l.interest] || sourceLabels[l.source] || l.source}
+                              </Badge>
+                            </td>
+                            <td className="py-3 pr-4 hidden sm:table-cell text-xs text-muted-foreground">
+                              {l.utm_campaign || l.utm_source || sourceLabels[l.source] || l.source}
+                            </td>
+                            <td className="py-3 pr-4">
+                              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${sc.color}`}>
+                                {sc.label}
+                              </span>
+                            </td>
+                            <td className="py-3 pr-4 hidden md:table-cell text-muted-foreground">{new Date(l.created_at).toLocaleDateString()}</td>
+                            <td className="py-3">
+                              <div className="flex items-center gap-1">
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="h-7 text-xs">View</Button>
+                                  </DialogTrigger>
+                                  <DialogContent>
+                                    <DialogHeader><DialogTitle>Lead: {l.name}</DialogTitle></DialogHeader>
+                                    <div className="space-y-3 text-sm">
+                                      <div className="grid grid-cols-2 gap-2">
+                                        <div><p className="text-xs text-muted-foreground">Email</p><p>{l.email}</p></div>
+                                        <div><p className="text-xs text-muted-foreground">Interest</p><p>{INTEREST_LABELS[l.interest] || l.interest || "—"}</p></div>
+                                        <div><p className="text-xs text-muted-foreground">Country</p><p>{l.country || "—"}</p></div>
+                                        <div><p className="text-xs text-muted-foreground">Source</p><p>{sourceLabels[l.source] || l.source}</p></div>
+                                        <div><p className="text-xs text-muted-foreground">Status</p><p className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${sc.color}`}>{sc.label}</p></div>
+                                        <div><p className="text-xs text-muted-foreground">Date</p><p>{new Date(l.created_at).toLocaleString()}</p></div>
+                                      </div>
+                                      {l.application_id && (
+                                        <div className="rounded-lg border bg-green-50 p-3">
+                                          <p className="text-xs font-semibold text-green-700">✓ Converted to Application</p>
+                                          <p className="text-xs text-green-600">Application ID: {l.application_id}</p>
+                                        </div>
+                                      )}
+                                      {(l.utm_source || l.utm_medium || l.utm_campaign) && (
+                                        <div>
+                                          <p className="text-xs text-muted-foreground mb-1">UTM Parameters</p>
+                                          <div className="rounded bg-muted p-2 text-xs space-y-1">
+                                            {l.utm_source && <p>Source: {l.utm_source}</p>}
+                                            {l.utm_medium && <p>Medium: {l.utm_medium}</p>}
+                                            {l.utm_campaign && <p>Campaign: {l.utm_campaign}</p>}
+                                          </div>
+                                        </div>
+                                      )}
                                       <div>
-                                        <p className="text-xs text-muted-foreground mb-1">UTM Parameters</p>
+                                        <p className="text-xs text-muted-foreground mb-1">Form Answers</p>
                                         <div className="rounded bg-muted p-2 text-xs space-y-1">
-                                          {l.utm_source && <p>Source: {l.utm_source}</p>}
-                                          {l.utm_medium && <p>Medium: {l.utm_medium}</p>}
-                                          {l.utm_campaign && <p>Campaign: {l.utm_campaign}</p>}
+                                          {Object.entries(l.form_data || {}).map(([key, val]) => (
+                                            <p key={key}><span className="font-medium capitalize">{key.replace(/_/g, " ")}:</span> {String(val)}</p>
+                                          ))}
                                         </div>
                                       </div>
-                                    )}
-                                    <div>
-                                      <p className="text-xs text-muted-foreground mb-1">Form Answers</p>
-                                      <div className="rounded bg-muted p-2 text-xs space-y-1">
-                                        {Object.entries(l.form_data || {}).map(([key, val]) => (
-                                          <p key={key}><span className="font-medium capitalize">{key.replace(/_/g, " ")}:</span> {String(val)}</p>
-                                        ))}
-                                      </div>
                                     </div>
-                                  </div>
-                                </DialogContent>
-                              </Dialog>
-                              <Button
-                                variant={l.converted ? "outline" : "default"}
-                                size="sm"
-                                className="h-7 text-xs"
-                                onClick={() => toggleConverted(l.id, l.converted)}
-                              >
-                                {l.converted ? "Unmark" : "Mark Converted"}
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                                  </DialogContent>
+                                </Dialog>
+
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-7 w-7"><MoreHorizontal className="h-4 w-4" /></Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent align="end">
+                                    {LEAD_STATUSES.filter((s) => s !== l.status).map((s) => (
+                                      <DropdownMenuItem key={s} onClick={() => updateLeadStatus(l.id, s)}>
+                                        <span className={`mr-2 inline-block h-2 w-2 rounded-full ${STATUS_CONFIG[s].color.split(" ")[0]}`} />
+                                        Mark as {STATUS_CONFIG[s].label}
+                                      </DropdownMenuItem>
+                                    ))}
+                                    {l.status !== "converted" && !l.application_id && (
+                                      <>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem
+                                          onClick={() => convertToApplication(l)}
+                                          disabled={converting === l.id}
+                                          className="text-primary font-medium"
+                                        >
+                                          <ArrowRight className="mr-2 h-4 w-4" />
+                                          {converting === l.id ? "Converting..." : "Convert to Application"}
+                                        </DropdownMenuItem>
+                                      </>
+                                    )}
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

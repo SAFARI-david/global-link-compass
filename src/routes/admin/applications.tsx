@@ -54,6 +54,25 @@ type Application = {
   created_at: string;
   updated_at: string;
   user_id: string | null;
+  assigned_agent_id: string | null;
+};
+
+type LinkedPayment = {
+  id: string;
+  internal_reference: string;
+  amount: number;
+  currency: string;
+  payment_status: string;
+  paid_at: string | null;
+  created_at: string;
+};
+
+type LinkedDocument = {
+  id: string;
+  document_type: string;
+  file_name: string;
+  status: string;
+  created_at: string;
 };
 
 const STATUS_COLORS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
