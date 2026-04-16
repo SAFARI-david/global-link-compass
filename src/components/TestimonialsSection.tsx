@@ -17,8 +17,7 @@ const testimonials = [
     country: "Nigeria → Canada",
     type: "Work Visa",
     rating: 5,
-    avatar: "AK",
-    color: "bg-blue-600",
+    photo: ahmedAvatar,
   },
   {
     text: "As an agent, the portal saves me hours every week. I can manage multiple client applications and track statuses in one place. The dashboard is professional and the commission tracking is transparent.",
