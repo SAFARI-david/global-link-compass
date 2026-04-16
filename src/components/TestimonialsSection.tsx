@@ -155,10 +155,8 @@ export function TestimonialsSection() {
                   </div>
 
                   {/* Author */}
-                  <div className="mt-3 flex items-center gap-3 border-t border-border pt-3">
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white ${t.color}`}>
-                      {t.avatar}
-                    </div>
+                    <div className="mt-3 flex items-center gap-3 border-t border-border pt-3">
+                      <img src={t.photo} alt={t.name} loading="lazy" width={36} height={36} className="h-9 w-9 shrink-0 rounded-full object-cover" />
                     <div>
                       <p className="text-sm font-semibold">{t.name}</p>
                       <p className="text-xs text-muted-foreground">
