@@ -57,6 +57,35 @@ function AdminLeadsPage() {
     }
   }
 
+  function exportToCSV() {
+    const headers = ["Name", "Email", "Source", "UTM Source", "UTM Medium", "UTM Campaign", "Status", "Converted", "Date", "Form Data"];
+    const rows = filtered.map((l) => [
+      l.name,
+      l.email,
+      sourceLabels[l.source] || l.source,
+      l.utm_source || "",
+      l.utm_medium || "",
+      l.utm_campaign || "",
+      l.converted ? "Converted" : "New",
+      l.converted ? "Yes" : "No",
+      new Date(l.created_at).toLocaleDateString(),
+      JSON.stringify(l.form_data || {}),
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","))].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `leads-export-${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+
+    toast.success(`Exported ${filtered.length} leads to CSV`);
+  }
+
   const filtered = leads.filter(
     (l) =>
       l.name?.toLowerCase().includes(search.toLowerCase()) ||
