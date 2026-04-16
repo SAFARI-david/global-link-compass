@@ -59,6 +59,7 @@ import { Route as AdminApplicationsRouteImport } from './routes/admin/applicatio
 import { Route as AdminApplicantsRouteImport } from './routes/admin/applicants'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
+import { Route as AdminAbTestsRouteImport } from './routes/admin/ab-tests'
 import { Route as AgentsClientsIndexRouteImport } from './routes/agents/clients/index'
 import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/applications/index'
 import { Route as ApiWebhooksWhopRouteImport } from './routes/api/webhooks/whop'
@@ -319,6 +320,11 @@ const AdminAgentsRoute = AdminAgentsRouteImport.update({
   path: '/agents',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAbTestsRoute = AdminAbTestsRouteImport.update({
+  id: '/ab-tests',
+  path: '/ab-tests',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AgentsClientsIndexRoute = AgentsClientsIndexRouteImport.update({
   id: '/clients/',
   path: '/clients/',
@@ -373,6 +379,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
@@ -433,6 +440,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
@@ -494,6 +502,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin/ab-tests': typeof AdminAbTestsRoute
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
@@ -556,6 +565,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
     | '/admin/applicants'
@@ -616,6 +626,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
     | '/admin/applicants'
@@ -676,6 +687,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/reset-password'
+    | '/admin/ab-tests'
     | '/admin/agents'
     | '/admin/analytics'
     | '/admin/applicants'
@@ -1113,6 +1125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAgentsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/ab-tests': {
+      id: '/admin/ab-tests'
+      path: '/ab-tests'
+      fullPath: '/admin/ab-tests'
+      preLoaderRoute: typeof AdminAbTestsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/agents/clients/': {
       id: '/agents/clients/'
       path: '/clients'
@@ -1187,6 +1206,7 @@ const AdminProgramsRouteWithChildren = AdminProgramsRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminAbTestsRoute: typeof AdminAbTestsRoute
   AdminAgentsRoute: typeof AdminAgentsRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminApplicantsRoute: typeof AdminApplicantsRoute
@@ -1202,6 +1222,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAbTestsRoute: AdminAbTestsRoute,
   AdminAgentsRoute: AdminAgentsRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminApplicantsRoute: AdminApplicantsRoute,
