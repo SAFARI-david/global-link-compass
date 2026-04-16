@@ -198,6 +198,7 @@ function AdminApplicationsPage() {
                         <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Type</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Country</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
+                        <th className="pb-3 pr-4 font-medium">Payment</th>
                         <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Submitted</th>
                         <th className="pb-3 font-medium">Actions</th>
                       </tr>
@@ -218,6 +219,11 @@ function AdminApplicationsPage() {
                             <td className="py-3 pr-4">
                               <Badge variant={STATUS_COLORS[a.status] || "secondary"}>
                                 {STATUS_LABELS[a.status] || a.status}
+                              </Badge>
+                            </td>
+                            <td className="py-3 pr-4">
+                              <Badge variant={a.payment_status === "paid" ? "default" : a.payment_status === "unpaid" ? "secondary" : "outline"}>
+                                {a.payment_status}
                               </Badge>
                             </td>
                             <td className="py-3 pr-4 hidden lg:table-cell text-muted-foreground">
