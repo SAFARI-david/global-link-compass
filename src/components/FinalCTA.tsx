@@ -73,7 +73,7 @@ export function FinalCTA() {
                 </Button>
               </Link>
               <Link to="/jobs">
-                <Button variant="heroOutline" size="xl" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/5">
+                <Button variant="heroOutline" size="xl">
                   Browse Jobs First
                 </Button>
               </Link>
