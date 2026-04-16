@@ -54,7 +54,7 @@ function AustraliaWorkVisaPage() {
           "Employer Nomination Documents (for TSS 482)",
         ],
         ctaTitle: "Ready to Start Your Australia Work Visa Application?",
-        ctaText: "Submit your details and we will help assess the most suitable Australia work visa pathway for your skills and experience.",
+        ctaText: "Begin your application and we will help assess the most suitable Australia work visa pathway for your skills and experience.",
       }}
     />
   );

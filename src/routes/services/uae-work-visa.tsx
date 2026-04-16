@@ -55,7 +55,7 @@ function UAEWorkVisaPage() {
           "Medical Fitness Certificate",
         ],
         ctaTitle: "Ready to Start Your UAE Work Visa Application?",
-        ctaText: "Submit your details and we will help assess the most suitable UAE residency pathway for your profile and goals.",
+        ctaText: "Begin your application and we will help assess the most suitable UAE residency pathway for your profile and goals.",
       }}
     />
   );

@@ -294,7 +294,7 @@ export function VisaCategoryPage({ config }: { config: CategoryPageConfig }) {
             <Link to={config.applyRoute}><Button variant="heroGold" size="lg">Start Application</Button></Link>
             <Button variant="heroOutline" size="lg">Book Consultation</Button>
           </div>
-          <p className="mt-4 text-xs opacity-50">No payment required. Free initial assessment.</p>
+          <p className="mt-4 text-xs opacity-50">No payment required at this stage. Service fees are separate from government costs.</p>
         </section>
       </div>
     </div>

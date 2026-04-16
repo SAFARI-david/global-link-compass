@@ -55,7 +55,7 @@ function UKWorkVisaPage() {
           "Passport-Sized Photographs",
         ],
         ctaTitle: "Ready to Start Your UK Work Visa Application?",
-        ctaText: "Submit your details and we will help assess the most suitable UK work visa pathway for your profile and career goals.",
+        ctaText: "Begin your application and we will help assess the most suitable UK work visa pathway for your profile and career goals.",
       }}
     />
   );
