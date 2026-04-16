@@ -59,6 +59,103 @@ export type Database = {
         }
         Relationships: []
       }
+      commission_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          setting_key: string
+          setting_value: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key: string
+          setting_value: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          setting_key?: string
+          setting_value?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      commissions: {
+        Row: {
+          agent_id: string
+          application_id: string | null
+          approved_by: string | null
+          commission_amount: number
+          commission_percentage: number
+          created_at: string
+          id: string
+          notes: string | null
+          paid_at: string | null
+          payment_id: string | null
+          status: Database["public"]["Enums"]["commission_status"]
+          total_payment_amount: number
+          updated_at: string
+        }
+        Insert: {
+          agent_id: string
+          application_id?: string | null
+          approved_by?: string | null
+          commission_amount: number
+          commission_percentage?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_id?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          total_payment_amount: number
+          updated_at?: string
+        }
+        Update: {
+          agent_id?: string
+          application_id?: string | null
+          approved_by?: string | null
+          commission_amount?: number
+          commission_percentage?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_id?: string | null
+          status?: Database["public"]["Enums"]["commission_status"]
+          total_payment_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "agent_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: true
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payment_addons: {
         Row: {
           amount: number
@@ -527,6 +624,7 @@ export type Database = {
         | "pending_documents"
         | "approved"
         | "rejected"
+      commission_status: "pending" | "approved" | "paid" | "rejected"
       payer_type: "applicant" | "agent"
       payment_status:
         | "unpaid"
@@ -671,6 +769,7 @@ export const Constants = {
         "approved",
         "rejected",
       ],
+      commission_status: ["pending", "approved", "paid", "rejected"],
       payer_type: ["applicant", "agent"],
       payment_status: [
         "unpaid",

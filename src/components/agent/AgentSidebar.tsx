@@ -11,6 +11,7 @@ import {
   Plus,
   GraduationCap,
   Briefcase,
+  Percent,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ const navItems = [
   { label: "Study Visa Apps", to: "/agents/applications/study-visa", icon: GraduationCap },
   { label: "All Applications", to: "/agents/applications", icon: FileText },
   { label: "Payments", to: "/agents/payments", icon: CreditCard },
+  { label: "My Earnings", to: "/agents/commissions", icon: Percent },
   { label: "Messages", to: "/agents/messages", icon: MessageSquare },
   { label: "Settings", to: "/agents/settings", icon: Settings },
 ];
