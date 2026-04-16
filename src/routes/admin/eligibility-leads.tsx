@@ -210,19 +210,20 @@ function EligibilityLeadsPage() {
                       <TableHead>Education</TableHead>
                       <TableHead>Experience</TableHead>
                       <TableHead>Result</TableHead>
+                      <TableHead>Status</TableHead>
                       <TableHead className="w-[80px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={8} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
                           Loading...
                         </TableCell>
                       </TableRow>
                     ) : filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={8} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
                           No eligibility submissions yet.
                         </TableCell>
                       </TableRow>
@@ -248,6 +249,20 @@ function EligibilityLeadsPage() {
                             ) : (
                               <Badge variant="outline">—</Badge>
                             )}
+                          </TableCell>
+                          <TableCell onClick={(e) => e.stopPropagation()}>
+                            <Select value={l.status} onValueChange={(v) => updateStatus(l.id, v)}>
+                              <SelectTrigger className={`h-8 w-[130px] text-xs font-medium border-0 ${STATUS_CONFIG[l.status]?.color || ""}`}>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {LEAD_STATUSES.map((s) => (
+                                  <SelectItem key={s} value={s} className="text-xs">
+                                    {STATUS_CONFIG[s].label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </TableCell>
                           <TableCell>
                             <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); setSelected(l); }}>
