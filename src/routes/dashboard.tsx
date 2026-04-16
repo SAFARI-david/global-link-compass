@@ -145,6 +145,30 @@ function UserDashboardPage() {
 
   if (!user) return null;
 
+  const STATUS_ORDER = ["pending_documents", "submitted", "under_review", "in_progress", "approved", "rejected"];
+
+  const filteredApplications = useMemo(() => {
+    let list = applications.filter((a) => {
+      const fd = (a.form_data || {}) as Record<string, any>;
+      const name = fd.fullName || fd.full_name || "";
+      const matchesSearch = !searchQuery ||
+        name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        a.reference_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (a.destination_country || "").toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesStatus = statusFilter === "all" || a.status === statusFilter;
+      const matchesType = typeFilter === "all" || a.application_type === typeFilter;
+      return matchesSearch && matchesStatus && matchesType;
+    });
+
+    list.sort((a, b) => {
+      if (sortBy === "newest") return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      if (sortBy === "oldest") return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      return STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status);
+    });
+
+    return list;
+  }, [applications, searchQuery, statusFilter, typeFilter, sortBy]);
+
   const activeApps = applications.filter((a) =>
     !["approved", "rejected"].includes(a.status)
   );
