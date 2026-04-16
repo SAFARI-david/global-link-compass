@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   FileText, CreditCard, Clock, CheckCircle, XCircle, AlertTriangle,
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
-  Search, ArrowUpDown,
+  Search, ArrowUpDown, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -91,6 +91,8 @@ function UserDashboardPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "status">("newest");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     if (authLoading) return;
@@ -154,6 +156,16 @@ function UserDashboardPage() {
 
     return list;
   }, [applications, searchQuery, statusFilter, typeFilter, sortBy]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => { setCurrentPage(1); }, [searchQuery, statusFilter, typeFilter, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredApplications.length / ITEMS_PER_PAGE));
+  const paginatedApplications = filteredApplications.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
 
   if (authLoading || loading) {
     return (
@@ -341,8 +353,9 @@ function UserDashboardPage() {
                       </Button>
                     </div>
                   ) : (
+                    <>
                     <div className="space-y-4">
-                      {filteredApplications.map((app) => {
+                      {paginatedApplications.map((app) => {
                         const statusConf = STATUS_CONFIG[app.status] || STATUS_CONFIG.submitted;
                         const paymentConf = PAYMENT_STATUS_CONFIG[app.payment_status] || PAYMENT_STATUS_CONFIG.unpaid;
                         const nextStep = getNextStep(app);
@@ -414,6 +427,47 @@ function UserDashboardPage() {
                         );
                       })}
                     </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <div className="mt-4 flex items-center justify-between border-t pt-4">
+                        <p className="text-xs text-muted-foreground">
+                          Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredApplications.length)} of {filteredApplications.length}
+                        </p>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            disabled={currentPage <= 1}
+                            onClick={() => setCurrentPage((p) => p - 1)}
+                          >
+                            <ChevronLeft className="h-4 w-4" />
+                          </Button>
+                          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            <Button
+                              key={page}
+                              variant={page === currentPage ? "default" : "outline"}
+                              size="icon"
+                              className="h-8 w-8 text-xs"
+                              onClick={() => setCurrentPage(page)}
+                            >
+                              {page}
+                            </Button>
+                          ))}
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            disabled={currentPage >= totalPages}
+                            onClick={() => setCurrentPage((p) => p + 1)}
+                          >
+                            <ChevronRight className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    </>
                   )}
                 </CardContent>
               </Card>
