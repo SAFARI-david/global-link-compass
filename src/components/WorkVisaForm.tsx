@@ -390,8 +390,15 @@ export function WorkVisaForm() {
               <p className="mt-2 text-sm font-medium text-primary">Reference: {refNumber}</p>
             )}
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Thank you for submitting your work visa application. <strong className="text-foreground">No payment has been taken.</strong>
+              Thank you for submitting your work visa application. {applicationId ? <strong className="text-foreground">Redirecting to payment...</strong> : <strong className="text-foreground">No payment has been taken.</strong>}
             </p>
+            {applicationId && (
+              <div className="mt-4">
+                <Link to="/payment/$applicationId" params={{ applicationId }}>
+                  <Button variant="gold" size="lg">Proceed to Payment <ArrowRight className="ml-1 h-4 w-4" /></Button>
+                </Link>
+              </div>
+            )}
 
             <div className="mt-6 rounded-xl border border-border bg-muted/30 p-5 text-left">
               <h3 className="text-sm font-bold">Here's exactly what happens next:</h3>
