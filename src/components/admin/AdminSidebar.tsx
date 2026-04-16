@@ -10,6 +10,7 @@ import {
   Globe,
   Shield,
   Tag,
+  Percent,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ const navItems = [
   { label: "Jobs", to: "/admin/jobs", icon: Briefcase },
   { label: "Programs", to: "/admin/programs", icon: GraduationCap },
   { label: "Payments", to: "/admin/payments", icon: CreditCard },
+  { label: "Commissions", to: "/admin/commissions", icon: Percent },
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
 ];
 

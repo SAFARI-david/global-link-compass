@@ -41,11 +41,13 @@ import { Route as AgentsPaymentsRouteImport } from './routes/agents/payments'
 import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
 import { Route as AgentsLoginRouteImport } from './routes/agents/login'
 import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
+import { Route as AgentsCommissionsRouteImport } from './routes/agents/commissions'
 import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminJobsRouteImport } from './routes/admin/jobs'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminCommissionsRouteImport } from './routes/admin/commissions'
 import { Route as AdminApplicationsRouteImport } from './routes/admin/applications'
 import { Route as AdminApplicantsRouteImport } from './routes/admin/applicants'
 import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
@@ -219,6 +221,11 @@ const AgentsDashboardRoute = AgentsDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AgentsRoute,
 } as any)
+const AgentsCommissionsRoute = AgentsCommissionsRouteImport.update({
+  id: '/commissions',
+  path: '/commissions',
+  getParentRoute: () => AgentsRoute,
+} as any)
 const AdminProgramsRoute = AdminProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
@@ -242,6 +249,11 @@ const AdminJobsRoute = AdminJobsRouteImport.update({
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCommissionsRoute = AdminCommissionsRouteImport.update({
+  id: '/commissions',
+  path: '/commissions',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
@@ -316,11 +328,13 @@ export interface FileRoutesByFullPath {
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -366,11 +380,13 @@ export interface FileRoutesByTo {
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -417,11 +433,13 @@ export interface FileRoutesById {
   '/admin/agents': typeof AdminAgentsRoute
   '/admin/applicants': typeof AdminApplicantsRoute
   '/admin/applications': typeof AdminApplicationsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
   '/agents/messages': typeof AgentsMessagesRoute
@@ -469,11 +487,13 @@ export interface FileRouteTypes {
     | '/admin/agents'
     | '/admin/applicants'
     | '/admin/applications'
+    | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -519,11 +539,13 @@ export interface FileRouteTypes {
     | '/admin/agents'
     | '/admin/applicants'
     | '/admin/applications'
+    | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -569,11 +591,13 @@ export interface FileRouteTypes {
     | '/admin/agents'
     | '/admin/applicants'
     | '/admin/applications'
+    | '/admin/commissions'
     | '/admin/dashboard'
     | '/admin/jobs'
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
     | '/agents/messages'
@@ -862,6 +886,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsDashboardRouteImport
       parentRoute: typeof AgentsRoute
     }
+    '/agents/commissions': {
+      id: '/agents/commissions'
+      path: '/commissions'
+      fullPath: '/agents/commissions'
+      preLoaderRoute: typeof AgentsCommissionsRouteImport
+      parentRoute: typeof AgentsRoute
+    }
     '/admin/programs': {
       id: '/admin/programs'
       path: '/programs'
@@ -895,6 +926,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/commissions': {
+      id: '/admin/commissions'
+      path: '/commissions'
+      fullPath: '/admin/commissions'
+      preLoaderRoute: typeof AdminCommissionsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/applications': {
@@ -995,6 +1033,7 @@ interface AdminRouteChildren {
   AdminAgentsRoute: typeof AdminAgentsRoute
   AdminApplicantsRoute: typeof AdminApplicantsRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
+  AdminCommissionsRoute: typeof AdminCommissionsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminJobsRoute: typeof AdminJobsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
@@ -1006,6 +1045,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAgentsRoute: AdminAgentsRoute,
   AdminApplicantsRoute: AdminApplicantsRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,
+  AdminCommissionsRoute: AdminCommissionsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminJobsRoute: AdminJobsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
@@ -1016,6 +1056,7 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface AgentsRouteChildren {
+  AgentsCommissionsRoute: typeof AgentsCommissionsRoute
   AgentsDashboardRoute: typeof AgentsDashboardRoute
   AgentsLoginRoute: typeof AgentsLoginRoute
   AgentsMessagesRoute: typeof AgentsMessagesRoute
@@ -1030,6 +1071,7 @@ interface AgentsRouteChildren {
 }
 
 const AgentsRouteChildren: AgentsRouteChildren = {
+  AgentsCommissionsRoute: AgentsCommissionsRoute,
   AgentsDashboardRoute: AgentsDashboardRoute,
   AgentsLoginRoute: AgentsLoginRoute,
   AgentsMessagesRoute: AgentsMessagesRoute,
