@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { Search, RefreshCw, Sparkles, CheckCircle2, Download, Eye } from "lucide-react";
+import { Search, RefreshCw, Sparkles, CheckCircle2, Download, Eye, UserCheck } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -56,7 +56,10 @@ type EligibilityLead = {
   utm_source: string | null;
   utm_medium: string | null;
   utm_campaign: string | null;
+  assigned_agent_id: string | null;
 };
+
+type Agent = { user_id: string; full_name: string | null };
 
 function EligibilityLeadsPage() {
   const [leads, setLeads] = useState<EligibilityLead[]>([]);
