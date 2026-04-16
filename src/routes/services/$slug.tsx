@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
+import { EligibilityCheck } from "@/components/EligibilityCheck";
 
 export const Route = createFileRoute("/services/$slug")({
   head: () => ({
@@ -68,8 +69,14 @@ function ProgramDetailPage() {
           <h1 className="text-3xl font-bold tracking-tight lg:text-5xl mb-4 font-heading">{program.name}</h1>
           {program.tagline && <p className="text-lg opacity-80 max-w-2xl mb-8">{program.tagline}</p>}
           <div className="flex flex-wrap gap-3">
-            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">{program.cta_apply_text || "Apply Now"}</Button></Link>
-            <Button variant="heroOutline" size="lg">{program.cta_consult_text || "Book Consultation"}</Button>
+            <Link to="/apply/work-visa">
+              <Button variant="heroGold" size="lg">
+                {program.cta_apply_text || "Start Your Application"} <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            </Link>
+            <Button variant="heroOutline" size="lg" onClick={() => setEligibilityOpen(true)}>
+              Check Your Eligibility
+            </Button>
           </div>
         </div>
       </section>
@@ -250,12 +257,19 @@ function ProgramDetailPage() {
           <h2 className="text-2xl font-bold mb-3 font-heading">Ready to Start Your Application?</h2>
           <p className="opacity-80 mb-6 max-w-xl mx-auto">Begin your application and we will help assess your eligibility and guide you through the {program.name} application process.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link to="/apply/work-visa"><Button variant="heroGold" size="lg">{program.cta_apply_text || "Start Your Application"}</Button></Link>
-            <Button variant="heroOutline" size="lg">{program.cta_consult_text || "Check Your Eligibility"}</Button>
+            <Link to="/apply/work-visa">
+              <Button variant="heroGold" size="lg">
+                {program.cta_apply_text || "Start Your Application"} <ArrowRight className="ml-1 h-4 w-4" />
+              </Button>
+            </Link>
+            <Button variant="heroOutline" size="lg" onClick={() => setEligibilityOpen(true)}>
+              Check Your Eligibility
+            </Button>
           </div>
           <p className="mt-4 text-xs opacity-50">No payment required at this stage. Service fees are separate from government costs.</p>
         </section>
       </div>
+      <EligibilityCheck open={eligibilityOpen} onOpenChange={setEligibilityOpen} />
     </div>
   );
 }
