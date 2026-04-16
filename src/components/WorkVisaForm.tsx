@@ -5,7 +5,8 @@ import { Link } from "@tanstack/react-router";
 import {
   User, Plane, GraduationCap, Briefcase, Languages,
   MapPin, Users, FileText, CheckCircle, Shield,
-  Clock, ArrowLeft, ArrowRight, Check
+  Clock, ArrowLeft, ArrowRight, Check, Info, CreditCard,
+  Lightbulb, HelpCircle
 } from "lucide-react";
 
 const STEPS = [
@@ -19,6 +20,18 @@ const STEPS = [
   { label: "Documents", icon: FileText },
   { label: "Review & Submit", icon: CheckCircle },
 ];
+
+const STEP_TIPS: Record<number, { title: string; tip: string; why: string }> = {
+  0: { title: "Why we need this", tip: "Basic details help us verify your identity and determine which visa programs you're eligible for.", why: "This information is required by all immigration authorities." },
+  1: { title: "Why this matters", tip: "Your passport validity and travel history directly affect visa eligibility and processing speed.", why: "A valid passport (6+ months) is mandatory for all visa types." },
+  2: { title: "How we use this", tip: "Your education level determines which skilled worker programs and visa categories you qualify for.", why: "Higher qualifications often unlock faster processing streams." },
+  3: { title: "What we're looking for", tip: "Work experience helps us match you with the right employer and visa program.", why: "Even 1 year of relevant experience can significantly improve your chances." },
+  4: { title: "Language requirements", tip: "Most countries require proof of language ability. We'll guide you on which test to take if needed.", why: "Don't worry if you haven't taken a test yet — we'll advise you." },
+  5: { title: "Your preferences", tip: "Tell us where and what type of work you're interested in. We'll match you with real opportunities.", why: "Being open to multiple options increases your chances significantly." },
+  6: { title: "Family applications", tip: "If you're bringing family, we include them in the same application to keep costs down.", why: "Dependent visas are processed alongside your main application." },
+  7: { title: "Document upload", tip: "Upload what you have now. You can add more documents later — nothing is finalized yet.", why: "We'll send you a complete checklist after reviewing your profile." },
+  8: { title: "Almost done!", tip: "Review your information and submit. This is a free submission — no payment at this stage.", why: "You'll receive a detailed plan and fee breakdown before any payment." },
+};
 
 function InputField({ label, placeholder, type = "text", required = true, helpText }: {
   label: string; placeholder?: string; type?: string; required?: boolean; helpText?: string;
@@ -85,6 +98,21 @@ function FileUpload({ label, helpText }: { label: string; helpText?: string }) {
         </div>
       </div>
       {helpText && <p className="text-xs text-muted-foreground">{helpText}</p>}
+    </div>
+  );
+}
+
+function StepContextTip({ step }: { step: number }) {
+  const tip = STEP_TIPS[step];
+  if (!tip) return null;
+  return (
+    <div className="mb-6 flex items-start gap-3 rounded-lg border border-primary/10 bg-primary/5 p-4">
+      <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+      <div>
+        <p className="text-xs font-semibold text-foreground">{tip.title}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">{tip.tip}</p>
+        <p className="mt-1 text-[10px] text-gold">{tip.why}</p>
+      </div>
     </div>
   );
 }
@@ -182,6 +210,26 @@ function StepContent({ step }: { step: number }) {
     case 8:
       return (
         <div className="flex flex-col gap-6">
+          {/* Payment confidence */}
+          <div className="rounded-xl border border-gold/20 bg-gold/5 p-5">
+            <div className="flex items-start gap-3">
+              <CreditCard className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+              <div>
+                <h4 className="text-sm font-bold">About Payment</h4>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  <strong className="text-foreground">This submission is completely free.</strong> After we review your profile, 
+                  you'll receive a detailed service plan with a transparent fee breakdown. 
+                  No payment is taken until you review and approve the plan. You can cancel at any time before processing begins.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-3 text-[10px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> No hidden fees</span>
+                  <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Full refund if not processed</span>
+                  <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Secure payment methods</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="rounded-xl border border-border bg-muted/30 p-6">
             <h3 className="text-base font-bold">Application Summary</h3>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -200,13 +248,38 @@ function StepContent({ step }: { step: number }) {
             </div>
           </div>
 
-          <div className="rounded-xl border border-gold/20 bg-gold/5 p-5">
+          <div className="rounded-xl border border-border bg-card p-5">
             <label className="flex items-start gap-3 cursor-pointer">
               <input type="checkbox" className="mt-1 accent-primary" />
               <span className="text-sm leading-relaxed text-foreground">
                 I declare that the information provided is true and accurate. I understand that providing false information may result in application rejection. I consent to Global Link Migration Services processing my data for the purpose of visa application support.
               </span>
             </label>
+          </div>
+
+          {/* What happens next */}
+          <div className="rounded-xl border border-primary/10 bg-primary/5 p-5">
+            <h4 className="flex items-center gap-2 text-sm font-bold">
+              <Info className="h-4 w-4 text-primary" /> What happens after you submit
+            </h4>
+            <div className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <div className="flex items-start gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">1</span>
+                <span>You receive a <strong className="text-foreground">confirmation email</strong> immediately</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">2</span>
+                <span>Our team reviews your profile within <strong className="text-foreground">24 hours</strong></span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">3</span>
+                <span>You receive a <strong className="text-foreground">personalized plan</strong> with document checklist and fees</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">4</span>
+                <span>Processing begins <strong className="text-foreground">only after you approve</strong> the plan and fee</span>
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -234,34 +307,58 @@ export function WorkVisaForm() {
             </div>
             <h1 className="mt-6 text-2xl font-bold md:text-3xl">Application Submitted!</h1>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Thank you for submitting your work visa application. Here's what happens next:
+              Thank you for submitting your work visa application. <strong className="text-foreground">No payment has been taken.</strong>
             </p>
+
+            {/* What happens next - detailed */}
             <div className="mt-6 rounded-xl border border-border bg-muted/30 p-5 text-left">
-              <ol className="flex flex-col gap-3 text-sm">
+              <h3 className="text-sm font-bold">Here's exactly what happens next:</h3>
+              <ol className="mt-3 flex flex-col gap-3 text-sm">
                 <li className="flex items-start gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">1</span>
-                  <span>Our team reviews your application within 24 hours</span>
+                  <div>
+                    <span className="font-medium">Confirmation email sent</span>
+                    <p className="text-xs text-muted-foreground">Check your inbox for your application reference number</p>
+                  </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">2</span>
-                  <span>You'll receive a personalized document checklist</span>
+                  <div>
+                    <span className="font-medium">Profile review (within 24 hours)</span>
+                    <p className="text-xs text-muted-foreground">Our specialist reviews your eligibility and documents</p>
+                  </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">3</span>
-                  <span>A support specialist contacts you to guide next steps</span>
+                  <div>
+                    <span className="font-medium">Personalized plan sent to you</span>
+                    <p className="text-xs text-muted-foreground">Document checklist + transparent fee breakdown</p>
+                  </div>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">4</span>
-                  <span>Full application support begins after payment confirmation</span>
+                  <div>
+                    <span className="font-medium">You decide to proceed</span>
+                    <p className="text-xs text-muted-foreground">Payment only after you approve the plan. Cancel anytime.</p>
+                  </div>
                 </li>
               </ol>
             </div>
+
+            <div className="mt-6 rounded-lg border border-gold/20 bg-gold/5 p-4 text-sm text-muted-foreground">
+              <Shield className="mx-auto h-5 w-5 text-gold" />
+              <p className="mt-2">
+                Your data is securely stored and only used for your visa application. 
+                We never share your information with third parties.
+              </p>
+            </div>
+
             <div className="mt-8 flex items-center justify-center gap-3">
               <Link to="/">
                 <Button variant="default" size="lg">Go to Homepage</Button>
               </Link>
-              <Link to="/contact">
-                <Button variant="outline" size="lg">Contact Support</Button>
+              <Link to="/jobs">
+                <Button variant="outline" size="lg">Browse Jobs</Button>
               </Link>
             </div>
           </motion.div>
@@ -278,11 +375,12 @@ export function WorkVisaForm() {
           <div className="mb-8 text-center">
             <h1 className="text-2xl font-bold md:text-3xl">Work Visa Application</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Complete the form below to start your work visa application process.
+              Complete the guided form below. <strong className="text-foreground">This submission is free</strong> — we only discuss fees after reviewing your profile.
             </p>
-            <div className="mt-3 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> ~15 minutes to complete</span>
-              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-gold" /> Your data is secure</span>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> ~15 minutes</span>
+              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5 text-gold" /> Data encrypted</span>
+              <span className="flex items-center gap-1"><CreditCard className="h-3.5 w-3.5 text-gold" /> No payment now</span>
             </div>
           </div>
 
@@ -350,6 +448,7 @@ export function WorkVisaForm() {
               transition={{ duration: 0.25 }}
               className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8"
             >
+              <StepContextTip step={currentStep} />
               <StepContent step={currentStep} />
             </motion.div>
           </AnimatePresence>
@@ -385,10 +484,12 @@ export function WorkVisaForm() {
           </div>
 
           {/* Trust footer */}
-          <div className="mt-6 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Data encrypted & secure</span>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1"><Shield className="h-3 w-3 text-gold" /> Encrypted & secure</span>
             <span>·</span>
-            <span>We contact you within 24 hours</span>
+            <span>Response within 24 hours</span>
+            <span>·</span>
+            <span>No payment at this stage</span>
           </div>
         </div>
       </div>
