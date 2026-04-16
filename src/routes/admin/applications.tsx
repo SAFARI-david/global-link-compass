@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Eye, MoreHorizontal, FileText, Clock, CheckCircle, XCircle } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
