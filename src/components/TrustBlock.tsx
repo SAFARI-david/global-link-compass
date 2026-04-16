@@ -79,11 +79,11 @@ export function TrustBlock() {
               <Shield className="h-6 w-6 text-gold" />
             </div>
             <div className="flex-1">
-              <h4 className="text-sm font-bold">No Payment Until You're Ready</h4>
+              <h4 className="text-sm font-bold">No Payment Until You Approve</h4>
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                Submitting your application is <strong className="text-foreground">free</strong>. 
-                We only discuss fees after reviewing your profile and confirming your eligibility. 
-                You'll receive a clear breakdown before any payment is required.
+                We review your profile and confirm eligibility before any fees apply. 
+                You'll receive a <strong className="text-foreground">clear fee breakdown</strong> — service fees are separate from government and third-party costs. 
+                No payment is taken until you approve.
               </p>
             </div>
             <Link to="/apply/work-visa">
