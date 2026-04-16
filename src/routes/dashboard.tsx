@@ -467,6 +467,7 @@ function UserDashboardPage() {
                         </div>
                       </div>
                     )}
+                    </>
                   )}
                 </CardContent>
               </Card>
