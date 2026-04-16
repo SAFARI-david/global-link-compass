@@ -245,19 +245,20 @@ function EligibilityLeadsPage() {
                       <TableHead>Experience</TableHead>
                       <TableHead>Result</TableHead>
                       <TableHead>Status</TableHead>
+                      <TableHead>Agent</TableHead>
                       <TableHead className="w-[80px]"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {loading ? (
                       <TableRow>
-                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={10} className="text-center py-12 text-muted-foreground text-sm">
                           Loading...
                         </TableCell>
                       </TableRow>
                     ) : filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={9} className="text-center py-12 text-muted-foreground text-sm">
+                        <TableCell colSpan={10} className="text-center py-12 text-muted-foreground text-sm">
                           No eligibility submissions yet.
                         </TableCell>
                       </TableRow>
@@ -293,6 +294,29 @@ function EligibilityLeadsPage() {
                                 {LEAD_STATUSES.map((s) => (
                                   <SelectItem key={s} value={s} className="text-xs">
                                     {STATUS_CONFIG[s].label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </TableCell>
+                          <TableCell onClick={(e) => e.stopPropagation()}>
+                            <Select
+                              value={l.assigned_agent_id || "unassigned"}
+                              onValueChange={(v) => assignAgent(l.id, v === "unassigned" ? null : v)}
+                            >
+                              <SelectTrigger className="h-8 w-[150px] text-xs">
+                                <div className="flex items-center gap-1.5 truncate">
+                                  <UserCheck className="h-3 w-3 shrink-0 text-muted-foreground" />
+                                  <SelectValue placeholder="Unassigned" />
+                                </div>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="unassigned" className="text-xs text-muted-foreground">
+                                  Unassigned
+                                </SelectItem>
+                                {agents.map((a) => (
+                                  <SelectItem key={a.user_id} value={a.user_id} className="text-xs">
+                                    {a.full_name || a.user_id.slice(0, 8)}
                                   </SelectItem>
                                 ))}
                               </SelectContent>
