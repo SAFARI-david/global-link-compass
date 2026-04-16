@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { DocumentUpload } from "@/components/DocumentUpload";
 import { ApplicationProgress } from "@/components/ApplicationProgress";
+import { ApplicationTimeline } from "@/components/ApplicationTimeline";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -290,6 +291,9 @@ function UserDashboardPage() {
                                 </Link>
                               )}
                             </div>
+
+                            {/* Status Timeline */}
+                            <ApplicationTimeline applicationId={app.id} />
 
                             {/* Documents section */}
                             {app.payment_status === "paid" && (
