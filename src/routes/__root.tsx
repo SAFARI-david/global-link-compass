@@ -1,4 +1,4 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts, useLocation } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -35,6 +35,11 @@ export const Route = createRootRoute({
       { name: "description", content: "Professional visa application support for work visas, study visas, and international opportunities. Trusted by applicants and agents worldwide." },
       { name: "author", content: "Global Link Migration Services" },
       { property: "og:type", content: "website" },
+      { property: "og:title", content: "Global Link Migration Services — Work Visas, Study Visas, Jobs & International Applications" },
+      { name: "twitter:title", content: "Global Link Migration Services — Work Visas, Study Visas, Jobs & International Applications" },
+      { property: "og:description", content: "Professional visa application support for work visas, study visas, and international opportunities. Trusted by applicants and agents worldwide." },
+      { name: "twitter:description", content: "Professional visa application support for work visas, study visas, and international opportunities. Trusted by applicants and agents worldwide." },
+      { name: "twitter:card", content: "summary" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -63,13 +68,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  const location = useLocation();
-  const isAgentPortal = location.pathname.startsWith("/agents/");
-
-  if (isAgentPortal) {
-    return <Outlet />;
-  }
-
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
