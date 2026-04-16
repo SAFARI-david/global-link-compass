@@ -6,11 +6,13 @@ import {
   ArrowRight, Globe, Shield, Eye, Loader2, Plus, RefreshCw,
 } from "lucide-react";
 import { DocumentUpload } from "@/components/DocumentUpload";
+import { ApplicationProgress } from "@/components/ApplicationProgress";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 import { getUserApplications, getUserPayments } from "@/lib/dashboard.functions";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
