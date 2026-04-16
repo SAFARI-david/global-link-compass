@@ -15,6 +15,7 @@ import {
   FolderOpen,
   BarChart3,
   FlaskConical,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const navItems = [
   { label: "Commissions", to: "/admin/commissions", icon: Percent },
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
   { label: "Leads", to: "/admin/leads", icon: Target },
+  { label: "Eligibility Quiz", to: "/admin/eligibility-leads", icon: Sparkles },
   { label: "Analytics", to: "/admin/analytics", icon: BarChart3 },
   { label: "A/B Tests", to: "/admin/ab-tests", icon: FlaskConical },
   { label: "Documents", to: "/admin/documents", icon: FolderOpen },
