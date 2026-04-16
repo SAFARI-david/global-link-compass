@@ -28,6 +28,8 @@ import { Route as ServicesGermanyWorkVisaRouteImport } from './routes/services/g
 import { Route as ServicesCanadaWorkVisaRouteImport } from './routes/services/canada-work-visa'
 import { Route as ServicesAustraliaWorkVisaRouteImport } from './routes/services/australia-work-visa'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
+import { Route as PaymentSuccessRouteImport } from './routes/payment/success'
+import { Route as PaymentApplicationIdRouteImport } from './routes/payment/$applicationId'
 import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
@@ -46,6 +48,7 @@ import { Route as AdminApplicantsRouteImport } from './routes/admin/applicants'
 import { Route as AdminAgentsRouteImport } from './routes/admin/agents'
 import { Route as AgentsClientsIndexRouteImport } from './routes/agents/clients/index'
 import { Route as AgentsApplicationsIndexRouteImport } from './routes/agents/applications/index'
+import { Route as ApiWebhooksWhopRouteImport } from './routes/api/webhooks/whop'
 import { Route as AgentsClientsNewRouteImport } from './routes/agents/clients/new'
 import { Route as AgentsApplicationsWorkVisaRouteImport } from './routes/agents/applications/work-visa'
 import { Route as AgentsApplicationsStudyVisaRouteImport } from './routes/agents/applications/study-visa'
@@ -148,6 +151,16 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/services/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment/success',
+  path: '/payment/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentApplicationIdRoute = PaymentApplicationIdRouteImport.update({
+  id: '/payment/$applicationId',
+  path: '/payment/$applicationId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsJobIdRoute = JobsJobIdRouteImport.update({
   id: '/jobs/$jobId',
   path: '/jobs/$jobId',
@@ -238,6 +251,11 @@ const AgentsApplicationsIndexRoute = AgentsApplicationsIndexRouteImport.update({
   path: '/applications/',
   getParentRoute: () => AgentsRoute,
 } as any)
+const ApiWebhooksWhopRoute = ApiWebhooksWhopRouteImport.update({
+  id: '/api/webhooks/whop',
+  path: '/api/webhooks/whop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgentsClientsNewRoute = AgentsClientsNewRouteImport.update({
   id: '/clients/new',
   path: '/clients/new',
@@ -291,6 +309,8 @@ export interface FileRoutesByFullPath {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/payment/$applicationId': typeof PaymentApplicationIdRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
@@ -307,6 +327,7 @@ export interface FileRoutesByFullPath {
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/api/webhooks/whop': typeof ApiWebhooksWhopRoute
   '/agents/applications/': typeof AgentsApplicationsIndexRoute
   '/agents/clients/': typeof AgentsClientsIndexRoute
 }
@@ -335,6 +356,8 @@ export interface FileRoutesByTo {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/payment/$applicationId': typeof PaymentApplicationIdRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
@@ -351,6 +374,7 @@ export interface FileRoutesByTo {
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/api/webhooks/whop': typeof ApiWebhooksWhopRoute
   '/agents/applications': typeof AgentsApplicationsIndexRoute
   '/agents/clients': typeof AgentsClientsIndexRoute
 }
@@ -380,6 +404,8 @@ export interface FileRoutesById {
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
+  '/payment/$applicationId': typeof PaymentApplicationIdRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/australia-work-visa': typeof ServicesAustraliaWorkVisaRoute
   '/services/canada-work-visa': typeof ServicesCanadaWorkVisaRoute
@@ -396,6 +422,7 @@ export interface FileRoutesById {
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
   '/agents/applications/work-visa': typeof AgentsApplicationsWorkVisaRoute
   '/agents/clients/new': typeof AgentsClientsNewRoute
+  '/api/webhooks/whop': typeof ApiWebhooksWhopRoute
   '/agents/applications/': typeof AgentsApplicationsIndexRoute
   '/agents/clients/': typeof AgentsClientsIndexRoute
 }
@@ -426,6 +453,8 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/payment/$applicationId'
+    | '/payment/success'
     | '/services/$slug'
     | '/services/australia-work-visa'
     | '/services/canada-work-visa'
@@ -442,6 +471,7 @@ export interface FileRouteTypes {
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
+    | '/api/webhooks/whop'
     | '/agents/applications/'
     | '/agents/clients/'
   fileRoutesByTo: FileRoutesByTo
@@ -470,6 +500,8 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/payment/$applicationId'
+    | '/payment/success'
     | '/services/$slug'
     | '/services/australia-work-visa'
     | '/services/canada-work-visa'
@@ -486,6 +518,7 @@ export interface FileRouteTypes {
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
+    | '/api/webhooks/whop'
     | '/agents/applications'
     | '/agents/clients'
   id:
@@ -514,6 +547,8 @@ export interface FileRouteTypes {
     | '/apply/study'
     | '/apply/work-visa'
     | '/jobs/$jobId'
+    | '/payment/$applicationId'
+    | '/payment/success'
     | '/services/$slug'
     | '/services/australia-work-visa'
     | '/services/canada-work-visa'
@@ -530,6 +565,7 @@ export interface FileRouteTypes {
     | '/agents/applications/study-visa'
     | '/agents/applications/work-visa'
     | '/agents/clients/new'
+    | '/api/webhooks/whop'
     | '/agents/applications/'
     | '/agents/clients/'
   fileRoutesById: FileRoutesById
@@ -546,6 +582,8 @@ export interface RootRouteChildren {
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
+  PaymentApplicationIdRoute: typeof PaymentApplicationIdRoute
+  PaymentSuccessRoute: typeof PaymentSuccessRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesAustraliaWorkVisaRoute: typeof ServicesAustraliaWorkVisaRoute
   ServicesCanadaWorkVisaRoute: typeof ServicesCanadaWorkVisaRoute
@@ -557,6 +595,7 @@ export interface RootRouteChildren {
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
+  ApiWebhooksWhopRoute: typeof ApiWebhooksWhopRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -694,6 +733,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payment/success': {
+      id: '/payment/success'
+      path: '/payment/success'
+      fullPath: '/payment/success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment/$applicationId': {
+      id: '/payment/$applicationId'
+      path: '/payment/$applicationId'
+      fullPath: '/payment/$applicationId'
+      preLoaderRoute: typeof PaymentApplicationIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs/$jobId': {
       id: '/jobs/$jobId'
       path: '/jobs/$jobId'
@@ -820,6 +873,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsApplicationsIndexRouteImport
       parentRoute: typeof AgentsRoute
     }
+    '/api/webhooks/whop': {
+      id: '/api/webhooks/whop'
+      path: '/api/webhooks/whop'
+      fullPath: '/api/webhooks/whop'
+      preLoaderRoute: typeof ApiWebhooksWhopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agents/clients/new': {
       id: '/agents/clients/new'
       path: '/clients/new'
@@ -937,6 +997,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   JobsJobIdRoute: JobsJobIdRoute,
+  PaymentApplicationIdRoute: PaymentApplicationIdRoute,
+  PaymentSuccessRoute: PaymentSuccessRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesAustraliaWorkVisaRoute: ServicesAustraliaWorkVisaRoute,
   ServicesCanadaWorkVisaRoute: ServicesCanadaWorkVisaRoute,
@@ -948,6 +1010,7 @@ const rootRouteChildren: RootRouteChildren = {
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
+  ApiWebhooksWhopRoute: ApiWebhooksWhopRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
