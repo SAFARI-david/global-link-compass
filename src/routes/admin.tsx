@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/use-auth";
 import { useEffect, useRef } from "react";
 
@@ -8,7 +8,6 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   const { loading, user, roles } = useAuth();
-  const navigate = useNavigate();
   const hasRedirected = useRef(false);
 
   const isAdmin = roles.includes("admin");
@@ -16,9 +15,10 @@ function AdminLayout() {
   useEffect(() => {
     if (!loading && !isAdmin && !hasRedirected.current) {
       hasRedirected.current = true;
-      navigate({ to: "/login", search: { redirect: window.location.pathname } });
+      const current = window.location.pathname;
+      window.location.href = `/login?redirect=${encodeURIComponent(current)}`;
     }
-  }, [loading, isAdmin, navigate]);
+  }, [loading, isAdmin]);
 
   if (loading) {
     return (
