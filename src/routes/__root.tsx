@@ -63,6 +63,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const location = useLocation();
+  const isAgentPortal = location.pathname.startsWith("/agents/");
+
+  if (isAgentPortal) {
+    return <Outlet />;
+  }
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
