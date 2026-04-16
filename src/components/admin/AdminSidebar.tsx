@@ -12,6 +12,7 @@ import {
   Tag,
   Percent,
   Target,
+  FolderOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -26,6 +27,7 @@ const navItems = [
   { label: "Commissions", to: "/admin/commissions", icon: Percent },
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
   { label: "Leads", to: "/admin/leads", icon: Target },
+  { label: "Documents", to: "/admin/documents", icon: FolderOpen },
 ];
 
 export function AdminSidebar() {
