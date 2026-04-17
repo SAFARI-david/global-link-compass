@@ -24,7 +24,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { signIn, user } = useAuth();
+  const { signIn, user, roles, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { redirect: redirectTo } = Route.useSearch();
   const [email, setEmail] = useState("");
@@ -34,19 +34,38 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Redirect if already signed in
-  if (user) {
-    navigate({ to: redirectTo || "/profile" });
-    return null;
-  }
+  // Auto-redirect already-signed-in users to their role home
+  useEffect(() => {
+    if (!authLoading && user) {
+      const dest = redirectTo || getRoleHomePath(roles);
+      navigate({ to: dest });
+    }
+  }, [authLoading, user, roles, redirectTo, navigate]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
     const { error } = await signIn(email, password);
-    if (error) setError(error.message);
-    else navigate({ to: redirectTo || "/profile" });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+    // Fetch roles immediately so we can route to the right dashboard
+    // without waiting for the AuthProvider state to propagate.
+    const { data: sessionData } = await supabase.auth.getSession();
+    const uid = sessionData.session?.user.id;
+    let userRoles: AppRole[] = [];
+    if (uid) {
+      const { data: roleRows } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", uid);
+      userRoles = (roleRows ?? []).map((r) => r.role as AppRole);
+    }
+    const dest = redirectTo || getRoleHomePath(userRoles);
+    navigate({ to: dest });
     setLoading(false);
   }
 
