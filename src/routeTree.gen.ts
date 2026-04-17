@@ -55,6 +55,7 @@ import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminLeadsRouteImport } from './routes/admin/leads'
 import { Route as AdminJobsRouteImport } from './routes/admin/jobs'
+import { Route as AdminGuideRouteImport } from './routes/admin/guide'
 import { Route as AdminEligibilityLeadsRouteImport } from './routes/admin/eligibility-leads'
 import { Route as AdminDocumentsRouteImport } from './routes/admin/documents'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
@@ -304,6 +305,11 @@ const AdminJobsRoute = AdminJobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGuideRoute = AdminGuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEligibilityLeadsRoute = AdminEligibilityLeadsRouteImport.update({
   id: '/eligibility-leads',
   path: '/eligibility-leads',
@@ -415,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/eligibility-leads': typeof AdminEligibilityLeadsRoute
+  '/admin/guide': typeof AdminGuideRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
@@ -480,6 +487,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/eligibility-leads': typeof AdminEligibilityLeadsRoute
+  '/admin/guide': typeof AdminGuideRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
@@ -546,6 +554,7 @@ export interface FileRoutesById {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/documents': typeof AdminDocumentsRoute
   '/admin/eligibility-leads': typeof AdminEligibilityLeadsRoute
+  '/admin/guide': typeof AdminGuideRoute
   '/admin/jobs': typeof AdminJobsRoute
   '/admin/leads': typeof AdminLeadsRoute
   '/admin/payments': typeof AdminPaymentsRoute
@@ -613,6 +622,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/eligibility-leads'
+    | '/admin/guide'
     | '/admin/jobs'
     | '/admin/leads'
     | '/admin/payments'
@@ -678,6 +688,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/eligibility-leads'
+    | '/admin/guide'
     | '/admin/jobs'
     | '/admin/leads'
     | '/admin/payments'
@@ -743,6 +754,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/documents'
     | '/admin/eligibility-leads'
+    | '/admin/guide'
     | '/admin/jobs'
     | '/admin/leads'
     | '/admin/payments'
@@ -1148,6 +1160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminJobsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/guide': {
+      id: '/admin/guide'
+      path: '/guide'
+      fullPath: '/admin/guide'
+      preLoaderRoute: typeof AdminGuideRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/eligibility-leads': {
       id: '/admin/eligibility-leads'
       path: '/eligibility-leads'
@@ -1294,6 +1313,7 @@ interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDocumentsRoute: typeof AdminDocumentsRoute
   AdminEligibilityLeadsRoute: typeof AdminEligibilityLeadsRoute
+  AdminGuideRoute: typeof AdminGuideRoute
   AdminJobsRoute: typeof AdminJobsRoute
   AdminLeadsRoute: typeof AdminLeadsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
@@ -1311,6 +1331,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminDocumentsRoute: AdminDocumentsRoute,
   AdminEligibilityLeadsRoute: AdminEligibilityLeadsRoute,
+  AdminGuideRoute: AdminGuideRoute,
   AdminJobsRoute: AdminJobsRoute,
   AdminLeadsRoute: AdminLeadsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
