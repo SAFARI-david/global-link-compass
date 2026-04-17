@@ -1,12 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Globe, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuth, type AppRole } from "@/hooks/use-auth";
 import { lovable } from "@/integrations/lovable/index";
+import { supabase } from "@/integrations/supabase/client";
+import { getRoleHomePath } from "@/lib/role-redirect";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -22,7 +24,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function LoginPage() {
-  const { signIn, user } = useAuth();
+  const { signIn, user, roles, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { redirect: redirectTo } = Route.useSearch();
   const [email, setEmail] = useState("");
@@ -32,19 +34,38 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Redirect if already signed in
-  if (user) {
-    navigate({ to: redirectTo || "/profile" });
-    return null;
-  }
+  // Auto-redirect already-signed-in users to their role home
+  useEffect(() => {
+    if (!authLoading && user) {
+      const dest = redirectTo || getRoleHomePath(roles);
+      navigate({ to: dest });
+    }
+  }, [authLoading, user, roles, redirectTo, navigate]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
     const { error } = await signIn(email, password);
-    if (error) setError(error.message);
-    else navigate({ to: redirectTo || "/profile" });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+    // Fetch roles immediately so we can route to the right dashboard
+    // without waiting for the AuthProvider state to propagate.
+    const { data: sessionData } = await supabase.auth.getSession();
+    const uid = sessionData.session?.user.id;
+    let userRoles: AppRole[] = [];
+    if (uid) {
+      const { data: roleRows } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", uid);
+      userRoles = (roleRows ?? []).map((r) => r.role as AppRole);
+    }
+    const dest = redirectTo || getRoleHomePath(userRoles);
+    navigate({ to: dest });
     setLoading(false);
   }
 
@@ -141,7 +162,7 @@ function LoginPage() {
                   setError(result.error.message || "Google sign-in failed");
                   setGoogleLoading(false);
                 } else if (!result.redirected) {
-                  navigate({ to: "/profile" });
+                  // useEffect above will redirect once roles load
                 }
               }}
             >
