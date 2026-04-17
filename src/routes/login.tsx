@@ -68,6 +68,29 @@ function LoginPage() {
             </div>
           </div>
 
+          {/* Demo credentials banner — REMOVE BEFORE PRODUCTION LAUNCH */}
+          <div className="mb-5 rounded-lg border border-gold/40 bg-gold/5 p-4 text-xs">
+            <p className="mb-2 font-semibold text-foreground">🧪 Demo accounts (click to fill)</p>
+            <div className="space-y-1.5">
+              {[
+                { role: "Admin", email: "admin@demo.com" },
+                { role: "Agent", email: "agent@demo.com" },
+                { role: "Applicant", email: "applicant@demo.com" },
+              ].map((acc) => (
+                <button
+                  key={acc.email}
+                  type="button"
+                  onClick={() => { setEmail(acc.email); setPassword("Demo1234!"); }}
+                  className="flex w-full items-center justify-between rounded-md border border-border bg-card px-3 py-1.5 text-left transition hover:border-gold hover:bg-gold/10"
+                >
+                  <span className="font-medium">{acc.role}</span>
+                  <span className="text-muted-foreground">{acc.email}</span>
+                </button>
+              ))}
+            </div>
+            <p className="mt-2 text-muted-foreground">Password for all: <span className="font-mono font-semibold text-foreground">Demo1234!</span></p>
+          </div>
+
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
               {error && (
