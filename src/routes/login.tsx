@@ -162,7 +162,7 @@ function LoginPage() {
                   setError(result.error.message || "Google sign-in failed");
                   setGoogleLoading(false);
                 } else if (!result.redirected) {
-                  navigate({ to: "/profile" });
+                  // useEffect above will redirect once roles load
                 }
               }}
             >
