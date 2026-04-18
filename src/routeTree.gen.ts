@@ -18,9 +18,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AgentsRouteImport } from './routes/agents'
 import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
@@ -43,6 +45,7 @@ import { Route as GuideWorkRouteImport } from './routes/guide/work'
 import { Route as GuideStudyRouteImport } from './routes/guide/study'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
+import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AgentsSettingsRouteImport } from './routes/agents/settings'
 import { Route as AgentsRegisterRouteImport } from './routes/agents/register'
 import { Route as AgentsPaymentsRouteImport } from './routes/agents/payments'
@@ -119,6 +122,11 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgentsRoute = AgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
@@ -132,6 +140,11 @@ const AdvisorRoute = AdvisorRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -243,6 +256,11 @@ const ApplyWorkVisaRoute = ApplyWorkVisaRouteImport.update({
 const ApplyStudyRoute = ApplyStudyRouteImport.update({
   id: '/apply/study',
   path: '/apply/study',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AgentsSettingsRoute = AgentsSettingsRouteImport.update({
@@ -400,9 +418,11 @@ const AdminProgramsEditRoute = AdminProgramsEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -434,6 +454,7 @@ export interface FileRoutesByFullPath {
   '/agents/payments': typeof AgentsPaymentsRoute
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
+  '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
@@ -466,9 +487,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -500,6 +523,7 @@ export interface FileRoutesByTo {
   '/agents/payments': typeof AgentsPaymentsRoute
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
+  '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
@@ -533,9 +557,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/advisor': typeof AdvisorRoute
   '/agents': typeof AgentsRouteWithChildren
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/disclaimer': typeof DisclaimerRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -567,6 +593,7 @@ export interface FileRoutesById {
   '/agents/payments': typeof AgentsPaymentsRoute
   '/agents/register': typeof AgentsRegisterRoute
   '/agents/settings': typeof AgentsSettingsRoute
+  '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
@@ -601,9 +628,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/admin'
     | '/advisor'
     | '/agents'
+    | '/contact'
     | '/dashboard'
     | '/disclaimer'
     | '/forgot-password'
@@ -635,6 +664,7 @@ export interface FileRouteTypes {
     | '/agents/payments'
     | '/agents/register'
     | '/agents/settings'
+    | '/api/contact'
     | '/apply/study'
     | '/apply/work-visa'
     | '/guide/study'
@@ -667,9 +697,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/admin'
     | '/advisor'
     | '/agents'
+    | '/contact'
     | '/dashboard'
     | '/disclaimer'
     | '/forgot-password'
@@ -701,6 +733,7 @@ export interface FileRouteTypes {
     | '/agents/payments'
     | '/agents/register'
     | '/agents/settings'
+    | '/api/contact'
     | '/apply/study'
     | '/apply/work-visa'
     | '/guide/study'
@@ -733,9 +766,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/admin'
     | '/advisor'
     | '/agents'
+    | '/contact'
     | '/dashboard'
     | '/disclaimer'
     | '/forgot-password'
@@ -767,6 +802,7 @@ export interface FileRouteTypes {
     | '/agents/payments'
     | '/agents/register'
     | '/agents/settings'
+    | '/api/contact'
     | '/apply/study'
     | '/apply/work-visa'
     | '/guide/study'
@@ -800,9 +836,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   AdvisorRoute: typeof AdvisorRoute
   AgentsRoute: typeof AgentsRouteWithChildren
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DisclaimerRoute: typeof DisclaimerRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -812,6 +850,7 @@ export interface RootRouteChildren {
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
+  ApiContactRoute: typeof ApiContactRoute
   ApplyStudyRoute: typeof ApplyStudyRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   GuideStudyRoute: typeof GuideStudyRoute
@@ -901,6 +940,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agents': {
       id: '/agents'
       path: '/agents'
@@ -920,6 +966,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -1074,6 +1127,13 @@ declare module '@tanstack/react-router' {
       path: '/apply/study'
       fullPath: '/apply/study'
       preLoaderRoute: typeof ApplyStudyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/agents/settings': {
@@ -1376,9 +1436,11 @@ const AgentsRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   AdvisorRoute: AdvisorRoute,
   AgentsRoute: AgentsRouteWithChildren,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DisclaimerRoute: DisclaimerRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
@@ -1388,6 +1450,7 @@ const rootRouteChildren: RootRouteChildren = {
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
+  ApiContactRoute: ApiContactRoute,
   ApplyStudyRoute: ApplyStudyRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   GuideStudyRoute: GuideStudyRoute,

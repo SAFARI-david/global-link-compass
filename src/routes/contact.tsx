@@ -122,8 +122,8 @@ function ContactPage() {
               </div>
 
               {success ? (
-                <div className="rounded-lg border border-green-600/20 bg-green-50/40 p-6 text-center">
-                  <p className="font-semibold text-green-700">Thanks — message received.</p>
+                <div className="rounded-lg border border-gold/30 bg-gold/5 p-6 text-center">
+                  <p className="font-semibold text-foreground">Thanks — message received.</p>
                   <p className="mt-1 text-sm text-muted-foreground">
                     We'll reply to your email within 24 hours.
                   </p>
