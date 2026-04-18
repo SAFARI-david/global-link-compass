@@ -11,7 +11,6 @@ import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { PricingSection } from "@/components/PricingSection";
-import { SectionCTA } from "@/components/SectionCTA";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,29 +30,14 @@ function Index() {
       <HeroSection />
       <SocialProofBar context="general" />
       <ServicesSection />
-      <SectionCTA
-        variant="compact"
-        title="Ready to start?"
-        subtitle="Pick a service above or check your eligibility in 2 minutes."
-      />
       <HowItWorks />
       <TrustBlock />
       <ServicesPreview />
-      <SectionCTA
-        variant="compact"
-        title="Find your visa pathway"
-        subtitle="Get matched with the right program for your goals."
-      />
       <JobsPreview />
       <StudyPreview />
       <PricingSection />
       <AgentsSection />
       <TestimonialsSection />
-      <SectionCTA
-        variant="navy"
-        title="Your visa journey starts with one step"
-        subtitle="Start your application today. We'll review your eligibility, give you a clear plan, and only collect our service fee once you choose to proceed."
-      />
       <FinalCTA />
     </>
   );

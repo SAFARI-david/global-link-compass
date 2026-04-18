@@ -87,7 +87,7 @@ const METRICS = {
   general: [
     { value: "Professional", label: "Application Support", icon: TrendingUp },
     { value: "Multi-country", label: "Visa Programs", icon: Globe },
-    { value: "24hr", label: "Response Time", icon: Clock },
+    { value: "Dedicated", label: "Case Officers", icon: Users },
     { value: "Transparent", label: "Pricing & Process", icon: Star },
   ],
 };
