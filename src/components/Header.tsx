@@ -10,9 +10,13 @@ const navItems = [
   {
     label: "Services",
     children: [
-      { label: "Work Visas", to: "/work-visas" },
-      { label: "Study Visas", to: "/study-visas" },
-      { label: "Visit Visas", to: "/visit-visas" },
+      { label: "All Services", to: "/services" },
+      { label: "Canada Work Visa", to: "/services/canada-work-visa" },
+      { label: "UK Work Visa", to: "/services/uk-work-visa" },
+      { label: "UK Study Visa", to: "/services/uk-study-visa" },
+      { label: "Australia Work Visa", to: "/services/australia-work-visa" },
+      { label: "Germany Work Visa", to: "/services/germany-work-visa" },
+      { label: "UAE Work Visa", to: "/services/uae-work-visa" },
     ],
   },
   { label: "Jobs", to: "/jobs" },

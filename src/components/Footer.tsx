@@ -10,6 +10,8 @@ const footerLinks = {
     { label: "Study Opportunities", to: "/study" },
   ],
   Company: [
+    { label: "About", to: "/about" },
+    { label: "Contact", to: "/contact" },
     { label: "For Agents", to: "/agents" },
     { label: "Sign In", to: "/login" },
     { label: "Create Account", to: "/register" },
