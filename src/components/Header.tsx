@@ -39,7 +39,20 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
-  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const { user, roles, loading: authLoading, signOut } = useAuth();
+
+  const dashboardPath = roles.includes("admin")
+    ? "/admin/dashboard"
+    : roles.includes("agent")
+      ? "/agents/dashboard"
+      : "/dashboard";
+
+  async function handleSignOut() {
+    await signOut();
+    setMobileOpen(false);
+    navigate({ to: "/" });
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-md">
