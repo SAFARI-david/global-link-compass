@@ -1,7 +1,15 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Globe, ChevronDown, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
@@ -31,7 +39,20 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const location = useLocation();
-  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const { user, roles, loading: authLoading, signOut } = useAuth();
+
+  const dashboardPath = roles.includes("admin")
+    ? "/admin/dashboard"
+    : roles.includes("agent")
+      ? "/agents/dashboard"
+      : "/dashboard";
+
+  async function handleSignOut() {
+    await signOut();
+    setMobileOpen(false);
+    navigate({ to: "/" });
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-md">
@@ -95,11 +116,27 @@ export function Header() {
         <div className="hidden items-center gap-3 lg:flex">
           {!authLoading && (
             user ? (
-              <Link to="/dashboard">
-                <Button variant="outline" size="default" className="gap-1.5">
-                  <User className="h-4 w-4" /> Dashboard
-                </Button>
-              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="default" className="gap-1.5">
+                    <User className="h-4 w-4" /> Account <ChevronDown className="h-3.5 w-3.5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel className="truncate">{user.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate({ to: dashboardPath })}>
+                    <User className="mr-2 h-4 w-4" /> Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate({ to: "/profile" })}>
+                    <User className="mr-2 h-4 w-4" /> Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" /> Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link to="/login">
                 <Button variant="outline" size="default">Sign In</Button>
@@ -154,9 +191,14 @@ export function Header() {
           <div className="mt-4 flex flex-col gap-2">
             {!authLoading && (
               user ? (
-                <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> Dashboard</Button>
-                </Link>
+                <>
+                  <Link to={dashboardPath} onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> Dashboard</Button>
+                  </Link>
+                  <Button variant="ghost" className="w-full gap-1.5 text-destructive hover:text-destructive" onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </Button>
+                </>
               ) : (
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">Sign In</Button>
