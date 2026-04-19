@@ -12,6 +12,7 @@ const footerLinks = {
   Company: [
     { label: "About", to: "/about" },
     { label: "Contact", to: "/contact" },
+    { label: "FAQ", to: "/faq" },
     { label: "For Agents", to: "/agents" },
     { label: "Sign In", to: "/login" },
     { label: "Create Account", to: "/register" },
