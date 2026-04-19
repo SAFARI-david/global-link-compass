@@ -191,9 +191,14 @@ export function Header() {
           <div className="mt-4 flex flex-col gap-2">
             {!authLoading && (
               user ? (
-                <Link to="/dashboard" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> Dashboard</Button>
-                </Link>
+                <>
+                  <Link to={dashboardPath} onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" className="w-full gap-1.5"><User className="h-4 w-4" /> Dashboard</Button>
+                  </Link>
+                  <Button variant="ghost" className="w-full gap-1.5 text-destructive hover:text-destructive" onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </Button>
+                </>
               ) : (
                 <Link to="/login" onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">Sign In</Button>
