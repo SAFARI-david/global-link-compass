@@ -23,6 +23,7 @@ const navItems = [
   { label: "Study", to: "/study" },
   { label: "AI Advisor", to: "/advisor" },
   { label: "For Agents", to: "/agents" },
+  { label: "FAQ", to: "/faq" },
   { label: "Contact", to: "/contact" },
 ];
 
