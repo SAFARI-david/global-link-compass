@@ -42,6 +42,13 @@ const navItems = [
 
 export function AdminSidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut } = useAuth();
+
+  async function handleSignOut() {
+    await signOut();
+    navigate({ to: "/" });
+  }
 
   return (
     <aside className="hidden w-64 flex-shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
