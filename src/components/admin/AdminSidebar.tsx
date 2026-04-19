@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard,
   Users,
@@ -17,8 +17,10 @@ import {
   FlaskConical,
   Sparkles,
   BookOpen,
+  LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
 
 const navItems = [
   { label: "Overview", to: "/admin/dashboard", icon: LayoutDashboard },
