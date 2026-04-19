@@ -1,4 +1,5 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/use-auth";
 import {
   LayoutDashboard,
   Users,
