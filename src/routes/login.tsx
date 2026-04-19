@@ -101,7 +101,7 @@ function LoginPage() {
                 <button
                   key={acc.email}
                   type="button"
-                  onClick={() => { setEmail(acc.email); setPassword("Demo1234!"); }}
+                  onClick={() => { setEmail(acc.email); setPassword("GlmDemo!2026#Secure"); }}
                   className="flex w-full items-center justify-between rounded-md border border-border bg-card px-3 py-1.5 text-left transition hover:border-gold hover:bg-gold/10"
                 >
                   <span className="font-medium">{acc.role}</span>
@@ -109,7 +109,7 @@ function LoginPage() {
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-muted-foreground">Password for all: <span className="font-mono font-semibold text-foreground">Demo1234!</span></p>
+            <p className="mt-2 text-muted-foreground">Password for all: <span className="font-mono font-semibold text-foreground">GlmDemo!2026#Secure</span></p>
           </div>
 
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
