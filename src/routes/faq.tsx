@@ -23,10 +23,10 @@ const categories: Category[] = [
     title: "General",
     description: "Who we are and how we work.",
     faqs: [
-      { q: "What does Global Link Migration Services do?", a: "We provide professional application support and guidance for work visas, study visas, and international job placements. Our licensed advisors help you choose the right program, prepare your documents, and submit a complete, well-presented application." },
+      { q: "What does Global Link Migration Services do?", a: "We provide professional application support and guidance for work visas, study visas, visit visas, and international job placements. Our licensed advisors help you choose the right program, prepare your documents, and submit a complete, well-presented application." },
       { q: "Are you a licensed immigration firm?", a: "Yes. We work with licensed immigration advisors and consultants. We are not a government body, and final decisions on visa approvals are always made by the relevant immigration authorities, embassies, and consulates." },
       { q: "Do you guarantee visa approval?", a: "No. No legitimate firm can guarantee a visa outcome — only the issuing government can approve a visa. What we guarantee is a thorough eligibility assessment, a complete and compliant application, and full support throughout the process." },
-      { q: "Which countries do you cover?", a: "We currently support applications for Canada, the United Kingdom, Australia, Germany, and the United Arab Emirates, across both work and study visa categories." },
+      { q: "Which countries do you cover?", a: "We currently support applications for Canada, the United Kingdom, Australia, Germany, and the United Arab Emirates, across work visas, study visas, and visit/tourist visas." },
     ],
   },
   {
@@ -47,6 +47,17 @@ const categories: Category[] = [
       { q: "Do I need an admission letter before applying for a study visa?", a: "Yes. Most study visa applications require a confirmed admission or acceptance letter (e.g. CAS for the UK, Letter of Acceptance for Canada) before the visa application can be lodged." },
       { q: "Can I work while studying?", a: "Most study visas allow part-time work during term (typically up to 20 hours/week) and full-time during scheduled breaks. Exact rules depend on the country and your level of study." },
       { q: "Can I stay and work after I graduate?", a: "Several countries offer post-study work routes — for example the UK Graduate Route (2–3 years) and Canada's Post-Graduation Work Permit. We help you plan from study to work to permanent residence where applicable." },
+    ],
+  },
+  {
+    title: "Visit Visas",
+    description: "Tourist visas, family visits, and business travel.",
+    faqs: [
+      { q: "What types of visit visas do you handle?", a: "We support tourist visas, family visit visas, business visitor visas, and medical visit visas for Canada, the UK, Australia, Schengen countries, UAE, and the United States." },
+      { q: "Do I need an invitation letter for a visit visa?", a: "It depends on the country and purpose. Family visits and some business trips typically require an invitation or sponsorship letter. Tourist visas usually require proof of accommodation and a travel itinerary instead." },
+      { q: "How long can I stay on a visit visa?", a: "Visit visa durations vary by country — typically 30 days (UAE), up to 6 months (UK Standard Visitor Visa, Canada TRV), or 90 days within a 180-day period (Schengen). Your visa will specify the permitted stay." },
+      { q: "Can I work on a visit visa?", a: "No. Visit visas do not permit employment. If you intend to work, you will need a work visa or work permit instead. We can help you identify the right pathway." },
+      { q: "What documents do I need for a visit visa?", a: "Common requirements include a valid passport, financial proof (bank statements), travel itinerary, accommodation details, travel insurance, and — for family visits — an invitation letter. Requirements vary by destination." },
     ],
   },
   {
