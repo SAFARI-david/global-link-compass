@@ -46,11 +46,11 @@ type ServiceSummary = {
   country: string;
   visa_type: string;
   description: string | null;
-  standard_price: number;
+  standard_price: number | null;
   processing_time: string | null;
   is_featured: boolean;
   is_hot_deal: boolean;
-  phases: any[];
+  phases: any;
 };
 
 function ServicesIndexPage() {
