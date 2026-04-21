@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Globe, Briefcase, ChevronRight, Search } from "lucide-react";
+import { Globe, Briefcase, ChevronRight, Clock, DollarSign, Flame, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -41,39 +41,66 @@ type ProgramSummary = {
   featured: boolean;
 };
 
+type ServiceSummary = {
+  id: string;
+  country: string;
+  visa_type: string;
+  description: string | null;
+  standard_price: number;
+  processing_time: string | null;
+  is_featured: boolean;
+  is_hot_deal: boolean;
+  phases: any[];
+};
+
 function ServicesIndexPage() {
   const [programs, setPrograms] = useState<ProgramSummary[]>([]);
+  const [services, setServices] = useState<ServiceSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedVisa, setSelectedVisa] = useState("all");
   const [eligibilityOpen, setEligibilityOpen] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("programs")
-      .select("id, name, slug, country, visa_type, category, tagline, best_for, processing_time, service_fee, currency, featured")
-      .eq("status", "active")
-      .order("featured", { ascending: false })
-      .order("country")
-      .order("name")
-      .then(({ data }) => {
-        setPrograms(data || []);
-        setLoading(false);
-      });
+    Promise.all([
+      supabase
+        .from("programs")
+        .select("id, name, slug, country, visa_type, category, tagline, best_for, processing_time, service_fee, currency, featured")
+        .eq("status", "active")
+        .order("featured", { ascending: false })
+        .order("country")
+        .order("name"),
+      supabase
+        .from("services")
+        .select("id, country, visa_type, description, standard_price, processing_time, is_featured, is_hot_deal, phases")
+        .eq("is_active", true)
+        .order("is_featured", { ascending: false })
+        .order("country"),
+    ]).then(([pRes, sRes]) => {
+      setPrograms(pRes.data || []);
+      setServices(sRes.data || []);
+      setLoading(false);
+    });
   }, []);
 
-  const countries = [...new Set(programs.map((p) => p.country))];
-  const visaTypes = [...new Set(programs.map((p) => p.visa_type))];
+  const allCountries = [...new Set([...programs.map((p) => p.country), ...services.map((s) => s.country)])];
+  const allVisaTypes = [...new Set([...programs.map((p) => p.visa_type), ...services.map((s) => s.visa_type)])];
 
-  const filtered = programs.filter((p) => {
+  const filteredPrograms = programs.filter((p) => {
     if (selectedCountry !== "all" && p.country !== selectedCountry) return false;
     if (selectedVisa !== "all" && p.visa_type !== selectedVisa) return false;
     return true;
   });
 
-  // Group by country → visa type
+  const filteredServices = services.filter((s) => {
+    if (selectedCountry !== "all" && s.country !== selectedCountry) return false;
+    if (selectedVisa !== "all" && s.visa_type !== selectedVisa) return false;
+    return true;
+  });
+
+  // Group programs by country → visa type
   const grouped: Record<string, Record<string, ProgramSummary[]>> = {};
-  filtered.forEach((p) => {
+  filteredPrograms.forEach((p) => {
     if (!grouped[p.country]) grouped[p.country] = {};
     if (!grouped[p.country][p.visa_type]) grouped[p.country][p.visa_type] = [];
     grouped[p.country][p.visa_type].push(p);
@@ -101,19 +128,19 @@ function ServicesIndexPage() {
       <section className="border-b bg-card">
         <div className="container-narrow py-6">
           <div className="flex flex-wrap items-center gap-4">
-            <p className="text-sm font-medium text-muted-foreground">Filter programs:</p>
+            <p className="text-sm font-medium text-muted-foreground">Filter:</p>
             <Select value={selectedCountry} onValueChange={setSelectedCountry}>
               <SelectTrigger className="w-44"><Globe className="mr-2 h-4 w-4" /><SelectValue placeholder="Country" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Countries</SelectItem>
-                {countries.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                {allCountries.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={selectedVisa} onValueChange={setSelectedVisa}>
               <SelectTrigger className="w-44"><Briefcase className="mr-2 h-4 w-4" /><SelectValue placeholder="Visa Type" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Visa Types</SelectItem>
-                {visaTypes.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+                {allVisaTypes.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
               </SelectContent>
             </Select>
             {(selectedCountry !== "all" || selectedVisa !== "all") && (
@@ -125,9 +152,57 @@ function ServicesIndexPage() {
         </div>
       </section>
 
-      {/* Programs */}
+      {/* Admin-created Services */}
+      {filteredServices.length > 0 && (
+        <section className="container-narrow py-12 lg:py-16">
+          <h2 className="text-2xl font-bold mb-6 font-heading">Available Services</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredServices.map((s) => (
+              <Card key={s.id} className="relative overflow-hidden transition-shadow hover:shadow-lg group">
+                {s.is_hot_deal && (
+                  <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground px-3 py-1 text-xs font-bold rounded-bl-lg flex items-center gap-1">
+                    <Flame className="h-3 w-3" /> Hot Deal
+                  </div>
+                )}
+                <CardContent className="p-6 flex flex-col h-full">
+                  <div className="flex items-center gap-2 mb-2">
+                    {s.is_featured && (
+                      <Badge className="bg-gold/10 text-gold border-gold/20 text-xs">
+                        <Star className="h-3 w-3 mr-1" /> Featured
+                      </Badge>
+                    )}
+                  </div>
+                  <h3 className="text-lg font-semibold mb-1">{s.country}</h3>
+                  <p className="text-sm text-primary font-medium mb-2">{s.visa_type}</p>
+                  {s.description && (
+                    <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">{s.description}</p>
+                  )}
+                  <div className="flex items-center justify-between mt-auto pt-3 border-t">
+                    <div className="flex gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <DollarSign className="h-3 w-3" />
+                        ${Number(s.standard_price).toLocaleString()}
+                        {s.phases?.length > 0 && <span className="text-[10px]">(phased)</span>}
+                      </span>
+                      {s.processing_time && (
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" /> {s.processing_time}
+                        </span>
+                      )}
+                    </div>
+                    <Link to="/apply/work-visa">
+                      <Button size="sm" variant="gold">Apply</Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Category Pages */}
-      <section className="container-narrow pt-12 lg:pt-16 pb-8">
+      <section className="container-narrow pt-8 pb-8">
         <h2 className="text-xl font-bold mb-4 font-heading">Browse by Category</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {[
@@ -150,12 +225,13 @@ function ServicesIndexPage() {
         </div>
       </section>
 
+      {/* Programs */}
       <div className="container-narrow pb-12 lg:pb-16">
         {loading ? (
           <p className="text-center text-muted-foreground py-12">Loading programs...</p>
-        ) : Object.keys(grouped).length === 0 ? (
+        ) : Object.keys(grouped).length === 0 && filteredServices.length === 0 ? (
           <p className="text-center text-muted-foreground py-12">No programs found for the selected filters.</p>
-        ) : (
+        ) : Object.keys(grouped).length > 0 ? (
           <div className="space-y-12">
             {Object.entries(grouped).map(([country, visaGroups]) => (
               <div key={country}>
@@ -197,7 +273,7 @@ function ServicesIndexPage() {
               </div>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
