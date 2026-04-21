@@ -61,7 +61,7 @@ function RegisterPage() {
             <p className="mt-3 text-sm text-muted-foreground">
               We've sent a confirmation link to <strong>{email}</strong>. Click the link to activate your account.
             </p>
-            <Link to="/login"><Button className="mt-6" variant="outline">Go to Sign In</Button></Link>
+            <Link to="/login" search={{ redirect: "" }}><Button className="mt-6" variant="outline">Go to Sign In</Button></Link>
           </motion.div>
         </div>
       </div>
@@ -148,7 +148,7 @@ function RegisterPage() {
             </Button>
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link to="/login" className="font-semibold text-primary hover:underline">Sign In</Link>
+              <Link to="/login" search={{ redirect: "" }} className="font-semibold text-primary hover:underline">Sign In</Link>
             </p>
           </div>
         </motion.div>

@@ -645,6 +645,69 @@ export type Database = {
         }
         Relationships: []
       }
+      services: {
+        Row: {
+          country: string
+          created_at: string
+          dependent_price: number | null
+          description: string | null
+          form_fields: Json
+          id: string
+          image_url: string | null
+          internal_notes: string | null
+          is_active: boolean
+          is_featured: boolean
+          is_hot_deal: boolean
+          partner_price: number | null
+          phases: Json | null
+          processing_time: string | null
+          requirements: string[] | null
+          standard_price: number | null
+          updated_at: string
+          visa_type: string
+        }
+        Insert: {
+          country: string
+          created_at?: string
+          dependent_price?: number | null
+          description?: string | null
+          form_fields?: Json
+          id?: string
+          image_url?: string | null
+          internal_notes?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_hot_deal?: boolean
+          partner_price?: number | null
+          phases?: Json | null
+          processing_time?: string | null
+          requirements?: string[] | null
+          standard_price?: number | null
+          updated_at?: string
+          visa_type: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          dependent_price?: number | null
+          description?: string | null
+          form_fields?: Json
+          id?: string
+          image_url?: string | null
+          internal_notes?: string | null
+          is_active?: boolean
+          is_featured?: boolean
+          is_hot_deal?: boolean
+          partner_price?: number | null
+          phases?: Json | null
+          processing_time?: string | null
+          requirements?: string[] | null
+          standard_price?: number | null
+          updated_at?: string
+          visa_type?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

@@ -51,7 +51,7 @@ function ProfilePage() {
   }
 
   if (!user) {
-    navigate({ to: "/login" });
+    navigate({ to: "/login", search: { redirect: "" } });
     return null;
   }
 

@@ -138,7 +138,7 @@ export function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/login">
+              <Link to="/login" search={{ redirect: "" }}>
                 <Button variant="outline" size="default">Sign In</Button>
               </Link>
             )
@@ -200,7 +200,7 @@ export function Header() {
                   </Button>
                 </>
               ) : (
-                <Link to="/login" onClick={() => setMobileOpen(false)}>
+                <Link to="/login" search={{ redirect: "" }} onClick={() => setMobileOpen(false)}>
                   <Button variant="outline" className="w-full">Sign In</Button>
                 </Link>
               )

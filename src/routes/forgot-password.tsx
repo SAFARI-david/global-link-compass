@@ -40,7 +40,7 @@ function ForgotPasswordPage() {
             <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-gold" />
             <h1 className="text-2xl font-bold">Check Your Email</h1>
             <p className="mt-3 text-sm text-muted-foreground">If an account exists for <strong>{email}</strong>, you'll receive a password reset link.</p>
-            <Link to="/login"><Button className="mt-6" variant="outline">Back to Sign In</Button></Link>
+            <Link to="/login" search={{ redirect: "" }}><Button className="mt-6" variant="outline">Back to Sign In</Button></Link>
           </motion.div>
         </div>
       </div>
@@ -71,7 +71,7 @@ function ForgotPasswordPage() {
               </Button>
             </form>
             <p className="mt-6 text-center text-sm text-muted-foreground">
-              <Link to="/login" className="font-semibold text-primary hover:underline">Back to Sign In</Link>
+              <Link to="/login" search={{ redirect: "" }} className="font-semibold text-primary hover:underline">Back to Sign In</Link>
             </p>
           </div>
         </motion.div>

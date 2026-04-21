@@ -53,7 +53,7 @@ function ResetPasswordPage() {
             <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-gold" />
             <h1 className="text-2xl font-bold">Password Updated</h1>
             <p className="mt-3 text-sm text-muted-foreground">Your password has been reset successfully.</p>
-            <Link to="/login"><Button className="mt-6 bg-gold text-gold-foreground hover:bg-gold/90">Sign In</Button></Link>
+            <Link to="/login" search={{ redirect: "" }}><Button className="mt-6 bg-gold text-gold-foreground hover:bg-gold/90">Sign In</Button></Link>
           </motion.div>
         </div>
       </div>

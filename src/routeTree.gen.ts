@@ -54,6 +54,7 @@ import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
 import { Route as AgentsLoginRouteImport } from './routes/agents/login'
 import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
 import { Route as AgentsCommissionsRouteImport } from './routes/agents/commissions'
+import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
@@ -304,6 +305,11 @@ const AgentsCommissionsRoute = AgentsCommissionsRouteImport.update({
   path: '/commissions',
   getParentRoute: () => AgentsRoute,
 } as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProgramsRoute = AdminProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
@@ -454,6 +460,7 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/admin/services': typeof AdminServicesRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -524,6 +531,7 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/admin/services': typeof AdminServicesRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -595,6 +603,7 @@ export interface FileRoutesById {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
+  '/admin/services': typeof AdminServicesRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -667,6 +676,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/admin/services'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -737,6 +747,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/admin/services'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -807,6 +818,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/pricing'
     | '/admin/programs'
+    | '/admin/services'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -1205,6 +1217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsCommissionsRouteImport
       parentRoute: typeof AgentsRoute
     }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/programs': {
       id: '/admin/programs'
       path: '/programs'
@@ -1399,6 +1418,7 @@ interface AdminRouteChildren {
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProgramsRoute: typeof AdminProgramsRouteWithChildren
+  AdminServicesRoute: typeof AdminServicesRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -1417,6 +1437,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminProgramsRoute: AdminProgramsRouteWithChildren,
+  AdminServicesRoute: AdminServicesRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -1498,3 +1519,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

@@ -234,7 +234,7 @@ function AdminProgramsPage() {
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem asChild>
-                                  <Link to={`/services/${p.slug}`} target="_blank">
+                                  <Link to="/services/$slug" params={{ slug: p.slug }} target="_blank">
                                     <Eye className="mr-2 h-4 w-4" />Preview
                                   </Link>
                                 </DropdownMenuItem>
