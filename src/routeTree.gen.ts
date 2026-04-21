@@ -45,6 +45,7 @@ import { Route as JobsJobIdRouteImport } from './routes/jobs/$jobId'
 import { Route as GuideWorkRouteImport } from './routes/guide/work'
 import { Route as GuideStudyRouteImport } from './routes/guide/study'
 import { Route as ApplyWorkVisaRouteImport } from './routes/apply/work-visa'
+import { Route as ApplyVisitVisaRouteImport } from './routes/apply/visit-visa'
 import { Route as ApplyStudyRouteImport } from './routes/apply/study'
 import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AgentsSettingsRouteImport } from './routes/agents/settings'
@@ -260,6 +261,11 @@ const ApplyWorkVisaRoute = ApplyWorkVisaRouteImport.update({
   path: '/apply/work-visa',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyVisitVisaRoute = ApplyVisitVisaRouteImport.update({
+  id: '/apply/visit-visa',
+  path: '/apply/visit-visa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApplyStudyRoute = ApplyStudyRouteImport.update({
   id: '/apply/study',
   path: '/apply/study',
@@ -470,6 +476,7 @@ export interface FileRoutesByFullPath {
   '/agents/settings': typeof AgentsSettingsRoute
   '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
+  '/apply/visit-visa': typeof ApplyVisitVisaRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
   '/guide/work': typeof GuideWorkRoute
@@ -541,6 +548,7 @@ export interface FileRoutesByTo {
   '/agents/settings': typeof AgentsSettingsRoute
   '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
+  '/apply/visit-visa': typeof ApplyVisitVisaRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
   '/guide/work': typeof GuideWorkRoute
@@ -613,6 +621,7 @@ export interface FileRoutesById {
   '/agents/settings': typeof AgentsSettingsRoute
   '/api/contact': typeof ApiContactRoute
   '/apply/study': typeof ApplyStudyRoute
+  '/apply/visit-visa': typeof ApplyVisitVisaRoute
   '/apply/work-visa': typeof ApplyWorkVisaRoute
   '/guide/study': typeof GuideStudyRoute
   '/guide/work': typeof GuideWorkRoute
@@ -686,6 +695,7 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/api/contact'
     | '/apply/study'
+    | '/apply/visit-visa'
     | '/apply/work-visa'
     | '/guide/study'
     | '/guide/work'
@@ -757,6 +767,7 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/api/contact'
     | '/apply/study'
+    | '/apply/visit-visa'
     | '/apply/work-visa'
     | '/guide/study'
     | '/guide/work'
@@ -828,6 +839,7 @@ export interface FileRouteTypes {
     | '/agents/settings'
     | '/api/contact'
     | '/apply/study'
+    | '/apply/visit-visa'
     | '/apply/work-visa'
     | '/guide/study'
     | '/guide/work'
@@ -877,6 +889,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ApiContactRoute: typeof ApiContactRoute
   ApplyStudyRoute: typeof ApplyStudyRoute
+  ApplyVisitVisaRoute: typeof ApplyVisitVisaRoute
   ApplyWorkVisaRoute: typeof ApplyWorkVisaRoute
   GuideStudyRoute: typeof GuideStudyRoute
   GuideWorkRoute: typeof GuideWorkRoute
@@ -1152,6 +1165,13 @@ declare module '@tanstack/react-router' {
       path: '/apply/work-visa'
       fullPath: '/apply/work-visa'
       preLoaderRoute: typeof ApplyWorkVisaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apply/visit-visa': {
+      id: '/apply/visit-visa'
+      path: '/apply/visit-visa'
+      fullPath: '/apply/visit-visa'
+      preLoaderRoute: typeof ApplyVisitVisaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply/study': {
@@ -1494,6 +1514,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ApiContactRoute: ApiContactRoute,
   ApplyStudyRoute: ApplyStudyRoute,
+  ApplyVisitVisaRoute: ApplyVisitVisaRoute,
   ApplyWorkVisaRoute: ApplyWorkVisaRoute,
   GuideStudyRoute: GuideStudyRoute,
   GuideWorkRoute: GuideWorkRoute,
