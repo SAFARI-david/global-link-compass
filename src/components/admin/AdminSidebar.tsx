@@ -18,6 +18,7 @@ import {
   Sparkles,
   BookOpen,
   LogOut,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
@@ -29,6 +30,7 @@ const navItems = [
   { label: "Applications", to: "/admin/applications", icon: FileText },
   { label: "Jobs", to: "/admin/jobs", icon: Briefcase },
   { label: "Programs", to: "/admin/programs", icon: GraduationCap },
+  { label: "Services", to: "/admin/services", icon: Layers },
   { label: "Payments", to: "/admin/payments", icon: CreditCard },
   { label: "Commissions", to: "/admin/commissions", icon: Percent },
   { label: "Pricing", to: "/admin/pricing", icon: Tag },
