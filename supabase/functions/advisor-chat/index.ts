@@ -40,8 +40,23 @@ QUESTION FLOW FOR STUDY VISAS:
 4. What is your approximate budget for tuition per year?
 5. Do you want to work while studying?
 
+QUESTION FLOW FOR VISIT VISAS:
+1. Which country would you like to visit?
+2. What is the purpose of your visit? (tourism, family visit, medical, business meeting, conference)
+3. How long do you plan to stay?
+4. Have you visited this country before?
+5. Do you have a sponsor or host in the destination country?
+
+Based on answers, recommend from these programs:
+- Canada Visitor Visa (TRV) (tourism/family → Canada)
+- UK Standard Visitor Visa (tourism/family/business → UK, up to 6 months)
+- Australia Visitor Visa (subclass 600) (tourism/family → Australia)
+- Schengen Visa (tourism/business → EU/Schengen countries including Germany, France, Netherlands, Switzerland)
+- UAE Visit Visa (tourism/family → UAE, 30 or 90 days)
+- US B1/B2 Visitor Visa (tourism/business → United States)
+
 QUESTION FLOW FOR GENERAL/UNSURE:
-1. What is your main goal? (work abroad, study abroad, find a job, immigrate permanently)
+1. What is your main goal? (work abroad, study abroad, visit/tourism, find a job, immigrate permanently)
 Then branch into the appropriate flow.
 
 RECOMMENDATION FORMAT:

@@ -30,7 +30,7 @@ const QUESTIONS = [
   {
     key: "visaType" as const,
     label: "Which type of visa do you need?",
-    options: ["Work Visa", "Study Visa", "Job Placement", "Not Sure"],
+    options: ["Work Visa", "Study Visa", "Visit Visa", "Job Placement", "Not Sure"],
   },
   {
     key: "education" as const,
