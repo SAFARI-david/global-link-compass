@@ -27,6 +27,7 @@ const navItems = [
       { label: "UAE Work Visa", to: "/services/uae-work-visa" },
     ],
   },
+  { label: "Visit Visa", to: "/apply/visit-visa" },
   { label: "Jobs", to: "/jobs" },
   { label: "Study", to: "/study" },
   { label: "AI Advisor", to: "/advisor" },
