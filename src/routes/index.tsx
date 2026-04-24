@@ -11,6 +11,7 @@ import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { PricingSection } from "@/components/PricingSection";
+import { FaqPreview } from "@/components/FaqPreview";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,6 +39,7 @@ function Index() {
       <PricingSection />
       <AgentsSection />
       <TestimonialsSection />
+      <FaqPreview />
       <FinalCTA />
     </>
   );
