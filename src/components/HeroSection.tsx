@@ -59,7 +59,7 @@ export function HeroSection() {
 
   const { trackImpression, trackConversion } = useABTest({
     testId: "homepage_hero_v2",
-    variants: ["pro"],
+    variants: ["A"],
     weights: [100],
   });
 
