@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { FeeAcknowledgment } from "@/components/FeeAcknowledgment";
 
 export const Route = createFileRoute("/apply/visit-visa")({
   head: () => ({
@@ -249,6 +250,12 @@ function VisitVisaPage() {
                     <p className="text-muted-foreground mt-1">Our team will review your application, send you a document checklist, and provide a fee breakdown. No payment is required at this stage.</p>
                   </div>
                 </div>
+                <FeeAcknowledgment
+                  amount={400}
+                  currency="USD"
+                  serviceLabel="Visit Visa Application"
+                  onConfirmChange={(v) => u("fee_confirmed", v ? "true" : "")}
+                />
                 <label className="flex items-start gap-2 text-sm">
                   <input type="checkbox" className="mt-1 rounded" checked={form.declaration === "true"} onChange={(e) => u("declaration", e.target.checked ? "true" : "")} />
                   <span>I confirm all information provided is accurate. I understand that false information may result in application refusal.</span>
@@ -268,7 +275,7 @@ function VisitVisaPage() {
               Continue <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           ) : (
-            <Button variant="gold" onClick={handleSubmit} disabled={submitting || form.declaration !== "true"}>
+            <Button variant="gold" onClick={handleSubmit} disabled={submitting || form.declaration !== "true" || form.fee_confirmed !== "true"}>
               {submitting ? "Submitting…" : "Submit Application"} <Check className="ml-2 h-4 w-4" />
             </Button>
           )}

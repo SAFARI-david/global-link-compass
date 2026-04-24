@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { FeeAcknowledgment } from "@/components/FeeAcknowledgment";
 import {
   User, BookOpen, GraduationCap, DollarSign, FileText, Upload,
   Sparkles, ArrowLeft, ArrowRight, CheckCircle2, Shield, Clock,
@@ -44,6 +45,7 @@ function StudyApplicationForm() {
   const [refNumber, setRefNumber] = useState("");
   const [applicationId, setApplicationId] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [feeConfirmed, setFeeConfirmed] = useState(false);
   const navigate = useNavigate();
 
   function update(field: string, value: string) {
@@ -187,7 +189,17 @@ function StudyApplicationForm() {
                 {step === 3 && <StepFinancial data={formData} update={update} />}
                 {step === 4 && <StepHistory data={formData} update={update} />}
                 {step === 5 && <StepDocuments />}
-                {step === 6 && <StepMatching data={formData} />}
+                {step === 6 && (
+                  <div className="space-y-6">
+                    <StepMatching data={formData} />
+                    <FeeAcknowledgment
+                      amount={750}
+                      currency="USD"
+                      serviceLabel="Study Visa Application"
+                      onConfirmChange={setFeeConfirmed}
+                    />
+                  </div>
+                )}
               </motion.div>
             </AnimatePresence>
 
@@ -196,8 +208,15 @@ function StudyApplicationForm() {
               <Button variant="ghost" onClick={back} disabled={step === 0} className="gap-1">
                 <ArrowLeft className="h-4 w-4" /> Back
               </Button>
-              <Button onClick={next} className="gap-1 bg-gold text-gold-foreground hover:bg-gold/90">
-                {step === STEPS.length - 1 ? "Submit Application" : "Continue"} <ArrowRight className="h-4 w-4" />
+              <Button
+                onClick={next}
+                disabled={submitting || (step === STEPS.length - 1 && !feeConfirmed)}
+                className="gap-1 bg-gold text-gold-foreground hover:bg-gold/90"
+              >
+                {step === STEPS.length - 1
+                  ? (submitting ? "Submitting…" : !feeConfirmed ? "Confirm fee to continue" : "Submit Application")
+                  : "Continue"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
           </div>

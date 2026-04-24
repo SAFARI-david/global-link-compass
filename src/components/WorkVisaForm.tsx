@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { FeeAcknowledgment } from "@/components/FeeAcknowledgment";
 
 const STEPS = [
   { label: "Personal Info", icon: User },
@@ -299,6 +300,7 @@ export function WorkVisaForm() {
   const [refNumber, setRefNumber] = useState("");
   const [applicationId, setApplicationId] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [feeConfirmed, setFeeConfirmed] = useState(false);
   const navigate = useNavigate();
 
   function update(field: string, value: string) {
@@ -496,6 +498,16 @@ export function WorkVisaForm() {
             >
               <StepContextTip step={currentStep} />
               <StepContent step={currentStep} data={formData} update={update} />
+              {currentStep === STEPS.length - 1 && (
+                <div className="mt-6">
+                  <FeeAcknowledgment
+                    amount={1000}
+                    currency="USD"
+                    serviceLabel="Work Visa Application"
+                    onConfirmChange={setFeeConfirmed}
+                  />
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
 
@@ -509,8 +521,8 @@ export function WorkVisaForm() {
                 Continue <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             ) : (
-              <Button variant="gold" size="lg" onClick={handleSubmit} disabled={submitting}>
-                {submitting ? "Processing..." : "Proceed with Application"} <CheckCircle className="ml-1 h-4 w-4" />
+              <Button variant="gold" size="lg" onClick={handleSubmit} disabled={submitting || !feeConfirmed}>
+                {submitting ? "Processing..." : !feeConfirmed ? "Confirm fee to continue" : "Proceed with Application"} <CheckCircle className="ml-1 h-4 w-4" />
               </Button>
             )}
           </div>
