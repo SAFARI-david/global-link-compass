@@ -7,6 +7,7 @@ import { TrustBlock } from "@/components/TrustBlock";
 import { ServicesPreview } from "@/components/ServicesPreview";
 import { JobsPreview } from "@/components/JobsPreview";
 import { StudyPreview } from "@/components/StudyPreview";
+import { WhoThisIsFor } from "@/components/WhoThisIsFor";
 import { AgentsSection } from "@/components/AgentsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -29,6 +30,7 @@ function Index() {
     <>
       <HeroSection />
       <SocialProofBar context="general" />
+      <WhoThisIsFor />
       <ServicesSection />
       <HowItWorks />
       <TrustBlock />
