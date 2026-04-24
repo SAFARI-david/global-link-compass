@@ -39,6 +39,7 @@ function Index() {
       <PricingSection />
       <AgentsSection />
       <TestimonialsSection />
+      <FaqPreview />
       <FinalCTA />
     </>
   );
