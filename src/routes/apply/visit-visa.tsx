@@ -275,7 +275,7 @@ function VisitVisaPage() {
               Continue <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           ) : (
-            <Button variant="gold" onClick={handleSubmit} disabled={submitting || form.declaration !== "true"}>
+            <Button variant="gold" onClick={handleSubmit} disabled={submitting || form.declaration !== "true" || form.fee_confirmed !== "true"}>
               {submitting ? "Submitting…" : "Submit Application"} <Check className="ml-2 h-4 w-4" />
             </Button>
           )}
