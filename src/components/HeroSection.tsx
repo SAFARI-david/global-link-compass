@@ -154,7 +154,7 @@ export function HeroSection() {
                 onClick={() => trackConversion(`primary_${active.id}`)}
               >
                 <Button variant="heroGold" size="xl" className="w-full sm:w-auto">
-                  Start your {active.label.toLowerCase()} <ArrowRight className="ml-1 h-5 w-5" />
+                  Start Your Application Today <ArrowRight className="ml-1 h-5 w-5" />
                 </Button>
               </Link>
               <Button
@@ -166,9 +166,20 @@ export function HeroSection() {
                 }}
                 className="w-full sm:w-auto"
               >
-                Check your eligibility
+                Check your free eligibility
               </Button>
             </motion.div>
+
+            {/* Strong trust line */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-primary-foreground/80"
+            >
+              <CheckCircle2 className="h-4 w-4 text-gold" />
+              A licensed migration specialist will respond within 24 hours — no obligation, no spam.
+            </motion.p>
 
             {/* Rating row */}
             <motion.div
