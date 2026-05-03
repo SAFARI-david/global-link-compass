@@ -126,11 +126,11 @@ function AdminServicesPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b text-left text-muted-foreground">
-                        <th className="pb-3 pr-4 font-medium">Country</th>
-                        <th className="pb-3 pr-4 font-medium">Visa Type</th>
+                        <th className="pb-3 pr-4 font-medium">Service</th>
+                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Country</th>
+                        <th className="pb-3 pr-4 font-medium hidden md:table-cell">Visa Type</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Price</th>
                         <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Processing</th>
-                        <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Phases</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
                         <th className="pb-3 font-medium">Actions</th>
                       </tr>
@@ -138,26 +138,24 @@ function AdminServicesPage() {
                     <tbody>
                       {filtered.map((s) => (
                         <tr key={s.id} className="border-b border-border/50 last:border-0">
-                          <td className="py-3 pr-4 font-medium">{s.country}</td>
                           <td className="py-3 pr-4">
-                            <span>{s.visa_type}</span>
+                            <p className="font-medium">{s.name || `${s.country} — ${s.visa_type}`}</p>
                             <div className="flex gap-1 mt-0.5">
                               {s.is_featured && <Badge variant="secondary" className="text-[10px]">★ Featured</Badge>}
                               {s.is_hot_deal && <Badge variant="destructive" className="text-[10px]">🔥 Hot</Badge>}
                             </div>
                           </td>
+                          <td className="py-3 pr-4 hidden sm:table-cell">{s.country}</td>
+                          <td className="py-3 pr-4 hidden md:table-cell">{s.visa_type}</td>
                           <td className="py-3 pr-4 hidden md:table-cell font-semibold">
                             ${Number(s.standard_price).toFixed(0)}
                             {s.partner_price && <span className="text-xs text-muted-foreground font-normal ml-1">(P: ${Number(s.partner_price).toFixed(0)})</span>}
                           </td>
                           <td className="py-3 pr-4 hidden lg:table-cell text-muted-foreground">{s.processing_time || "—"}</td>
-                          <td className="py-3 pr-4 hidden lg:table-cell text-muted-foreground">{s.phases?.length || 0}</td>
                           <td className="py-3 pr-4">
-                            {s.is_active ? (
-                              <Badge>Active</Badge>
-                            ) : (
-                              <Badge variant="secondary">Inactive</Badge>
-                            )}
+                            <Badge variant={s.status === "active" ? "default" : s.status === "draft" ? "secondary" : "outline"}>
+                              {s.status || (s.is_active ? "active" : "inactive")}
+                            </Badge>
                           </td>
                           <td className="py-3">
                             <DropdownMenu>
