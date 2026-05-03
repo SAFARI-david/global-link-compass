@@ -57,7 +57,7 @@ function AdminServicesPage() {
   const filtered = services.filter((s) => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return s.country.toLowerCase().includes(q) || s.visa_type.toLowerCase().includes(q);
+    return s.country.toLowerCase().includes(q) || s.visa_type.toLowerCase().includes(q) || (s.name && s.name.toLowerCase().includes(q));
   });
 
   const stats = {
