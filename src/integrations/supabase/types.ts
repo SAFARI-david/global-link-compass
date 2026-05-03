@@ -647,64 +647,151 @@ export type Database = {
       }
       services: {
         Row: {
+          benefits: Json | null
+          best_for: string | null
+          category: string | null
           country: string
           created_at: string
+          cta_apply_text: string | null
+          cta_consult_text: string | null
+          currency: string | null
           dependent_price: number | null
           description: string | null
+          education_requirement: string | null
+          eligibility_summary: string | null
+          family_dependant_option: string | null
+          faqs: Json | null
           form_fields: Json
+          full_description: string | null
+          government_fees_included: boolean | null
           id: string
           image_url: string | null
           internal_notes: string | null
           is_active: boolean
           is_featured: boolean
           is_hot_deal: boolean
+          language_requirement: string | null
+          meta_description: string | null
+          meta_title: string | null
+          name: string | null
+          other_conditions: string | null
           partner_price: number | null
+          payment_note: string | null
           phases: Json | null
+          process_steps: Json | null
           processing_time: string | null
+          required_documents: Json | null
           requirements: string[] | null
+          separate_costs: string | null
+          short_overview: string | null
+          slug: string | null
           standard_price: number | null
+          status: string
+          tagline: string | null
           updated_at: string
           visa_type: string
+          whats_included: Json | null
+          whats_not_included: Json | null
+          why_choose: string | null
+          work_experience_requirement: string | null
         }
         Insert: {
+          benefits?: Json | null
+          best_for?: string | null
+          category?: string | null
           country: string
           created_at?: string
+          cta_apply_text?: string | null
+          cta_consult_text?: string | null
+          currency?: string | null
           dependent_price?: number | null
           description?: string | null
+          education_requirement?: string | null
+          eligibility_summary?: string | null
+          family_dependant_option?: string | null
+          faqs?: Json | null
           form_fields?: Json
+          full_description?: string | null
+          government_fees_included?: boolean | null
           id?: string
           image_url?: string | null
           internal_notes?: string | null
           is_active?: boolean
           is_featured?: boolean
           is_hot_deal?: boolean
+          language_requirement?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string | null
+          other_conditions?: string | null
           partner_price?: number | null
+          payment_note?: string | null
           phases?: Json | null
+          process_steps?: Json | null
           processing_time?: string | null
+          required_documents?: Json | null
           requirements?: string[] | null
+          separate_costs?: string | null
+          short_overview?: string | null
+          slug?: string | null
           standard_price?: number | null
+          status?: string
+          tagline?: string | null
           updated_at?: string
           visa_type: string
+          whats_included?: Json | null
+          whats_not_included?: Json | null
+          why_choose?: string | null
+          work_experience_requirement?: string | null
         }
         Update: {
+          benefits?: Json | null
+          best_for?: string | null
+          category?: string | null
           country?: string
           created_at?: string
+          cta_apply_text?: string | null
+          cta_consult_text?: string | null
+          currency?: string | null
           dependent_price?: number | null
           description?: string | null
+          education_requirement?: string | null
+          eligibility_summary?: string | null
+          family_dependant_option?: string | null
+          faqs?: Json | null
           form_fields?: Json
+          full_description?: string | null
+          government_fees_included?: boolean | null
           id?: string
           image_url?: string | null
           internal_notes?: string | null
           is_active?: boolean
           is_featured?: boolean
           is_hot_deal?: boolean
+          language_requirement?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string | null
+          other_conditions?: string | null
           partner_price?: number | null
+          payment_note?: string | null
           phases?: Json | null
+          process_steps?: Json | null
           processing_time?: string | null
+          required_documents?: Json | null
           requirements?: string[] | null
+          separate_costs?: string | null
+          short_overview?: string | null
+          slug?: string | null
           standard_price?: number | null
+          status?: string
+          tagline?: string | null
           updated_at?: string
           visa_type?: string
+          whats_included?: Json | null
+          whats_not_included?: Json | null
+          why_choose?: string | null
+          work_experience_requirement?: string | null
         }
         Relationships: []
       }

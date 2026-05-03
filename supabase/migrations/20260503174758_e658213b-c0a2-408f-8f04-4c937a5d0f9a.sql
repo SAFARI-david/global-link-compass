@@ -1,0 +1,33 @@
+
+ALTER TABLE public.services
+  ADD COLUMN IF NOT EXISTS name text,
+  ADD COLUMN IF NOT EXISTS slug text,
+  ADD COLUMN IF NOT EXISTS tagline text,
+  ADD COLUMN IF NOT EXISTS category text,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'active',
+  ADD COLUMN IF NOT EXISTS short_overview text,
+  ADD COLUMN IF NOT EXISTS full_description text,
+  ADD COLUMN IF NOT EXISTS why_choose text,
+  ADD COLUMN IF NOT EXISTS best_for text,
+  ADD COLUMN IF NOT EXISTS eligibility_summary text,
+  ADD COLUMN IF NOT EXISTS education_requirement text,
+  ADD COLUMN IF NOT EXISTS work_experience_requirement text,
+  ADD COLUMN IF NOT EXISTS language_requirement text,
+  ADD COLUMN IF NOT EXISTS other_conditions text,
+  ADD COLUMN IF NOT EXISTS required_documents jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS process_steps jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS benefits jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS faqs jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS government_fees_included boolean DEFAULT false,
+  ADD COLUMN IF NOT EXISTS separate_costs text,
+  ADD COLUMN IF NOT EXISTS payment_note text,
+  ADD COLUMN IF NOT EXISTS currency text DEFAULT 'USD',
+  ADD COLUMN IF NOT EXISTS family_dependant_option text,
+  ADD COLUMN IF NOT EXISTS whats_included jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS whats_not_included jsonb DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS meta_title text,
+  ADD COLUMN IF NOT EXISTS meta_description text,
+  ADD COLUMN IF NOT EXISTS cta_apply_text text DEFAULT 'Apply Now',
+  ADD COLUMN IF NOT EXISTS cta_consult_text text DEFAULT 'Book Consultation';
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_services_slug ON public.services(slug) WHERE slug IS NOT NULL;
