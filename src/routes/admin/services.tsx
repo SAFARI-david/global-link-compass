@@ -155,10 +155,6 @@ function AdminServicesPage() {
                             <span>{s.country}</span>
                             <span className="text-muted-foreground"> / {s.visa_type}</span>
                           </td>
-                            </div>
-                          </td>
-                          <td className="py-3 pr-4 hidden sm:table-cell">{s.country}</td>
-                          <td className="py-3 pr-4 hidden md:table-cell">{s.visa_type}</td>
                           <td className="py-3 pr-4 hidden md:table-cell font-semibold">
                             ${Number(s.standard_price).toFixed(0)}
                             {s.partner_price && <span className="text-xs text-muted-foreground font-normal ml-1">(P: ${Number(s.partner_price).toFixed(0)})</span>}
