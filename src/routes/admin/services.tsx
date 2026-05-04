@@ -79,6 +79,17 @@ function AdminServicesPage() {
     );
   });
 
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === "name") {
+      const nameA = (a.name || a.country || "").toLowerCase();
+      const nameB = (b.name || b.country || "").toLowerCase();
+      return nameA.localeCompare(nameB);
+    }
+    const dateA = new Date(a.updated_at || a.created_at).getTime();
+    const dateB = new Date(b.updated_at || b.created_at).getTime();
+    return dateB - dateA;
+  });
+
   const stats = {
     total: services.length,
     active: services.filter((s) => s.status === "active").length,
