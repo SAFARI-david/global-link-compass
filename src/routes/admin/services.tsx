@@ -57,12 +57,17 @@ function AdminServicesPage() {
   const filtered = services.filter((s) => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return s.country.toLowerCase().includes(q) || s.visa_type.toLowerCase().includes(q) || (s.name && s.name.toLowerCase().includes(q));
+    return (
+      (s.name && s.name.toLowerCase().includes(q)) ||
+      (s.slug && s.slug.toLowerCase().includes(q)) ||
+      s.country.toLowerCase().includes(q) ||
+      s.visa_type.toLowerCase().includes(q)
+    );
   });
 
   const stats = {
     total: services.length,
-    active: services.filter((s) => s.is_active).length,
+    active: services.filter((s) => s.status === "active").length,
     featured: services.filter((s) => s.is_featured).length,
     hotDeals: services.filter((s) => s.is_hot_deal).length,
   };
@@ -127,8 +132,8 @@ function AdminServicesPage() {
                     <thead>
                       <tr className="border-b text-left text-muted-foreground">
                         <th className="pb-3 pr-4 font-medium">Service</th>
-                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Country</th>
-                        <th className="pb-3 pr-4 font-medium hidden md:table-cell">Visa Type</th>
+                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Slug</th>
+                        <th className="pb-3 pr-4 font-medium hidden md:table-cell">Country / Visa</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Price</th>
                         <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Processing</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
@@ -145,8 +150,11 @@ function AdminServicesPage() {
                               {s.is_hot_deal && <Badge variant="destructive" className="text-[10px]">🔥 Hot</Badge>}
                             </div>
                           </td>
-                          <td className="py-3 pr-4 hidden sm:table-cell">{s.country}</td>
-                          <td className="py-3 pr-4 hidden md:table-cell">{s.visa_type}</td>
+                          <td className="py-3 pr-4 hidden sm:table-cell text-muted-foreground text-xs font-mono">{s.slug || "—"}</td>
+                          <td className="py-3 pr-4 hidden md:table-cell">
+                            <span>{s.country}</span>
+                            <span className="text-muted-foreground"> / {s.visa_type}</span>
+                          </td>
                           <td className="py-3 pr-4 hidden md:table-cell font-semibold">
                             ${Number(s.standard_price).toFixed(0)}
                             {s.partner_price && <span className="text-xs text-muted-foreground font-normal ml-1">(P: ${Number(s.partner_price).toFixed(0)})</span>}
