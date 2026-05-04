@@ -169,7 +169,12 @@ function AdminServicesPage() {
               {loading ? (
                 <div className="flex justify-center py-8"><div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
               ) : sorted.length === 0 ? (
-                <p className="py-8 text-center text-sm text-muted-foreground">No services found. Add your first service.</p>
+                <div className="flex flex-col items-center justify-center py-12 gap-3">
+                  <p className="text-sm text-muted-foreground">{search || statusFilter !== "all" ? "No services match your filters." : "No services yet."}</p>
+                  <Button variant="gold" onClick={() => { setEditService(null); setView("form"); }}>
+                    <Plus className="mr-2 h-4 w-4" /> Add Your First Service
+                  </Button>
+                </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
