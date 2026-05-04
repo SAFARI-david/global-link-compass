@@ -168,7 +168,7 @@ function AdminServicesPage() {
             <CardContent>
               {loading ? (
                 <div className="flex justify-center py-8"><div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
-              ) : filtered.length === 0 ? (
+              ) : sorted.length === 0 ? (
                 <p className="py-8 text-center text-sm text-muted-foreground">No services found. Add your first service.</p>
               ) : (
                 <div className="overflow-x-auto">
