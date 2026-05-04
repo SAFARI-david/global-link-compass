@@ -185,7 +185,7 @@ function AdminServicesPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filtered.map((s) => (
+                      {sorted.map((s) => (
                         <tr key={s.id} className="border-b border-border/50 last:border-0">
                           <td className="py-3 pr-4">
                             <p className="font-medium">{s.name || `${s.country} — ${s.visa_type}`}</p>
