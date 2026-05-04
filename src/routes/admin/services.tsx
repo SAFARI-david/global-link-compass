@@ -39,6 +39,7 @@ function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [view, setView] = useState<"list" | "form">("list");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [editService, setEditService] = useState<any>(null);
 
   async function load() {
