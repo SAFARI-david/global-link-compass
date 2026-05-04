@@ -41,6 +41,7 @@ function AdminServicesPage() {
   const [view, setView] = useState<"list" | "form">("list");
   const [statusFilter, setStatusFilter] = useState("all");
   const [editService, setEditService] = useState<any>(null);
+  const [sortBy, setSortBy] = useState("updated");
 
   async function load() {
     setLoading(true);
