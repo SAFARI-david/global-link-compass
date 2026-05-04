@@ -57,12 +57,17 @@ function AdminServicesPage() {
   const filtered = services.filter((s) => {
     if (!search) return true;
     const q = search.toLowerCase();
-    return s.country.toLowerCase().includes(q) || s.visa_type.toLowerCase().includes(q) || (s.name && s.name.toLowerCase().includes(q));
+    return (
+      (s.name && s.name.toLowerCase().includes(q)) ||
+      (s.slug && s.slug.toLowerCase().includes(q)) ||
+      s.country.toLowerCase().includes(q) ||
+      s.visa_type.toLowerCase().includes(q)
+    );
   });
 
   const stats = {
     total: services.length,
-    active: services.filter((s) => s.is_active).length,
+    active: services.filter((s) => s.status === "active").length,
     featured: services.filter((s) => s.is_featured).length,
     hotDeals: services.filter((s) => s.is_hot_deal).length,
   };
