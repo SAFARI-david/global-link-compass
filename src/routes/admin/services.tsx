@@ -132,8 +132,8 @@ function AdminServicesPage() {
                     <thead>
                       <tr className="border-b text-left text-muted-foreground">
                         <th className="pb-3 pr-4 font-medium">Service</th>
-                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Country</th>
-                        <th className="pb-3 pr-4 font-medium hidden md:table-cell">Visa Type</th>
+                        <th className="pb-3 pr-4 font-medium hidden sm:table-cell">Slug</th>
+                        <th className="pb-3 pr-4 font-medium hidden md:table-cell">Country / Visa</th>
                         <th className="pb-3 pr-4 font-medium hidden md:table-cell">Price</th>
                         <th className="pb-3 pr-4 font-medium hidden lg:table-cell">Processing</th>
                         <th className="pb-3 pr-4 font-medium">Status</th>
@@ -148,6 +148,13 @@ function AdminServicesPage() {
                             <div className="flex gap-1 mt-0.5">
                               {s.is_featured && <Badge variant="secondary" className="text-[10px]">★ Featured</Badge>}
                               {s.is_hot_deal && <Badge variant="destructive" className="text-[10px]">🔥 Hot</Badge>}
+                            </div>
+                          </td>
+                          <td className="py-3 pr-4 hidden sm:table-cell text-muted-foreground text-xs font-mono">{s.slug || "—"}</td>
+                          <td className="py-3 pr-4 hidden md:table-cell">
+                            <span>{s.country}</span>
+                            <span className="text-muted-foreground"> / {s.visa_type}</span>
+                          </td>
                             </div>
                           </td>
                           <td className="py-3 pr-4 hidden sm:table-cell">{s.country}</td>
