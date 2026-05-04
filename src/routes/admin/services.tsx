@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search, ArrowUpDown } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,6 +41,7 @@ function AdminServicesPage() {
   const [view, setView] = useState<"list" | "form">("list");
   const [statusFilter, setStatusFilter] = useState("all");
   const [editService, setEditService] = useState<any>(null);
+  const [sortBy, setSortBy] = useState("updated");
 
   async function load() {
     setLoading(true);
@@ -76,6 +77,17 @@ function AdminServicesPage() {
       s.country.toLowerCase().includes(q) ||
       s.visa_type.toLowerCase().includes(q)
     );
+  });
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === "name") {
+      const nameA = (a.name || a.country || "").toLowerCase();
+      const nameB = (b.name || b.country || "").toLowerCase();
+      return nameA.localeCompare(nameB);
+    }
+    const dateA = new Date(a.updated_at || a.created_at).getTime();
+    const dateB = new Date(b.updated_at || b.created_at).getTime();
+    return dateB - dateA;
   });
 
   const stats = {
@@ -135,6 +147,15 @@ function AdminServicesPage() {
                     <SelectItem value="inactive">Inactive</SelectItem>
                   </SelectContent>
                 </Select>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-40">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="updated">Last Updated</SelectItem>
+                    <SelectItem value="name">Name (A–Z)</SelectItem>
+                  </SelectContent>
+                </Select>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input placeholder="Search…" className="w-48 pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -147,7 +168,7 @@ function AdminServicesPage() {
             <CardContent>
               {loading ? (
                 <div className="flex justify-center py-8"><div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
-              ) : filtered.length === 0 ? (
+              ) : sorted.length === 0 ? (
                 <p className="py-8 text-center text-sm text-muted-foreground">No services found. Add your first service.</p>
               ) : (
                 <div className="overflow-x-auto">
@@ -164,7 +185,7 @@ function AdminServicesPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filtered.map((s) => (
+                      {sorted.map((s) => (
                         <tr key={s.id} className="border-b border-border/50 last:border-0">
                           <td className="py-3 pr-4">
                             <p className="font-medium">{s.name || `${s.country} — ${s.visa_type}`}</p>
