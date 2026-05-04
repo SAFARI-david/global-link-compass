@@ -63,6 +63,11 @@ function AdminServicesPage() {
   }
 
   const filtered = services.filter((s) => {
+    if (statusFilter !== "all") {
+      const isActive = s.status === "active";
+      if (statusFilter === "active" && !isActive) return false;
+      if (statusFilter === "inactive" && isActive) return false;
+    }
     if (!search) return true;
     const q = search.toLowerCase();
     return (
