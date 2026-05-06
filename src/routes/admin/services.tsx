@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search, ArrowUpDown } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search, ArrowUpDown, Upload } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { BulkServiceForm } from "@/components/admin/BulkServiceForm";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ function AdminServicesPage() {
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [view, setView] = useState<"list" | "form">("list");
+  const [view, setView] = useState<"list" | "form" | "bulk">("list");
   const [statusFilter, setStatusFilter] = useState("all");
   const [editService, setEditService] = useState<any>(null);
   const [sortBy, setSortBy] = useState("updated");
@@ -118,6 +119,25 @@ function AdminServicesPage() {
     );
   }
 
+  if (view === "bulk") {
+    return (
+      <div className="flex min-h-screen bg-surface">
+        <AdminSidebar />
+        <div className="flex flex-1 flex-col">
+          <AdminHeader title="Bulk Add Services" />
+          <div className="flex-1 overflow-y-auto p-4 lg:p-6">
+            <BulkServiceForm
+              onSuccess={() => {
+                setView("list");
+                load();
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen bg-surface">
       <AdminSidebar />
@@ -169,11 +189,26 @@ function AdminServicesPage() {
               {loading ? (
                 <div className="flex justify-center py-8"><div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
               ) : sorted.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 gap-3">
-                  <p className="text-sm text-muted-foreground">{search || statusFilter !== "all" ? "No services match your filters." : "No services yet."}</p>
-                  <Button variant="gold" onClick={() => { setEditService(null); setView("form"); }}>
-                    <Plus className="mr-2 h-4 w-4" /> Add Your First Service
-                  </Button>
+                <div className="flex flex-col items-center justify-center py-16 gap-4">
+                  <div className="rounded-full bg-muted p-4">
+                    <Plus className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div className="text-center space-y-1">
+                    <p className="font-medium">{search || statusFilter !== "all" ? "No services match your filters." : "No services yet."}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {!(search || statusFilter !== "all") && "Get started by adding a single service or bulk-import several at once."}
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => { setEditService(null); setView("form"); }}>
+                      <Plus className="mr-2 h-4 w-4" /> Add Single Service
+                    </Button>
+                    {!(search || statusFilter !== "all") && (
+                      <Button variant="gold" onClick={() => setView("bulk")}>
+                        <Upload className="mr-2 h-4 w-4" /> Bulk Add Services
+                      </Button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
