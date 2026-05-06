@@ -137,7 +137,7 @@ export const Route = createFileRoute("/api/webhooks/whop")({
             provider: "whop",
             event_type: eventType,
             external_event_id: externalEventId,
-            payload_json: rawPayload as Record<string, unknown>,
+            payload_json: rawPayload as any,
             signature_valid: true,
             processed: false,
           })
