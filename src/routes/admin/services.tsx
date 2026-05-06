@@ -189,11 +189,26 @@ function AdminServicesPage() {
               {loading ? (
                 <div className="flex justify-center py-8"><div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" /></div>
               ) : sorted.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12 gap-3">
-                  <p className="text-sm text-muted-foreground">{search || statusFilter !== "all" ? "No services match your filters." : "No services yet."}</p>
-                  <Button variant="gold" onClick={() => { setEditService(null); setView("form"); }}>
-                    <Plus className="mr-2 h-4 w-4" /> Add Your First Service
-                  </Button>
+                <div className="flex flex-col items-center justify-center py-16 gap-4">
+                  <div className="rounded-full bg-muted p-4">
+                    <Plus className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <div className="text-center space-y-1">
+                    <p className="font-medium">{search || statusFilter !== "all" ? "No services match your filters." : "No services yet."}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {!(search || statusFilter !== "all") && "Get started by adding a single service or bulk-import several at once."}
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={() => { setEditService(null); setView("form"); }}>
+                      <Plus className="mr-2 h-4 w-4" /> Add Single Service
+                    </Button>
+                    {!(search || statusFilter !== "all") && (
+                      <Button variant="gold" onClick={() => setView("bulk")}>
+                        <Upload className="mr-2 h-4 w-4" /> Bulk Add Services
+                      </Button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
