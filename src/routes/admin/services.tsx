@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search, ArrowUpDown } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Star, Flame, MoreHorizontal, Search, ArrowUpDown, Upload } from "lucide-react";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { BulkServiceForm } from "@/components/admin/BulkServiceForm";
 import { AdminHeader } from "@/components/admin/AdminHeader";
