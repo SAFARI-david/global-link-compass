@@ -119,6 +119,25 @@ function AdminServicesPage() {
     );
   }
 
+  if (view === "bulk") {
+    return (
+      <div className="flex min-h-screen bg-surface">
+        <AdminSidebar />
+        <div className="flex flex-1 flex-col">
+          <AdminHeader title="Bulk Add Services" />
+          <div className="flex-1 overflow-y-auto p-4 lg:p-6">
+            <BulkServiceForm
+              onSuccess={() => {
+                setView("list");
+                load();
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen bg-surface">
       <AdminSidebar />
