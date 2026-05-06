@@ -10,9 +10,18 @@ export const Route = createFileRoute("/api/webhooks/whop")({
         const signature = request.headers.get("x-whop-signature") || "";
         const webhookSecret = process.env.WHOP_WEBHOOK_SECRET || "";
 
-        // Verify signature if secret is configured
+        // Reject if webhook secret is not configured
+        if (!webhookSecret) {
+          console.error("WHOP_WEBHOOK_SECRET is not configured");
+          return new Response(JSON.stringify({ error: "Webhook secret not configured" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          });
+        }
+
+        // Verify signature
         let signatureValid = false;
-        if (webhookSecret) {
+        try {
           const expected = crypto
             .createHmac("sha256", webhookSecret)
             .update(body)
@@ -21,6 +30,15 @@ export const Route = createFileRoute("/api/webhooks/whop")({
             Buffer.from(signature),
             Buffer.from(expected)
           );
+        } catch {
+          signatureValid = false;
+        }
+
+        if (!signatureValid) {
+          return new Response(JSON.stringify({ error: "Invalid signature" }), {
+            status: 401,
+            headers: { "Content-Type": "application/json" },
+          });
         }
 
         let payload: any;
