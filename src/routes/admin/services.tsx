@@ -39,7 +39,7 @@ function AdminServicesPage() {
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [view, setView] = useState<"list" | "form">("list");
+  const [view, setView] = useState<"list" | "form" | "bulk">("list");
   const [statusFilter, setStatusFilter] = useState("all");
   const [editService, setEditService] = useState<any>(null);
   const [sortBy, setSortBy] = useState("updated");
