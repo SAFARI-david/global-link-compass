@@ -127,11 +127,12 @@ function RegisterPage() {
                 <Label>Password</Label>
                 <div className="relative mt-1.5">
                   <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input type={showPassword ? "text" : "password"} placeholder="Min 6 characters" className="pl-10 pr-10" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+                  <Input type={showPassword ? "text" : "password"} placeholder="Choose something memorable" className="pl-10 pr-10" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+                <p className="helper-text">At least 6 characters — mix letters and numbers for extra safety</p>
               </div>
               <div>
                 <Label>Confirm Password</Label>
