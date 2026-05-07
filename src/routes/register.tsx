@@ -112,6 +112,13 @@ function RegisterPage() {
                 </div>
               </div>
               <div>
+                <Label>Phone Number <span className="text-xs text-muted-foreground font-normal">(optional)</span></Label>
+                <div className="relative mt-1.5">
+                  <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input type="tel" placeholder="+1 (555) 000-0000" className="pl-10" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                </div>
+              </div>
+              <div>
                 <Label>Password</Label>
                 <div className="relative mt-1.5">
                   <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -120,6 +127,19 @@ function RegisterPage() {
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+              </div>
+              <div>
+                <Label>Confirm Password</Label>
+                <div className="relative mt-1.5">
+                  <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input type={showConfirmPassword ? "text" : "password"} placeholder="Re-enter your password" className="pl-10 pr-10" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={6} />
+                  <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {confirmPassword && password !== confirmPassword && (
+                  <p className="mt-1 text-xs text-destructive">Passwords do not match</p>
+                )}
               </div>
               <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
                 {loading ? "Creating account…" : "Create Account"} <ArrowRight className="ml-1 h-4 w-4" />
