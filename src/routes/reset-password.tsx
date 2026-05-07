@@ -54,8 +54,8 @@ function ResetPasswordPage() {
         <div className="container-narrow flex justify-center">
           <motion.div className="w-full max-w-md rounded-xl border bg-card p-8 text-center shadow-sm" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-gold" />
-            <h1 className="text-2xl font-bold">Password Updated</h1>
-            <p className="mt-3 text-sm text-muted-foreground">Your password has been reset successfully.</p>
+            <h1 className="text-2xl font-bold">You're All Set! 🎉</h1>
+            <p className="mt-3 text-sm text-muted-foreground">Your password has been updated. You can now sign in with your new password.</p>
             <Link to="/login" search={{ redirect: "" }}><Button className="mt-6 bg-gold text-gold-foreground hover:bg-gold/90">Sign In</Button></Link>
           </motion.div>
         </div>
