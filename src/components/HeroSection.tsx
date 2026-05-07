@@ -99,7 +99,7 @@ export function HeroSection() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gold"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Trusted Migration Partner since 2018
+              Helping people move abroad since 2018
             </motion.div>
 
             <motion.h1
