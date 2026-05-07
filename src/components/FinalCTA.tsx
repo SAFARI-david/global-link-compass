@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 
 const reassurances = [
-  { icon: Shield, text: "Structured application process" },
-  { icon: Clock, text: "Response within 24 hours" },
-  { icon: CreditCard, text: "No payment until you approve" },
-  { icon: CheckCircle2, text: "Clear pricing — no hidden fees" },
+  { icon: Shield, text: "We walk you through every step" },
+  { icon: Clock, text: "Hear back within 24 hours" },
+  { icon: CreditCard, text: "You decide when to pay" },
+  { icon: CheckCircle2, text: "Honest pricing, always" },
 ];
 
 export function FinalCTA() {
