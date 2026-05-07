@@ -68,9 +68,9 @@ function ResetPasswordPage() {
       <div className="section-padding">
         <div className="container-narrow flex justify-center">
           <div className="w-full max-w-md rounded-xl border bg-card p-8 text-center shadow-sm">
-            <h1 className="text-xl font-bold">Invalid or Expired Link</h1>
-            <p className="mt-2 text-sm text-muted-foreground">This password reset link may have expired. Please request a new one.</p>
-            <Link to="/forgot-password"><Button className="mt-6" variant="outline">Request New Link</Button></Link>
+            <h1 className="text-xl font-bold">This Link Has Expired</h1>
+            <p className="mt-2 text-sm text-muted-foreground">No worries — just request a fresh reset link and you'll be back on track in no time.</p>
+            <Link to="/forgot-password"><Button className="mt-6" variant="outline">Get a New Link</Button></Link>
           </div>
         </div>
       </div>
