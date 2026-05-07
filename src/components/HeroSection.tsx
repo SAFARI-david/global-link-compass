@@ -232,13 +232,13 @@ export function HeroSection() {
               <div className="relative">
                 <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
                   <Globe2 className="h-3.5 w-3.5" />
-                  Begin in 30 seconds
+                  Takes just 30 seconds
                 </div>
                 <h2 className="text-xl font-bold text-primary-foreground md:text-2xl">
-                  What are you applying for?
+                  Where would you like to go?
                 </h2>
                 <p className="mt-1 text-sm text-primary-foreground/60">
-                  Choose a pathway and we'll guide you to the right program.
+                  Pick a pathway — we'll help you figure out the rest.
                 </p>
 
                 <div className="mt-5 space-y-2.5">
