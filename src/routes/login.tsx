@@ -135,7 +135,7 @@ function LoginPage() {
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <Link to="/forgot-password" className="text-primary hover:underline">Forgot password?</Link>
+                <Link to="/forgot-password" className="text-primary hover:underline">Forgot your password? No worries</Link>
               </div>
               <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
                 {loading ? "Signing in…" : "Sign In"} <ArrowRight className="ml-1 h-4 w-4" />
