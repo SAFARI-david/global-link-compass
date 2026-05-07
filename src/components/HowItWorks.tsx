@@ -42,9 +42,9 @@ export function HowItWorks() {
       <div className="container-narrow">
         <div className="mx-auto max-w-2xl text-center">
           <div className="gold-divider mx-auto mb-5" />
-          <h2 className="text-2xl font-bold md:text-3xl">How It Works</h2>
+          <h2 className="text-2xl font-bold md:text-3xl">Here's How It Works</h2>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            A clear, 5-step process from application to submission. <strong className="text-foreground">No surprises at any point.</strong>
+            Five simple steps from "I'm interested" to "My application is in." <strong className="text-foreground">We'll be with you the whole way.</strong>
           </p>
         </div>
 
