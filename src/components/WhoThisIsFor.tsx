@@ -5,32 +5,32 @@ const personas = [
   {
     icon: Briefcase,
     title: "Skilled Workers",
-    description: "Nurses, engineers, IT professionals, tradespeople and care workers seeking sponsored roles abroad.",
+    description: "Nurses, engineers, IT professionals, tradespeople and care workers looking for their next opportunity abroad.",
   },
   {
     icon: GraduationCap,
     title: "Students & Graduates",
-    description: "Anyone applying to universities or post-study work routes in the UK, Canada, Australia or Germany.",
+    description: "Dreamers and doers applying to universities or post-study work routes in the UK, Canada, Australia or Germany.",
   },
   {
     icon: Heart,
     title: "Families Reuniting",
-    description: "Spouses, partners and dependants joining loved ones already living and working overseas.",
+    description: "Spouses, partners and loved ones who just want to be together again — we'll help make it happen.",
   },
   {
     icon: Plane,
     title: "Visitors & Travellers",
-    description: "Tourists, business travellers and family members applying for short-stay visit visas.",
+    description: "Whether it's a holiday, a business trip, or visiting family — we'll sort the paperwork so you can focus on packing.",
   },
   {
     icon: Building2,
     title: "Employers & Sponsors",
-    description: "Companies recruiting international talent and managing licensed sponsorship obligations.",
+    description: "Companies hiring international talent who want sponsorship handled properly, without the headaches.",
   },
   {
     icon: Users,
     title: "Migration Agents",
-    description: "Independent agents and consultancies who want a trusted partner to process applications at scale.",
+    description: "Independent agents and consultancies who want a reliable partner to help their clients at scale.",
   },
 ];
 
