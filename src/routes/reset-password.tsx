@@ -83,7 +83,8 @@ function ResetPasswordPage() {
         <motion.div className="w-full max-w-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="mb-8 flex flex-col items-center gap-3 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold"><Globe className="h-6 w-6 text-gold-foreground" /></div>
-            <h1 className="text-2xl font-bold">Set New Password</h1>
+            <h1 className="text-2xl font-bold">Choose a New Password</h1>
+            <p className="text-sm text-muted-foreground">Pick something secure that you'll remember</p>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
