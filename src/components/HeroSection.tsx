@@ -49,8 +49,8 @@ const metrics = [
 
 const trustChips = [
   "Government & embassy fees included",
-  "Licensed migration specialists",
-  "No payment until you approve",
+  "Friendly, licensed specialists",
+  "You're in control — no payment until you're ready",
 ];
 
 export function HeroSection() {
