@@ -92,8 +92,8 @@ function RegisterPage() {
               <Globe className="h-6 w-6 text-gold-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Create Your Account</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Start your visa or study application journey</p>
+              <h1 className="text-2xl font-bold">Let's Get You Set Up</h1>
+              <p className="mt-1 text-sm text-muted-foreground">Creating an account takes less than a minute — and it's completely free.</p>
             </div>
           </div>
 
