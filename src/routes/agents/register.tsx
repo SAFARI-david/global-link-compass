@@ -17,6 +17,7 @@ export const Route = createFileRoute("/agents/register")({
 
 function AgentRegisterPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   if (submitted) {
     return (
@@ -89,42 +90,69 @@ function AgentRegisterPage() {
             className="mt-8 space-y-5"
             onSubmit={(e) => {
               e.preventDefault();
+              setError("");
+              const form = e.currentTarget;
+              const formData = new FormData(form);
+              const email = formData.get("email") as string;
+              const phone = formData.get("phone") as string;
+              const pw = formData.get("password") as string;
+              const confirmPw = formData.get("confirmPassword") as string;
+
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(email)) {
+                setError("Please enter a valid email address");
+                return;
+              }
+              const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+              if (!phoneRegex.test(phone)) {
+                setError("Please enter a valid phone number");
+                return;
+              }
+              if (pw.length < 6) {
+                setError("Password must be at least 6 characters");
+                return;
+              }
+              if (pw !== confirmPw) {
+                setError("Passwords do not match");
+                return;
+              }
               setSubmitted(true);
             }}
           >
+            {error && <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</div>}
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>First Name</Label>
-                <Input placeholder="John" required />
+                <Input name="firstName" placeholder="John" required />
               </div>
               <div className="space-y-2">
                 <Label>Last Name</Label>
-                <Input placeholder="Doe" required />
+                <Input name="lastName" placeholder="Doe" required />
               </div>
             </div>
             <div className="space-y-2">
               <Label>Company / Agency Name</Label>
-              <Input placeholder="Your company name" required />
+              <Input name="company" placeholder="Your company name" required />
             </div>
             <div className="space-y-2">
               <Label>Email Address</Label>
-              <Input type="email" placeholder="agent@company.com" required />
+              <Input name="email" type="email" placeholder="agent@company.com" required />
             </div>
             <div className="space-y-2">
               <Label>Phone Number</Label>
-              <Input type="tel" placeholder="+1 (555) 000-0000" required />
+              <Input name="phone" type="tel" placeholder="+1 (555) 000-0000" required />
             </div>
             <div className="space-y-2">
               <Label>Country</Label>
-              <Input placeholder="Country of operation" required />
+              <Input name="country" placeholder="Country of operation" required />
             </div>
             <div className="space-y-2">
               <Label>Password</Label>
-              <Input type="password" placeholder="Create a strong password" required />
+              <Input name="password" type="password" placeholder="Create a strong password (min 6 characters)" required minLength={6} />
             </div>
             <div className="space-y-2">
               <Label>Confirm Password</Label>
-              <Input type="password" placeholder="Confirm password" required />
+              <Input name="confirmPassword" type="password" placeholder="Confirm password" required minLength={6} />
             </div>
             <div className="flex items-start gap-2">
               <input type="checkbox" id="terms" className="mt-1 h-4 w-4 rounded border-input" required />
