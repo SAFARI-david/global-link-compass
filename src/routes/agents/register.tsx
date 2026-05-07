@@ -90,6 +90,32 @@ function AgentRegisterPage() {
             className="mt-8 space-y-5"
             onSubmit={(e) => {
               e.preventDefault();
+              setError("");
+              const form = e.currentTarget;
+              const formData = new FormData(form);
+              const email = formData.get("email") as string;
+              const phone = formData.get("phone") as string;
+              const pw = formData.get("password") as string;
+              const confirmPw = formData.get("confirmPassword") as string;
+
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(email)) {
+                setError("Please enter a valid email address");
+                return;
+              }
+              const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+              if (!phoneRegex.test(phone)) {
+                setError("Please enter a valid phone number");
+                return;
+              }
+              if (pw.length < 6) {
+                setError("Password must be at least 6 characters");
+                return;
+              }
+              if (pw !== confirmPw) {
+                setError("Passwords do not match");
+                return;
+              }
               setSubmitted(true);
             }}
           >
