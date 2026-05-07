@@ -108,9 +108,10 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="text-4xl font-extrabold leading-[1.05] tracking-tight text-primary-foreground md:text-5xl lg:text-6xl"
             >
-              Your passport to a{" "}
-              <span className="text-gradient-gold">global future</span>
-              <span className="text-primary-foreground">.</span>
+              Your journey to a{" "}
+              <span className="text-gradient-gold">new beginning</span>
+              <br className="hidden sm:block" />
+              {" "}starts right here.
             </motion.h1>
 
             <motion.p
