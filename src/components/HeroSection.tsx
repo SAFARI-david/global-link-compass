@@ -155,7 +155,7 @@ export function HeroSection() {
                 onClick={() => trackConversion(`primary_${active.id}`)}
               >
                 <Button variant="heroGold" size="xl" className="w-full sm:w-auto">
-                  Start Your Application Today <ArrowRight className="ml-1 h-5 w-5" />
+                  Let's Get Started <ArrowRight className="ml-1 h-5 w-5" />
                 </Button>
               </Link>
               <Button
