@@ -120,9 +120,9 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/70 md:text-lg"
             >
-              End-to-end visa support for work, study and travel — handled by licensed
-              specialists. Transparent pricing with government and embassy fees{" "}
-              <span className="font-semibold text-primary-foreground">included</span>.
+              We take the stress out of visa applications — whether you're moving for work, study, or family.
+              Real people guide you every step, with transparent pricing and{" "}
+              <span className="font-semibold text-primary-foreground">no hidden fees</span>.
             </motion.p>
 
             {/* Trust chips */}
