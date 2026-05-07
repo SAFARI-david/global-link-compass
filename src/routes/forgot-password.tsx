@@ -54,8 +54,8 @@ function ForgotPasswordPage() {
         <motion.div className="w-full max-w-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="mb-8 flex flex-col items-center gap-3 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold"><Globe className="h-6 w-6 text-gold-foreground" /></div>
-            <h1 className="text-2xl font-bold">Reset Password</h1>
-            <p className="text-sm text-muted-foreground">Enter your email and we'll send a reset link</p>
+            <h1 className="text-2xl font-bold">Forgot Your Password?</h1>
+            <p className="text-sm text-muted-foreground">No worries — it happens to everyone. Enter your email and we'll send you a reset link.</p>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
