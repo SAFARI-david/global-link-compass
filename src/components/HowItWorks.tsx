@@ -6,33 +6,33 @@ import { Button } from "@/components/ui/button";
 const steps = [
   { 
     icon: FileText, 
-    title: "Submit Your Details", 
-    desc: "Complete the guided application form — takes about 15 minutes",
-    detail: "We ask only what's needed. Nothing more.",
+    title: "Tell Us About Yourself", 
+    desc: "Fill out a simple form — it takes about 15 minutes, and we only ask what matters",
+    detail: "No jargon, no confusion. We'll guide you.",
   },
   { 
     icon: UserCheck, 
-    title: "Profile Review", 
-    desc: "Our team reviews your profile and confirms eligibility",
-    detail: "You'll hear back within 24 hours.",
+    title: "We Review Your Profile", 
+    desc: "A real person checks your details and confirms you're eligible",
+    detail: "You'll hear from us within 24 hours.",
   },
   { 
     icon: ClipboardList, 
-    title: "Document Checklist", 
-    desc: "Receive a personalized list of required documents",
-    detail: "Clear, specific — no guessing what's needed.",
+    title: "Your Personal Checklist", 
+    desc: "We send you exactly which documents you need — no guessing",
+    detail: "Clear, specific, and tailored to your situation.",
   },
   { 
     icon: CreditCard, 
-    title: "Fee Confirmation", 
-    desc: "Review transparent pricing before any payment",
-    detail: "No hidden fees. Full breakdown provided.",
+    title: "Transparent Pricing", 
+    desc: "See a full breakdown before you pay anything",
+    detail: "No surprises. No hidden fees. Promise.",
   },
   { 
     icon: Send, 
-    title: "Application Submitted", 
-    desc: "Your complete application is submitted professionally",
-    detail: "Track progress in real time from your dashboard.",
+    title: "We Submit for You", 
+    desc: "Your polished application goes in — professionally prepared",
+    detail: "Track everything from your dashboard.",
   },
 ];
 
