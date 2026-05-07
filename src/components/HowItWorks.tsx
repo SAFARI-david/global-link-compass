@@ -85,19 +85,19 @@ export function HowItWorks() {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.5 }}
         >
-          <h3 className="text-base font-bold">What Happens After Submission?</h3>
+          <h3 className="text-base font-bold">And After That? We've Still Got You.</h3>
           <div className="mt-4 grid gap-3 text-left text-sm">
             <div className="flex items-start gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">1</span>
-              <span className="text-muted-foreground">You receive a <strong className="text-foreground">confirmation email</strong> with your application reference number</span>
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">✓</span>
+              <span className="text-muted-foreground">You'll get a <strong className="text-foreground">confirmation email</strong> with your reference number right away</span>
             </div>
             <div className="flex items-start gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">2</span>
-              <span className="text-muted-foreground">A specialist reviews your profile and contacts you within <strong className="text-foreground">24 hours</strong></span>
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">✓</span>
+              <span className="text-muted-foreground">A friendly specialist will reach out within <strong className="text-foreground">24 hours</strong> to introduce themselves</span>
             </div>
             <div className="flex items-start gap-3">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">3</span>
-              <span className="text-muted-foreground">You'll receive a <strong className="text-foreground">clear fee breakdown</strong> — no payment until you approve</span>
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gold/10 text-xs font-bold text-gold">✓</span>
+              <span className="text-muted-foreground">You'll receive a <strong className="text-foreground">clear fee breakdown</strong> — nothing is charged until you say "go"</span>
             </div>
           </div>
           <div className="mt-5">
