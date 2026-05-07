@@ -148,7 +148,7 @@ function RegisterPage() {
                 )}
               </div>
               <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
-                {loading ? "Creating account…" : "Create Account"} <ArrowRight className="ml-1 h-4 w-4" />
+                {loading ? "Setting things up…" : "Create My Account"} <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </form>
 
