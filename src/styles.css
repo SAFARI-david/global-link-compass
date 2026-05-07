@@ -220,12 +220,13 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-card);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.35s cubic-bezier(0.2, 0, 0.2, 1);
   }
 
   .card-premium:hover {
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    border-color: oklch(0.75 0.14 80 / 0.3);
   }
 
   .gold-divider {
@@ -233,5 +234,41 @@
     width: 60px;
     background: linear-gradient(90deg, var(--gold), oklch(0.82 0.12 75));
     border-radius: 2px;
+  }
+
+  /* Friendly helper text */
+  .helper-text {
+    font-size: 0.75rem;
+    color: var(--color-muted-foreground);
+    line-height: 1.5;
+    margin-top: 0.25rem;
+  }
+
+  /* Warm error styling */
+  .error-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: oklch(0.55 0.22 25 / 0.08);
+    border: 1px solid oklch(0.55 0.22 25 / 0.15);
+    color: oklch(0.45 0.18 25);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  /* Success feedback */
+  .success-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    background: oklch(0.62 0.17 145 / 0.08);
+    border: 1px solid oklch(0.62 0.17 145 / 0.15);
+    color: oklch(0.40 0.14 145);
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 }
