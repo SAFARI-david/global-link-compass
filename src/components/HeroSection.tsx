@@ -49,8 +49,8 @@ const metrics = [
 
 const trustChips = [
   "Government & embassy fees included",
-  "Licensed migration specialists",
-  "No payment until you approve",
+  "Friendly, licensed specialists",
+  "You're in control — no payment until you're ready",
 ];
 
 export function HeroSection() {
@@ -99,7 +99,7 @@ export function HeroSection() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-gold"
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Trusted Migration Partner since 2018
+              Helping people move abroad since 2018
             </motion.div>
 
             <motion.h1
@@ -108,9 +108,10 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.05 }}
               className="text-4xl font-extrabold leading-[1.05] tracking-tight text-primary-foreground md:text-5xl lg:text-6xl"
             >
-              Your passport to a{" "}
-              <span className="text-gradient-gold">global future</span>
-              <span className="text-primary-foreground">.</span>
+              Your journey to a{" "}
+              <span className="text-gradient-gold">new beginning</span>
+              <br className="hidden sm:block" />
+              {" "}starts right here.
             </motion.h1>
 
             <motion.p
@@ -119,9 +120,9 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.15 }}
               className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/70 md:text-lg"
             >
-              End-to-end visa support for work, study and travel — handled by licensed
-              specialists. Transparent pricing with government and embassy fees{" "}
-              <span className="font-semibold text-primary-foreground">included</span>.
+              We take the stress out of visa applications — whether you're moving for work, study, or family.
+              Real people guide you every step, with transparent pricing and{" "}
+              <span className="font-semibold text-primary-foreground">no hidden fees</span>.
             </motion.p>
 
             {/* Trust chips */}
@@ -154,7 +155,7 @@ export function HeroSection() {
                 onClick={() => trackConversion(`primary_${active.id}`)}
               >
                 <Button variant="heroGold" size="xl" className="w-full sm:w-auto">
-                  Start Your Application Today <ArrowRight className="ml-1 h-5 w-5" />
+                  Let's Get Started <ArrowRight className="ml-1 h-5 w-5" />
                 </Button>
               </Link>
               <Button
@@ -166,7 +167,7 @@ export function HeroSection() {
                 }}
                 className="w-full sm:w-auto"
               >
-                Check your free eligibility
+                Am I eligible? Check for free
               </Button>
             </motion.div>
 
@@ -178,7 +179,7 @@ export function HeroSection() {
               className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-primary-foreground/80"
             >
               <CheckCircle2 className="h-4 w-4 text-gold" />
-              A licensed migration specialist will respond within 24 hours — no obligation, no spam.
+              A real person will review your details and get back to you within 24 hours — no pressure, no spam.
             </motion.p>
 
             {/* Rating row */}
@@ -211,7 +212,7 @@ export function HeroSection() {
                   </span>
                 </div>
                 <p className="text-xs text-primary-foreground/60">
-                  from 2,400+ verified applicants worldwide
+                  Loved by 2,400+ applicants around the world
                 </p>
               </div>
             </motion.div>
@@ -231,13 +232,13 @@ export function HeroSection() {
               <div className="relative">
                 <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
                   <Globe2 className="h-3.5 w-3.5" />
-                  Begin in 30 seconds
+                  Takes just 30 seconds
                 </div>
                 <h2 className="text-xl font-bold text-primary-foreground md:text-2xl">
-                  What are you applying for?
+                  Where would you like to go?
                 </h2>
                 <p className="mt-1 text-sm text-primary-foreground/60">
-                  Choose a pathway and we'll guide you to the right program.
+                  Pick a pathway — we'll help you figure out the rest.
                 </p>
 
                 <div className="mt-5 space-y-2.5">

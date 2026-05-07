@@ -5,32 +5,32 @@ const personas = [
   {
     icon: Briefcase,
     title: "Skilled Workers",
-    description: "Nurses, engineers, IT professionals, tradespeople and care workers seeking sponsored roles abroad.",
+    description: "Nurses, engineers, IT professionals, tradespeople and care workers looking for their next opportunity abroad.",
   },
   {
     icon: GraduationCap,
     title: "Students & Graduates",
-    description: "Anyone applying to universities or post-study work routes in the UK, Canada, Australia or Germany.",
+    description: "Dreamers and doers applying to universities or post-study work routes in the UK, Canada, Australia or Germany.",
   },
   {
     icon: Heart,
     title: "Families Reuniting",
-    description: "Spouses, partners and dependants joining loved ones already living and working overseas.",
+    description: "Spouses, partners and loved ones who just want to be together again — we'll help make it happen.",
   },
   {
     icon: Plane,
     title: "Visitors & Travellers",
-    description: "Tourists, business travellers and family members applying for short-stay visit visas.",
+    description: "Whether it's a holiday, a business trip, or visiting family — we'll sort the paperwork so you can focus on packing.",
   },
   {
     icon: Building2,
     title: "Employers & Sponsors",
-    description: "Companies recruiting international talent and managing licensed sponsorship obligations.",
+    description: "Companies hiring international talent who want sponsorship handled properly, without the headaches.",
   },
   {
     icon: Users,
     title: "Migration Agents",
-    description: "Independent agents and consultancies who want a trusted partner to process applications at scale.",
+    description: "Independent agents and consultancies who want a reliable partner to help their clients at scale.",
   },
 ];
 
@@ -46,13 +46,13 @@ export function WhoThisIsFor() {
           className="mx-auto max-w-2xl text-center"
         >
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold">
-            Who This Is For
+            You're Not Alone
           </div>
           <h2 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
-            Built for serious applicants — not tyre-kickers.
+            People just like you are already on their way.
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            We work with people who are ready to move forward. If any of these sound like you, you're in the right place.
+            Whether you're chasing a career, a degree, or a fresh start — we've helped thousands of people take the leap. Here's who we work with every day.
           </p>
         </motion.div>
 
@@ -82,7 +82,7 @@ export function WhoThisIsFor() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 text-center text-sm font-medium text-muted-foreground"
         >
-          Visa rules change frequently. <span className="font-bold text-foreground">Apply now</span> while current pathways remain open.
+          Immigration rules change all the time — but that's our job to worry about, not yours. <span className="font-bold text-foreground">Let's get moving.</span>
         </motion.p>
       </div>
     </section>

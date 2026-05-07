@@ -54,8 +54,8 @@ function ResetPasswordPage() {
         <div className="container-narrow flex justify-center">
           <motion.div className="w-full max-w-md rounded-xl border bg-card p-8 text-center shadow-sm" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-gold" />
-            <h1 className="text-2xl font-bold">Password Updated</h1>
-            <p className="mt-3 text-sm text-muted-foreground">Your password has been reset successfully.</p>
+            <h1 className="text-2xl font-bold">You're All Set! 🎉</h1>
+            <p className="mt-3 text-sm text-muted-foreground">Your password has been updated. You can now sign in with your new password.</p>
             <Link to="/login" search={{ redirect: "" }}><Button className="mt-6 bg-gold text-gold-foreground hover:bg-gold/90">Sign In</Button></Link>
           </motion.div>
         </div>
@@ -68,9 +68,9 @@ function ResetPasswordPage() {
       <div className="section-padding">
         <div className="container-narrow flex justify-center">
           <div className="w-full max-w-md rounded-xl border bg-card p-8 text-center shadow-sm">
-            <h1 className="text-xl font-bold">Invalid or Expired Link</h1>
-            <p className="mt-2 text-sm text-muted-foreground">This password reset link may have expired. Please request a new one.</p>
-            <Link to="/forgot-password"><Button className="mt-6" variant="outline">Request New Link</Button></Link>
+            <h1 className="text-xl font-bold">This Link Has Expired</h1>
+            <p className="mt-2 text-sm text-muted-foreground">No worries — just request a fresh reset link and you'll be back on track in no time.</p>
+            <Link to="/forgot-password"><Button className="mt-6" variant="outline">Get a New Link</Button></Link>
           </div>
         </div>
       </div>
@@ -83,7 +83,8 @@ function ResetPasswordPage() {
         <motion.div className="w-full max-w-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="mb-8 flex flex-col items-center gap-3 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold"><Globe className="h-6 w-6 text-gold-foreground" /></div>
-            <h1 className="text-2xl font-bold">Set New Password</h1>
+            <h1 className="text-2xl font-bold">Choose a New Password</h1>
+            <p className="text-sm text-muted-foreground">Pick something secure that you'll remember</p>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">

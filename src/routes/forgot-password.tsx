@@ -38,8 +38,9 @@ function ForgotPasswordPage() {
         <div className="container-narrow flex justify-center">
           <motion.div className="w-full max-w-md rounded-xl border bg-card p-8 text-center shadow-sm" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-gold" />
-            <h1 className="text-2xl font-bold">Check Your Email</h1>
-            <p className="mt-3 text-sm text-muted-foreground">If an account exists for <strong>{email}</strong>, you'll receive a password reset link.</p>
+            <h1 className="text-2xl font-bold">Check Your Inbox ✉️</h1>
+            <p className="mt-3 text-sm text-muted-foreground">If there's an account for <strong>{email}</strong>, a password reset link is on its way. It should arrive within a minute or two.</p>
+            <p className="mt-2 text-xs text-muted-foreground">Don't see it? Check your spam folder just in case.</p>
             <Link to="/login" search={{ redirect: "" }}><Button className="mt-6" variant="outline">Back to Sign In</Button></Link>
           </motion.div>
         </div>
@@ -53,8 +54,8 @@ function ForgotPasswordPage() {
         <motion.div className="w-full max-w-md" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="mb-8 flex flex-col items-center gap-3 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold"><Globe className="h-6 w-6 text-gold-foreground" /></div>
-            <h1 className="text-2xl font-bold">Reset Password</h1>
-            <p className="text-sm text-muted-foreground">Enter your email and we'll send a reset link</p>
+            <h1 className="text-2xl font-bold">Forgot Your Password?</h1>
+            <p className="text-sm text-muted-foreground">No worries — it happens to everyone. Enter your email and we'll send you a reset link.</p>
           </div>
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">

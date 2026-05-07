@@ -84,8 +84,8 @@ function LoginPage() {
               <Globe className="h-6 w-6 text-gold-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Welcome Back</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Sign in to your account</p>
+              <h1 className="text-2xl font-bold">Good to See You Again 👋</h1>
+              <p className="mt-1 text-sm text-muted-foreground">Sign in to pick up where you left off</p>
             </div>
           </div>
 
@@ -135,7 +135,7 @@ function LoginPage() {
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <Link to="/forgot-password" className="text-primary hover:underline">Forgot password?</Link>
+                <Link to="/forgot-password" className="text-primary hover:underline">Forgot your password? No worries</Link>
               </div>
               <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
                 {loading ? "Signing in…" : "Sign In"} <ArrowRight className="ml-1 h-4 w-4" />

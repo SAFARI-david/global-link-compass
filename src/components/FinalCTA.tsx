@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { LeadCaptureForm } from "@/components/LeadCaptureForm";
 
 const reassurances = [
-  { icon: Shield, text: "Structured application process" },
-  { icon: Clock, text: "Response within 24 hours" },
-  { icon: CreditCard, text: "No payment until you approve" },
-  { icon: CheckCircle2, text: "Clear pricing — no hidden fees" },
+  { icon: Shield, text: "We walk you through every step" },
+  { icon: Clock, text: "Hear back within 24 hours" },
+  { icon: CreditCard, text: "You decide when to pay" },
+  { icon: CheckCircle2, text: "Honest pricing, always" },
 ];
 
 export function FinalCTA() {
@@ -38,13 +38,13 @@ export function FinalCTA() {
           <div className="p-8 md:p-14">
             <div className="mx-auto max-w-2xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold">
-                Limited consultation slots this week
+                A few consultation spots left this week
               </div>
               <h2 className="text-2xl font-extrabold text-primary-foreground md:text-4xl">
-                Start Your Application Today — Before Visa Rules Change Again
+                Ready to take the first step?
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/70">
-                Tell us where you want to go. A licensed specialist will review your case and respond within <span className="font-bold text-primary-foreground">24 hours</span> with a personalised plan.
+                Tell us where you'd like to go. A friendly specialist will review your situation and get back to you within <span className="font-bold text-primary-foreground">24 hours</span> — with a personalised plan, not a sales pitch.
               </p>
             </div>
 
@@ -56,10 +56,10 @@ export function FinalCTA() {
             <div className="mx-auto mt-5 max-w-lg space-y-1.5 text-center">
               <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-primary-foreground/70">
                 <Shield className="h-3.5 w-3.5 text-gold" />
-                Your information stays private. We never sell or share your data.
+                Your information is safe with us. We never sell or share your data.
               </p>
               <p className="text-[11px] text-primary-foreground/40">
-                Service fees apply. Government and third-party fees are separate. No payment until you approve your plan.
+                Service fees apply after you approve your plan. Government fees are listed separately. No surprises — ever.
               </p>
             </div>
           </div>

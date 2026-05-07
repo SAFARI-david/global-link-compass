@@ -69,9 +69,12 @@ function RegisterPage() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold/10">
               <CheckCircle2 className="h-8 w-8 text-gold" />
             </div>
-            <h1 className="text-2xl font-bold">Check Your Email</h1>
+            <h1 className="text-2xl font-bold">You're Almost There! 🎉</h1>
             <p className="mt-3 text-sm text-muted-foreground">
-              We've sent a confirmation link to <strong>{email}</strong>. Click the link to activate your account.
+              We've sent a confirmation link to <strong>{email}</strong>. Just click the link to activate your account — it only takes a second.
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Didn't receive it? Check your spam folder, or wait a minute and try again.
             </p>
             <Link to="/login" search={{ redirect: "" }}><Button className="mt-6" variant="outline">Go to Sign In</Button></Link>
           </motion.div>
@@ -89,20 +92,21 @@ function RegisterPage() {
               <Globe className="h-6 w-6 text-gold-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Create Your Account</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Start your visa or study application journey</p>
+              <h1 className="text-2xl font-bold">Let's Get You Set Up</h1>
+              <p className="mt-1 text-sm text-muted-foreground">Creating an account takes less than a minute — and it's completely free.</p>
             </div>
           </div>
 
           <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
-              {error && <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</div>}
+              {error && <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive">{error}</div>}
               <div>
                 <Label>Full Name</Label>
                 <div className="relative mt-1.5">
                   <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input placeholder="Your full name" className="pl-10" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                  <Input placeholder="e.g. Sarah Johnson" className="pl-10" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                 </div>
+                <p className="helper-text">As it appears on your passport or ID</p>
               </div>
               <div>
                 <Label>Email</Label>
@@ -110,6 +114,7 @@ function RegisterPage() {
                   <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input type="email" placeholder="you@example.com" className="pl-10" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
+                <p className="helper-text">We'll send a quick confirmation — no spam, ever</p>
               </div>
               <div>
                 <Label>Phone Number <span className="text-xs text-muted-foreground font-normal">(optional)</span></Label>
@@ -122,11 +127,12 @@ function RegisterPage() {
                 <Label>Password</Label>
                 <div className="relative mt-1.5">
                   <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input type={showPassword ? "text" : "password"} placeholder="Min 6 characters" className="pl-10 pr-10" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+                  <Input type={showPassword ? "text" : "password"} placeholder="Choose something memorable" className="pl-10 pr-10" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+                <p className="helper-text">At least 6 characters — mix letters and numbers for extra safety</p>
               </div>
               <div>
                 <Label>Confirm Password</Label>
@@ -142,7 +148,7 @@ function RegisterPage() {
                 )}
               </div>
               <Button type="submit" className="w-full bg-gold text-gold-foreground hover:bg-gold/90" disabled={loading}>
-                {loading ? "Creating account…" : "Create Account"} <ArrowRight className="ml-1 h-4 w-4" />
+                {loading ? "Setting things up…" : "Create My Account"} <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
             </form>
 
