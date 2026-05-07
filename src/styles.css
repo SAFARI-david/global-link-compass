@@ -66,7 +66,7 @@
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.625rem;
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
@@ -80,26 +80,32 @@
   --surface: oklch(0.98 0.005 260);
   --surface-elevated: oklch(1 0 0);
 
+  /* Success / warm feedback */
+  --success: oklch(0.62 0.17 145);
+  --success-foreground: oklch(0.99 0.002 145);
+  --info: oklch(0.60 0.12 240);
+  --info-foreground: oklch(0.99 0.002 240);
+
   /* Semantic tokens */
-  --background: oklch(0.99 0.002 260);
-  --foreground: oklch(0.22 0.05 260);
+  --background: oklch(0.99 0.003 75);
+  --foreground: oklch(0.25 0.04 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.05 260);
+  --card-foreground: oklch(0.25 0.04 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.05 260);
+  --popover-foreground: oklch(0.25 0.04 260);
   --primary: oklch(0.35 0.12 260);
   --primary-foreground: oklch(0.99 0.002 260);
-  --secondary: oklch(0.96 0.008 260);
-  --secondary-foreground: oklch(0.22 0.05 260);
-  --muted: oklch(0.96 0.006 260);
-  --muted-foreground: oklch(0.50 0.03 260);
+  --secondary: oklch(0.97 0.008 75);
+  --secondary-foreground: oklch(0.25 0.04 260);
+  --muted: oklch(0.96 0.008 75);
+  --muted-foreground: oklch(0.52 0.03 260);
   --accent: oklch(0.75 0.14 80);
   --accent-foreground: oklch(0.22 0.05 260);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.99 0.002 260);
-  --border: oklch(0.92 0.01 260);
-  --input: oklch(0.92 0.01 260);
-  --ring: oklch(0.35 0.12 260);
+  --border: oklch(0.93 0.008 75);
+  --input: oklch(0.93 0.008 75);
+  --ring: oklch(0.55 0.10 260);
   --chart-1: oklch(0.35 0.12 260);
   --chart-2: oklch(0.75 0.14 80);
   --chart-3: oklch(0.55 0.10 180);
@@ -114,10 +120,10 @@
   --sidebar-border: oklch(0.30 0.06 260);
   --sidebar-ring: oklch(0.75 0.14 80);
 
-  /* Shadows */
-  --shadow-card: 0 1px 3px oklch(0.22 0.05 260 / 0.06), 0 1px 2px oklch(0.22 0.05 260 / 0.04);
-  --shadow-card-hover: 0 10px 25px oklch(0.22 0.05 260 / 0.1), 0 4px 10px oklch(0.22 0.05 260 / 0.06);
-  --shadow-elevated: 0 20px 40px oklch(0.22 0.05 260 / 0.12);
+  /* Shadows — softer, warmer */
+  --shadow-card: 0 1px 4px oklch(0.22 0.03 75 / 0.06), 0 1px 2px oklch(0.22 0.03 75 / 0.03);
+  --shadow-card-hover: 0 12px 28px oklch(0.22 0.03 75 / 0.09), 0 4px 12px oklch(0.22 0.03 75 / 0.05);
+  --shadow-elevated: 0 20px 40px oklch(0.22 0.03 75 / 0.10);
 }
 
 .dark {
