@@ -84,8 +84,8 @@ function LoginPage() {
               <Globe className="h-6 w-6 text-gold-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Welcome Back</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Sign in to your account</p>
+              <h1 className="text-2xl font-bold">Good to See You Again 👋</h1>
+              <p className="mt-1 text-sm text-muted-foreground">Sign in to pick up where you left off</p>
             </div>
           </div>
 
