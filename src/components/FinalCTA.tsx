@@ -38,13 +38,13 @@ export function FinalCTA() {
           <div className="p-8 md:p-14">
             <div className="mx-auto max-w-2xl text-center">
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold">
-                Limited consultation slots this week
+                A few consultation spots left this week
               </div>
               <h2 className="text-2xl font-extrabold text-primary-foreground md:text-4xl">
-                Start Your Application Today — Before Visa Rules Change Again
+                Ready to take the first step?
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-primary-foreground/70">
-                Tell us where you want to go. A licensed specialist will review your case and respond within <span className="font-bold text-primary-foreground">24 hours</span> with a personalised plan.
+                Tell us where you'd like to go. A friendly specialist will review your situation and get back to you within <span className="font-bold text-primary-foreground">24 hours</span> — with a personalised plan, not a sales pitch.
               </p>
             </div>
 
