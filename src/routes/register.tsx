@@ -104,8 +104,9 @@ function RegisterPage() {
                 <Label>Full Name</Label>
                 <div className="relative mt-1.5">
                   <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input placeholder="Your full name" className="pl-10" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                  <Input placeholder="e.g. Sarah Johnson" className="pl-10" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
                 </div>
+                <p className="helper-text">As it appears on your passport or ID</p>
               </div>
               <div>
                 <Label>Email</Label>
