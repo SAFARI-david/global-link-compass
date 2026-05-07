@@ -212,7 +212,7 @@ export function HeroSection() {
                   </span>
                 </div>
                 <p className="text-xs text-primary-foreground/60">
-                  from 2,400+ verified applicants worldwide
+                  Loved by 2,400+ applicants around the world
                 </p>
               </div>
             </motion.div>
