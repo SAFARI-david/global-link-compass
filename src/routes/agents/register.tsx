@@ -17,6 +17,7 @@ export const Route = createFileRoute("/agents/register")({
 
 function AgentRegisterPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   if (submitted) {
     return (
