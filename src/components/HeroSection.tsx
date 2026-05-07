@@ -167,7 +167,7 @@ export function HeroSection() {
                 }}
                 className="w-full sm:w-auto"
               >
-                Check your free eligibility
+                Am I eligible? Check for free
               </Button>
             </motion.div>
 
