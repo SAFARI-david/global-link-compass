@@ -114,6 +114,7 @@ function RegisterPage() {
                   <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input type="email" placeholder="you@example.com" className="pl-10" value={email} onChange={(e) => setEmail(e.target.value)} required />
                 </div>
+                <p className="helper-text">We'll send a quick confirmation — no spam, ever</p>
               </div>
               <div>
                 <Label>Phone Number <span className="text-xs text-muted-foreground font-normal">(optional)</span></Label>
