@@ -46,13 +46,13 @@ export function WhoThisIsFor() {
           className="mx-auto max-w-2xl text-center"
         >
           <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gold">
-            Who This Is For
+            You're Not Alone
           </div>
           <h2 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
-            Built for serious applicants — not tyre-kickers.
+            People just like you are already on their way.
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            We work with people who are ready to move forward. If any of these sound like you, you're in the right place.
+            Whether you're chasing a career, a degree, or a fresh start — we've helped thousands of people take the leap. Here's who we work with every day.
           </p>
         </motion.div>
 
