@@ -45,6 +45,15 @@ function RegisterPage() {
       setError("Password must be at least 6 characters");
       return;
     }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    const phoneRegex = /^\+?[0-9\s\-()]{7,20}$/;
+    if (phone && !phoneRegex.test(phone)) {
+      setError("Please enter a valid phone number");
+      return;
+    }
     setLoading(true);
     const { error } = await signUp(email, password, fullName);
     if (error) setError(error.message);
