@@ -159,12 +159,27 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  /* Smoother focus rings */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+    transition: outline-offset 0.15s ease;
+  }
+
+  /* Friendlier selection */
+  ::selection {
+    background: oklch(0.75 0.14 80 / 0.25);
   }
 }
 
