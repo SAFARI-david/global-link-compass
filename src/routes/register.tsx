@@ -69,9 +69,12 @@ function RegisterPage() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold/10">
               <CheckCircle2 className="h-8 w-8 text-gold" />
             </div>
-            <h1 className="text-2xl font-bold">Check Your Email</h1>
+            <h1 className="text-2xl font-bold">You're Almost There! 🎉</h1>
             <p className="mt-3 text-sm text-muted-foreground">
-              We've sent a confirmation link to <strong>{email}</strong>. Click the link to activate your account.
+              We've sent a confirmation link to <strong>{email}</strong>. Just click the link to activate your account — it only takes a second.
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Didn't receive it? Check your spam folder, or wait a minute and try again.
             </p>
             <Link to="/login" search={{ redirect: "" }}><Button className="mt-6" variant="outline">Go to Sign In</Button></Link>
           </motion.div>
