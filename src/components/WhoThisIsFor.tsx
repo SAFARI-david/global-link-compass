@@ -82,7 +82,7 @@ export function WhoThisIsFor() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 text-center text-sm font-medium text-muted-foreground"
         >
-          Visa rules change frequently. <span className="font-bold text-foreground">Apply now</span> while current pathways remain open.
+          Immigration rules change all the time — but that's our job to worry about, not yours. <span className="font-bold text-foreground">Let's get moving.</span>
         </motion.p>
       </div>
     </section>
