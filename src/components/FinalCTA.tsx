@@ -56,10 +56,10 @@ export function FinalCTA() {
             <div className="mx-auto mt-5 max-w-lg space-y-1.5 text-center">
               <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-primary-foreground/70">
                 <Shield className="h-3.5 w-3.5 text-gold" />
-                Your information stays private. We never sell or share your data.
+                Your information is safe with us. We never sell or share your data.
               </p>
               <p className="text-[11px] text-primary-foreground/40">
-                Service fees apply. Government and third-party fees are separate. No payment until you approve your plan.
+                Service fees apply after you approve your plan. Government fees are listed separately. No surprises — ever.
               </p>
             </div>
           </div>
