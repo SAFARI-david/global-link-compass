@@ -179,7 +179,7 @@ export function HeroSection() {
               className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-primary-foreground/80"
             >
               <CheckCircle2 className="h-4 w-4 text-gold" />
-              A licensed migration specialist will respond within 24 hours — no obligation, no spam.
+              A real person will review your details and get back to you within 24 hours — no pressure, no spam.
             </motion.p>
 
             {/* Rating row */}
