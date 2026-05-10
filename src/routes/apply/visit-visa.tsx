@@ -1,286 +1,521 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "@tanstack/react-router";
-import {
-  User, Plane, MapPin, Users, FileText, CheckCircle,
-  ArrowLeft, ArrowRight, Check, Info, Globe,
-} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { FeeAcknowledgment } from "@/components/FeeAcknowledgment";
+import {
+  User, Plane, Globe, Users, FileText, Sparkles,
+  ArrowLeft, ArrowRight, CheckCircle2, Shield, Clock, MapPin,
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
 
 export const Route = createFileRoute("/apply/visit-visa")({
   head: () => ({
     meta: [
-      { title: "Apply for Visit Visa — Global Link Migration Services" },
-      { name: "description", content: "Start your visit visa application. Tourism, family visit, or business — we handle everything." },
-      { property: "og:title", content: "Apply for Visit Visa — Global Link Migration Services" },
-      { property: "og:description", content: "Start your visit visa application with our step-by-step form." },
+      { title: "Visit Visa Application — Global Link Migration Services" },
+      { name: "description", content: "Start your guided visit visa application. Tourism, family, business — we'll review your case and confirm the right visa pathway." },
+      { property: "og:title", content: "Visit Visa Application — Global Link Migration Services" },
+      { property: "og:description", content: "Step-by-step guided visit visa application." },
     ],
   }),
-  component: VisitVisaPage,
+  component: VisitVisaApplicationForm,
 });
 
 const STEPS = [
-  { label: "Personal Info", icon: User },
+  { label: "Personal", icon: User },
   { label: "Passport & Travel", icon: Plane },
   { label: "Visit Details", icon: Globe },
   { label: "Dependants", icon: Users },
   { label: "Documents", icon: FileText },
-  { label: "Review & Submit", icon: CheckCircle },
+  { label: "Review", icon: Sparkles },
 ];
 
-function InputField({ label, placeholder, type = "text", required = true, value, onChange }: {
-  label: string; placeholder?: string; type?: string; required?: boolean;
-  value?: string; onChange?: (v: string) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-foreground">
-        {label} {required && <span className="text-destructive">*</span>}
-      </label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        value={value || ""}
-        onChange={(e) => onChange?.(e.target.value)}
-        className="rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-        required={required}
-      />
-    </div>
-  );
-}
-
-function SelectField({ label, options, required = true, value, onChange }: {
-  label: string; options: string[]; required?: boolean;
-  value?: string; onChange?: (v: string) => void;
-}) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-foreground">
-        {label} {required && <span className="text-destructive">*</span>}
-      </label>
-      <select
-        value={value || ""}
-        onChange={(e) => onChange?.(e.target.value)}
-        className="rounded-lg border border-border bg-background px-4 py-2.5 text-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-        required={required}
-      >
-        <option value="">Select…</option>
-        {options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>
-    </div>
-  );
-}
-
-function VisitVisaPage() {
-  const navigate = useNavigate();
+function VisitVisaApplicationForm() {
   const [step, setStep] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState<Record<string, string>>({});
+  const [refNumber, setRefNumber] = useState("");
+  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [declarationConfirmed, setDeclarationConfirmed] = useState(false);
+  const navigate = useNavigate();
 
-  function u(key: string, val: string) {
-    setForm((prev) => ({ ...prev, [key]: val }));
+  function update(field: string, value: string) {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   }
 
   async function handleSubmit() {
+    if (!formData.fullName || !formData.email) {
+      toast.error("Please fill in at least your name and email.");
+      return;
+    }
     setSubmitting(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      const { error } = await supabase.from("applications").insert({
-        application_type: "Visit Visa",
-        destination_country: form.destination_country || null,
+      const { data, error } = await supabase.from("applications").insert({
         user_id: user?.id || null,
-        form_data: form as any,
-        reference_number: "placeholder",
-      });
+        application_type: "Visit Visa" as any,
+        destination_country: formData.destCountry || null,
+        form_data: formData as any,
+        reference_number: "",
+      } as any).select("id, reference_number").single();
       if (error) throw error;
-      toast.success("Visit visa application submitted successfully!");
-      navigate({ to: user ? "/dashboard" : "/" });
+      setRefNumber(data?.reference_number || "");
+      setSubmitted(true);
+      toast.success("Application submitted!");
     } catch (err: any) {
-      toast.error(err?.message || "Failed to submit application");
+      console.error("Submit error:", err);
+      toast.error("Failed to submit. Please try again.");
     } finally {
       setSubmitting(false);
     }
   }
 
-  const canNext = () => {
-    if (step === 0) return form.full_name && form.email && form.nationality;
-    if (step === 1) return form.has_passport && form.passport_number;
-    if (step === 2) return form.destination_country && form.purpose_of_visit;
-    return true;
-  };
+  function next() {
+    if (step < STEPS.length - 1) setStep(step + 1);
+    else handleSubmit();
+  }
 
-  return (
-    <div className="min-h-screen bg-surface">
-      {/* Header */}
-      <div className="bg-navy-gradient text-primary-foreground py-10">
-        <div className="container-narrow text-center">
-          <h1 className="text-2xl font-bold lg:text-3xl font-heading">Visit Visa Application</h1>
-          <p className="mt-2 text-sm opacity-80">Tourism, family visits, or business — complete the form below to get started.</p>
+  function back() {
+    if (step > 0) setStep(step - 1);
+  }
+
+  if (submitted) {
+    return (
+      <div className="section-padding">
+        <div className="container-narrow">
+          <motion.div
+            className="mx-auto max-w-lg rounded-xl border bg-card p-8 text-center shadow-lg"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gold/10">
+              <CheckCircle2 className="h-8 w-8 text-gold" />
+            </div>
+            <h1 className="text-2xl font-bold">Application Submitted!</h1>
+            {refNumber && <p className="mt-1 text-sm font-medium text-primary">Reference: {refNumber}</p>}
+            <p className="mt-3 text-sm text-muted-foreground">
+              Thanks — we'll review your visit visa enquiry and reach out within 24 hours with next steps.
+            </p>
+            <div className="mt-6 rounded-lg bg-muted/50 p-4 text-left text-sm">
+              <h3 className="mb-2 font-semibold">What happens next?</h3>
+              <ol className="space-y-1.5 text-muted-foreground">
+                <li className="flex gap-2"><span className="font-bold text-gold">1.</span> Our team reviews your travel plans and profile</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">2.</span> We confirm the right visa category and document checklist</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">3.</span> You provide documents — we prepare your application</li>
+                <li className="flex gap-2"><span className="font-bold text-gold">4.</span> We submit and track your application through to a decision</li>
+              </ol>
+            </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              No payment is required at this stage — fees will be confirmed once we've reviewed your case.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <Link to="/visit"><Button variant="outline">Browse Destinations</Button></Link>
+              <Link to="/"><Button>Return Home</Button></Link>
+            </div>
+          </motion.div>
         </div>
       </div>
+    );
+  }
 
-      {/* Progress */}
-      <div className="border-b bg-card">
-        <div className="container-narrow py-4">
-          <div className="flex items-center justify-between gap-1">
-            {STEPS.map((s, i) => (
-              <div key={i} className="flex flex-1 flex-col items-center gap-1">
-                <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
-                  i < step ? "bg-primary text-primary-foreground" :
-                  i === step ? "bg-gold text-gold-foreground" :
-                  "bg-muted text-muted-foreground"
-                }`}>
-                  {i < step ? <Check className="h-4 w-4" /> : i + 1}
-                </div>
-                <span className="text-[10px] font-medium text-muted-foreground hidden sm:block">{s.label}</span>
-              </div>
-            ))}
+  return (
+    <div className="section-padding">
+      <div className="container-narrow">
+        <div className="mx-auto max-w-2xl">
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <div className="gold-divider mx-auto mb-4" />
+            <h1 className="text-2xl font-bold md:text-3xl">Visit Visa Application</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Step {step + 1} of {STEPS.length} · Estimated {6 - step} min remaining
+            </p>
+          </div>
+
+          {/* Progress */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
+              {STEPS.map((s, i) => {
+                const Icon = s.icon;
+                const done = i < step;
+                const active = i === step;
+                return (
+                  <div key={s.label} className="flex flex-col items-center gap-1">
+                    <div className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition-colors ${done ? "border-gold bg-gold text-gold-foreground" : active ? "border-primary bg-primary text-primary-foreground" : "border-border bg-muted text-muted-foreground"}`}>
+                      {done ? <CheckCircle2 className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+                    </div>
+                    <span className={`hidden text-[10px] md:block ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{s.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-3 h-1.5 rounded-full bg-muted">
+              <div className="h-full rounded-full bg-gold transition-all duration-500" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
+            </div>
+          </div>
+
+          {/* Step Content */}
+          <div className="rounded-xl border bg-card p-6 shadow-sm md:p-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.25 }}
+              >
+                {step === 0 && <StepPersonal data={formData} update={update} />}
+                {step === 1 && <StepPassport data={formData} update={update} />}
+                {step === 2 && <StepVisitDetails data={formData} update={update} />}
+                {step === 3 && <StepDependants data={formData} update={update} />}
+                {step === 4 && <StepDocuments />}
+                {step === 5 && (
+                  <StepReview
+                    data={formData}
+                    confirmed={declarationConfirmed}
+                    onConfirm={setDeclarationConfirmed}
+                  />
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation */}
+            <div className="mt-8 flex items-center justify-between border-t pt-6">
+              <Button variant="ghost" onClick={back} disabled={step === 0} className="gap-1">
+                <ArrowLeft className="h-4 w-4" /> Back
+              </Button>
+              <Button
+                onClick={next}
+                disabled={submitting || (step === STEPS.length - 1 && !declarationConfirmed)}
+                className="gap-1 bg-gold text-gold-foreground hover:bg-gold/90"
+              >
+                {step === STEPS.length - 1
+                  ? (submitting ? "Submitting…" : !declarationConfirmed ? "Confirm to continue" : "Submit Application")
+                  : "Continue"}{" "}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Trust */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-[11px] text-muted-foreground">
+            <span className="flex items-center gap-1"><Shield className="h-3 w-3" /> Your data is secure</span>
+            <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> We respond within 24 hours</span>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Form */}
-      <div className="container-narrow py-8 max-w-2xl">
-        <AnimatePresence mode="wait">
-          <motion.div key={step} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
-            {step === 0 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Personal Information</h2>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField label="Full Name (as in passport)" value={form.full_name} onChange={(v) => u("full_name", v)} />
-                  <InputField label="Date of Birth" type="date" value={form.dob} onChange={(v) => u("dob", v)} />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <SelectField label="Gender" options={["Male", "Female", "Other"]} value={form.gender} onChange={(v) => u("gender", v)} />
-                  <InputField label="Nationality" value={form.nationality} onChange={(v) => u("nationality", v)} />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField label="Email Address" type="email" value={form.email} onChange={(v) => u("email", v)} />
-                  <InputField label="Phone Number" value={form.phone} onChange={(v) => u("phone", v)} required={false} />
-                </div>
-                <InputField label="Country of Residence" value={form.country_of_residence} onChange={(v) => u("country_of_residence", v)} />
-              </div>
-            )}
+/* ---- Step Components ---- */
 
-            {step === 1 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Passport & Travel History</h2>
-                <SelectField label="Do you have a valid passport?" options={["Yes", "No", "Expired"]} value={form.has_passport} onChange={(v) => u("has_passport", v)} />
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField label="Passport Number" value={form.passport_number} onChange={(v) => u("passport_number", v)} />
-                  <InputField label="Passport Expiry Date" type="date" value={form.passport_expiry} onChange={(v) => u("passport_expiry", v)} />
-                </div>
-                <InputField label="Country of Issue" value={form.passport_country} onChange={(v) => u("passport_country", v)} />
-                <SelectField label="Have you travelled internationally before?" options={["Yes", "No"]} value={form.prev_travel} onChange={(v) => u("prev_travel", v)} />
-                {form.prev_travel === "Yes" && (
-                  <InputField label="Countries visited (comma-separated)" value={form.countries_visited} onChange={(v) => u("countries_visited", v)} required={false} />
-                )}
-              </div>
-            )}
+interface StepProps { data: Record<string, string>; update: (f: string, v: string) => void; }
 
-            {step === 2 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Visit Details</h2>
-                <SelectField label="Destination Country" options={["Canada", "United Kingdom", "Australia", "Germany", "United States", "France", "United Arab Emirates", "Other"]} value={form.destination_country} onChange={(v) => u("destination_country", v)} />
-                <SelectField label="Purpose of Visit" options={["Tourism / Sightseeing", "Family Visit", "Business Meeting", "Medical Treatment", "Conference / Event", "Short Course / Training", "Other"]} value={form.purpose_of_visit} onChange={(v) => u("purpose_of_visit", v)} />
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <InputField label="Expected Travel Date" type="date" value={form.travel_date} onChange={(v) => u("travel_date", v)} />
-                  <InputField label="Duration of Stay" value={form.duration} onChange={(v) => u("duration", v)} placeholder="e.g. 2 weeks, 3 months" />
-                </div>
-                <SelectField label="Do you have a sponsor or host in the destination country?" options={["Yes", "No"]} value={form.has_sponsor} onChange={(v) => u("has_sponsor", v)} />
-                {form.has_sponsor === "Yes" && (
-                  <InputField label="Sponsor / Host Details" value={form.sponsor_details} onChange={(v) => u("sponsor_details", v)} placeholder="Name, relationship, address" />
-                )}
-                <SelectField label="Have you been refused a visa before?" options={["No", "Yes"]} value={form.prev_refusal} onChange={(v) => u("prev_refusal", v)} />
-                {form.prev_refusal === "Yes" && (
-                  <InputField label="Refusal Details" value={form.refusal_details} onChange={(v) => u("refusal_details", v)} placeholder="Country, year, reason" required={false} />
-                )}
-              </div>
-            )}
+function StepPersonal({ data, update }: StepProps) {
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-bold">Personal Details</h2>
+      <p className="text-sm text-muted-foreground">Tell us about yourself — exactly as it appears on your passport.</p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div><Label>Full Name *</Label><Input value={data.fullName || ""} onChange={(e) => update("fullName", e.target.value)} placeholder="As shown in passport" /></div>
+        <div><Label>Date of Birth *</Label><Input type="date" value={data.dob || ""} onChange={(e) => update("dob", e.target.value)} /></div>
+        <div>
+          <Label>Gender</Label>
+          <Select value={data.gender || ""} onValueChange={(v) => update("gender", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="male">Male</SelectItem>
+              <SelectItem value="female">Female</SelectItem>
+              <SelectItem value="other">Other / Prefer not to say</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div><Label>Nationality *</Label><Input value={data.nationality || ""} onChange={(e) => update("nationality", e.target.value)} placeholder="e.g. Nigerian" /></div>
+        <div><Label>Country of Residence *</Label><Input value={data.residence || ""} onChange={(e) => update("residence", e.target.value)} placeholder="e.g. Nigeria" /></div>
+        <div><Label>Phone *</Label><Input type="tel" value={data.phone || ""} onChange={(e) => update("phone", e.target.value)} placeholder="+234..." /></div>
+        <div className="sm:col-span-2"><Label>Email *</Label><Input type="email" value={data.email || ""} onChange={(e) => update("email", e.target.value)} placeholder="you@example.com" /></div>
+      </div>
+    </div>
+  );
+}
 
-            {step === 3 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Dependants</h2>
-                <SelectField label="Will anyone travel with you?" options={["No", "Yes — Spouse", "Yes — Children", "Yes — Spouse & Children"]} value={form.has_dependants} onChange={(v) => u("has_dependants", v)} />
-                {form.has_dependants && form.has_dependants !== "No" && (
-                  <>
-                    <InputField label="Number of dependants" type="number" value={form.dependants_count} onChange={(v) => u("dependants_count", v)} />
-                    <InputField label="Dependant names & dates of birth" value={form.dependant_details} onChange={(v) => u("dependant_details", v)} placeholder="Name — DOB, one per line" required={false} />
-                  </>
-                )}
-              </div>
-            )}
+function StepPassport({ data, update }: StepProps) {
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-bold">Passport & Travel History</h2>
+      <p className="text-sm text-muted-foreground">Your travel record helps embassies assess your visa application.</p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <Label>Do you have a valid passport? *</Label>
+          <Select value={data.hasPassport || ""} onValueChange={(v) => update("hasPassport", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="yes">Yes, valid</SelectItem>
+              <SelectItem value="expired">Expired</SelectItem>
+              <SelectItem value="no">No passport yet</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div><Label>Passport Number</Label><Input value={data.passportNumber || ""} onChange={(e) => update("passportNumber", e.target.value)} placeholder="Passport number" /></div>
+        <div><Label>Passport Expiry Date</Label><Input type="date" value={data.passportExpiry || ""} onChange={(e) => update("passportExpiry", e.target.value)} /></div>
+        <div><Label>Country of Issue</Label><Input value={data.passportCountry || ""} onChange={(e) => update("passportCountry", e.target.value)} placeholder="e.g. Nigeria" /></div>
+        <div>
+          <Label>Travelled internationally before?</Label>
+          <Select value={data.prevTravel || ""} onValueChange={(v) => update("prevTravel", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="yes">Yes</SelectItem>
+              <SelectItem value="no">No</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Previous Visa Refusals?</Label>
+          <Select value={data.prevRefusal || ""} onValueChange={(v) => update("prevRefusal", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">No previous refusals</SelectItem>
+              <SelectItem value="one">1 refusal</SelectItem>
+              <SelectItem value="multiple">2 or more</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        {data.prevTravel === "yes" && (
+          <div className="sm:col-span-2">
+            <Label>Countries visited (last 5 years)</Label>
+            <Input value={data.countriesVisited || ""} onChange={(e) => update("countriesVisited", e.target.value)} placeholder="Comma-separated" />
+          </div>
+        )}
+        {data.prevRefusal && data.prevRefusal !== "none" && (
+          <div className="sm:col-span-2">
+            <Label>Refusal Details</Label>
+            <Textarea value={data.refusalDetails || ""} onChange={(e) => update("refusalDetails", e.target.value)} placeholder="Country, year, reason given…" rows={3} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-            {step === 4 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Documents</h2>
-                <p className="text-sm text-muted-foreground">You can upload documents now or after submission. Our team will guide you on exactly what's needed.</p>
-                <div className="rounded-lg border-2 border-dashed border-border p-8 text-center">
-                  <FileText className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
-                  <p className="text-sm text-muted-foreground">Document upload will be available after submission</p>
-                  <p className="text-xs text-muted-foreground mt-1">Typically required: passport copy, bank statements, invitation letter, travel itinerary</p>
-                </div>
-                <InputField label="Additional Notes" value={form.additional_notes} onChange={(v) => u("additional_notes", v)} required={false} />
-              </div>
-            )}
+function StepVisitDetails({ data, update }: StepProps) {
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-bold">Visit Details</h2>
+      <p className="text-sm text-muted-foreground">Tell us about the trip you're planning.</p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <Label>Destination Country *</Label>
+          <Select value={data.destCountry || ""} onValueChange={(v) => update("destCountry", v)}>
+            <SelectTrigger><SelectValue placeholder="Select country" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Canada">Canada</SelectItem>
+              <SelectItem value="United Kingdom">United Kingdom</SelectItem>
+              <SelectItem value="Australia">Australia</SelectItem>
+              <SelectItem value="Germany">Germany</SelectItem>
+              <SelectItem value="United States">United States</SelectItem>
+              <SelectItem value="France">France</SelectItem>
+              <SelectItem value="Schengen Area">Schengen Area</SelectItem>
+              <SelectItem value="United Arab Emirates">United Arab Emirates</SelectItem>
+              <SelectItem value="Other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Purpose of Visit *</Label>
+          <Select value={data.purpose || ""} onValueChange={(v) => update("purpose", v)}>
+            <SelectTrigger><SelectValue placeholder="Select purpose" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="tourism">Tourism / Sightseeing</SelectItem>
+              <SelectItem value="family">Family Visit</SelectItem>
+              <SelectItem value="business">Business Meeting</SelectItem>
+              <SelectItem value="medical">Medical Treatment</SelectItem>
+              <SelectItem value="conference">Conference / Event</SelectItem>
+              <SelectItem value="course">Short Course / Training</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div><Label>Expected Travel Date</Label><Input type="date" value={data.travelDate || ""} onChange={(e) => update("travelDate", e.target.value)} /></div>
+        <div><Label>Duration of Stay</Label><Input value={data.duration || ""} onChange={(e) => update("duration", e.target.value)} placeholder="e.g. 2 weeks, 3 months" /></div>
+        <div>
+          <Label>Sponsor or host in destination?</Label>
+          <Select value={data.hasSponsor || ""} onValueChange={(v) => update("hasSponsor", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="no">No</SelectItem>
+              <SelectItem value="family">Yes — Family/Friend</SelectItem>
+              <SelectItem value="company">Yes — Company/Business</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>Funding for the Trip</Label>
+          <Select value={data.funding || ""} onValueChange={(v) => update("funding", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="self">Self-funded</SelectItem>
+              <SelectItem value="sponsor">Sponsored</SelectItem>
+              <SelectItem value="employer">Employer-funded</SelectItem>
+              <SelectItem value="mixed">Mixed</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        {data.hasSponsor && data.hasSponsor !== "no" && (
+          <div className="sm:col-span-2">
+            <Label>Sponsor / Host Details</Label>
+            <Textarea value={data.sponsorDetails || ""} onChange={(e) => update("sponsorDetails", e.target.value)} placeholder="Name, relationship, address, contact…" rows={3} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
-            {step === 5 && (
-              <div className="space-y-4">
-                <h2 className="text-lg font-semibold">Review & Submit</h2>
-                <div className="rounded-lg border bg-card p-4 space-y-3 text-sm">
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    <div><span className="text-muted-foreground">Name:</span> <strong>{form.full_name}</strong></div>
-                    <div><span className="text-muted-foreground">Email:</span> <strong>{form.email}</strong></div>
-                    <div><span className="text-muted-foreground">Nationality:</span> <strong>{form.nationality}</strong></div>
-                    <div><span className="text-muted-foreground">Destination:</span> <strong>{form.destination_country}</strong></div>
-                    <div><span className="text-muted-foreground">Purpose:</span> <strong>{form.purpose_of_visit}</strong></div>
-                    <div><span className="text-muted-foreground">Travel Date:</span> <strong>{form.travel_date || "Not set"}</strong></div>
-                    <div><span className="text-muted-foreground">Duration:</span> <strong>{form.duration || "Not specified"}</strong></div>
-                    <div><span className="text-muted-foreground">Dependants:</span> <strong>{form.has_dependants || "None"}</strong></div>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2 rounded-lg bg-muted/50 p-4">
-                  <Info className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <div className="text-sm">
-                    <p className="font-medium">What happens next?</p>
-                    <p className="text-muted-foreground mt-1">Our team will review your application, send you a document checklist, and provide a fee breakdown. No payment is required at this stage.</p>
-                  </div>
-                </div>
-                <FeeAcknowledgment
-                  amount={400}
-                  currency="USD"
-                  serviceLabel="Visit Visa Application"
-                  onConfirmChange={(v) => u("fee_confirmed", v ? "true" : "")}
-                />
-                <label className="flex items-start gap-2 text-sm">
-                  <input type="checkbox" className="mt-1 rounded" checked={form.declaration === "true"} onChange={(e) => u("declaration", e.target.checked ? "true" : "")} />
-                  <span>I confirm all information provided is accurate. I understand that false information may result in application refusal.</span>
-                </label>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+function StepDependants({ data, update }: StepProps) {
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-bold">Dependants</h2>
+      <p className="text-sm text-muted-foreground">Tell us if anyone else will be travelling with you on this visa.</p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <Label>Will anyone travel with you?</Label>
+          <Select value={data.hasDependants || ""} onValueChange={(v) => update("hasDependants", v)}>
+            <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="no">No, just me</SelectItem>
+              <SelectItem value="spouse">Spouse</SelectItem>
+              <SelectItem value="children">Children</SelectItem>
+              <SelectItem value="both">Spouse & Children</SelectItem>
+              <SelectItem value="other">Other family member</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        {data.hasDependants && data.hasDependants !== "no" && (
+          <>
+            <div>
+              <Label>Number of Dependants</Label>
+              <Input type="number" min="1" value={data.dependantsCount || ""} onChange={(e) => update("dependantsCount", e.target.value)} placeholder="e.g. 2" />
+            </div>
+            <div className="sm:col-span-2">
+              <Label>Dependant Names & Dates of Birth</Label>
+              <Textarea value={data.dependantDetails || ""} onChange={(e) => update("dependantDetails", e.target.value)} placeholder="Name — DOB — relationship, one per line" rows={4} />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-8 pt-4 border-t">
-          <Button variant="outline" onClick={() => setStep(Math.max(0, step - 1))} disabled={step === 0}>
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
-          </Button>
-          {step < STEPS.length - 1 ? (
-            <Button variant="gold" onClick={() => setStep(step + 1)} disabled={!canNext()}>
-              Continue <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          ) : (
-            <Button variant="gold" onClick={handleSubmit} disabled={submitting || form.declaration !== "true" || form.fee_confirmed !== "true"}>
-              {submitting ? "Submitting…" : "Submit Application"} <Check className="ml-2 h-4 w-4" />
-            </Button>
-          )}
+function StepDocuments() {
+  return (
+    <div className="space-y-5">
+      <h2 className="text-lg font-bold">Documents Upload</h2>
+      <p className="text-sm text-muted-foreground">Upload what you have now — you can also add more later from your dashboard.</p>
+      <div className="grid gap-4">
+        {[
+          { label: "Passport (bio page)", accept: ".pdf,.jpg,.png" },
+          { label: "Recent Photograph", accept: ".jpg,.png" },
+          { label: "Bank Statements (last 3 months)", accept: ".pdf,.jpg,.png" },
+          { label: "Travel Itinerary / Flight Booking", accept: ".pdf,.jpg,.png" },
+          { label: "Hotel / Accommodation Booking", accept: ".pdf,.jpg,.png" },
+          { label: "Invitation Letter (if applicable)", accept: ".pdf,.jpg,.png,.doc,.docx" },
+          { label: "Travel Insurance", accept: ".pdf,.jpg,.png" },
+        ].map((doc) => (
+          <div key={doc.label} className="rounded-lg border border-dashed p-4">
+            <Label className="text-sm">{doc.label}</Label>
+            <Input type="file" accept={doc.accept} className="mt-2" />
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground">Accepted formats: PDF, JPG, PNG, DOC, DOCX. Max 10MB per file.</p>
+    </div>
+  );
+}
+
+function StepReview({ data, confirmed, onConfirm }: { data: Record<string, string>; confirmed: boolean; onConfirm: (v: boolean) => void }) {
+  const purposeMap: Record<string, string> = {
+    tourism: "Tourism / Sightseeing",
+    family: "Family Visit",
+    business: "Business Meeting",
+    medical: "Medical Treatment",
+    conference: "Conference / Event",
+    course: "Short Course / Training",
+    other: "Other",
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-lg font-bold">Review Your Application</h2>
+      <p className="text-sm text-muted-foreground">Take a moment to check the details below — our team will review your case after you submit.</p>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-lg border bg-muted/30 p-4">
+          <MapPin className="mb-2 h-5 w-5 text-gold" />
+          <p className="text-xs font-medium text-muted-foreground">Destination</p>
+          <p className="mt-0.5 font-bold">{data.destCountry || "Not specified"}</p>
+        </div>
+        <div className="rounded-lg border bg-muted/30 p-4">
+          <Plane className="mb-2 h-5 w-5 text-gold" />
+          <p className="text-xs font-medium text-muted-foreground">Purpose</p>
+          <p className="mt-0.5 font-bold">{purposeMap[data.purpose || ""] || "Not specified"}</p>
+        </div>
+        <div className="rounded-lg border bg-muted/30 p-4">
+          <Clock className="mb-2 h-5 w-5 text-gold" />
+          <p className="text-xs font-medium text-muted-foreground">Travel Date</p>
+          <p className="mt-0.5 font-bold">{data.travelDate || "Flexible"}</p>
+        </div>
+        <div className="rounded-lg border bg-muted/30 p-4">
+          <Users className="mb-2 h-5 w-5 text-gold" />
+          <p className="text-xs font-medium text-muted-foreground">Travelling With</p>
+          <p className="mt-0.5 font-bold">{data.hasDependants && data.hasDependants !== "no" ? `${data.dependantsCount || ""} dependant(s)` : "Just me"}</p>
         </div>
       </div>
+
+      <div className="rounded-lg border border-gold/20 bg-gold/5 p-5">
+        <h3 className="flex items-center gap-2 text-sm font-bold text-gold">
+          <CheckCircle2 className="h-4 w-4" /> What happens after submission
+        </h3>
+        <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+          <li>• We review your trip details and profile within 24 hours</li>
+          <li>• We confirm the right visa category and full document checklist</li>
+          <li>• You provide remaining documents — we prepare your application</li>
+          <li>• We submit and track the application through to a decision</li>
+        </ul>
+        <p className="mt-3 text-xs text-muted-foreground">No payment required at this stage. Fees will be confirmed after our review.</p>
+      </div>
+
+      {/* Summary */}
+      <div className="rounded-lg border p-5">
+        <h3 className="mb-3 text-sm font-bold">Application Summary</h3>
+        <dl className="space-y-2 text-sm">
+          {data.fullName && <div className="flex justify-between"><dt className="text-muted-foreground">Name</dt><dd className="font-medium">{data.fullName}</dd></div>}
+          {data.email && <div className="flex justify-between"><dt className="text-muted-foreground">Email</dt><dd className="font-medium">{data.email}</dd></div>}
+          {data.nationality && <div className="flex justify-between"><dt className="text-muted-foreground">Nationality</dt><dd className="font-medium">{data.nationality}</dd></div>}
+          {data.passportNumber && <div className="flex justify-between"><dt className="text-muted-foreground">Passport</dt><dd className="font-medium">{data.passportNumber}</dd></div>}
+          {data.destCountry && <div className="flex justify-between"><dt className="text-muted-foreground">Destination</dt><dd className="font-medium">{data.destCountry}</dd></div>}
+          {data.duration && <div className="flex justify-between"><dt className="text-muted-foreground">Duration</dt><dd className="font-medium">{data.duration}</dd></div>}
+        </dl>
+      </div>
+
+      <label className="flex items-start gap-2">
+        <input
+          type="checkbox"
+          id="visit-consent"
+          className="mt-1"
+          checked={confirmed}
+          onChange={(e) => onConfirm(e.target.checked)}
+        />
+        <span className="text-xs text-muted-foreground">
+          I confirm that the information provided is accurate and I consent to Global Link Migration Services processing my visit visa application. I understand that final decisions are made by embassies, consulates, and immigration authorities.
+        </span>
+      </label>
     </div>
   );
 }
