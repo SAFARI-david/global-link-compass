@@ -25,9 +25,11 @@ import { Route as AdvisorRouteImport } from './routes/advisor'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as VisitIndexRouteImport } from './routes/visit/index'
 import { Route as StudyIndexRouteImport } from './routes/study/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
+import { Route as VisitDestinationIdRouteImport } from './routes/visit/$destinationId'
 import { Route as StudyProgramIdRouteImport } from './routes/study/$programId'
 import { Route as ServicesUkWorkVisaRouteImport } from './routes/services/uk-work-visa'
 import { Route as ServicesUkStudyVisaRouteImport } from './routes/services/uk-study-visa'
@@ -160,6 +162,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VisitIndexRoute = VisitIndexRouteImport.update({
+  id: '/visit/',
+  path: '/visit/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StudyIndexRoute = StudyIndexRouteImport.update({
   id: '/study/',
   path: '/study/',
@@ -173,6 +180,11 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
 const JobsIndexRoute = JobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisitDestinationIdRoute = VisitDestinationIdRouteImport.update({
+  id: '/visit/$destinationId',
+  path: '/visit/$destinationId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StudyProgramIdRoute = StudyProgramIdRouteImport.update({
@@ -494,9 +506,11 @@ export interface FileRoutesByFullPath {
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
+  '/visit/$destinationId': typeof VisitDestinationIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/visit/': typeof VisitIndexRoute
   '/admin/programs/edit': typeof AdminProgramsEditRoute
   '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
@@ -566,9 +580,11 @@ export interface FileRoutesByTo {
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
+  '/visit/$destinationId': typeof VisitDestinationIdRoute
   '/jobs': typeof JobsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/study': typeof StudyIndexRoute
+  '/visit': typeof VisitIndexRoute
   '/admin/programs/edit': typeof AdminProgramsEditRoute
   '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
@@ -639,9 +655,11 @@ export interface FileRoutesById {
   '/services/uk-study-visa': typeof ServicesUkStudyVisaRoute
   '/services/uk-work-visa': typeof ServicesUkWorkVisaRoute
   '/study/$programId': typeof StudyProgramIdRoute
+  '/visit/$destinationId': typeof VisitDestinationIdRoute
   '/jobs/': typeof JobsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/study/': typeof StudyIndexRoute
+  '/visit/': typeof VisitIndexRoute
   '/admin/programs/edit': typeof AdminProgramsEditRoute
   '/admin/programs/new': typeof AdminProgramsNewRoute
   '/agents/applications/study-visa': typeof AgentsApplicationsStudyVisaRoute
@@ -713,9 +731,11 @@ export interface FileRouteTypes {
     | '/services/uk-study-visa'
     | '/services/uk-work-visa'
     | '/study/$programId'
+    | '/visit/$destinationId'
     | '/jobs/'
     | '/services/'
     | '/study/'
+    | '/visit/'
     | '/admin/programs/edit'
     | '/admin/programs/new'
     | '/agents/applications/study-visa'
@@ -785,9 +805,11 @@ export interface FileRouteTypes {
     | '/services/uk-study-visa'
     | '/services/uk-work-visa'
     | '/study/$programId'
+    | '/visit/$destinationId'
     | '/jobs'
     | '/services'
     | '/study'
+    | '/visit'
     | '/admin/programs/edit'
     | '/admin/programs/new'
     | '/agents/applications/study-visa'
@@ -857,9 +879,11 @@ export interface FileRouteTypes {
     | '/services/uk-study-visa'
     | '/services/uk-work-visa'
     | '/study/$programId'
+    | '/visit/$destinationId'
     | '/jobs/'
     | '/services/'
     | '/study/'
+    | '/visit/'
     | '/admin/programs/edit'
     | '/admin/programs/new'
     | '/agents/applications/study-visa'
@@ -907,9 +931,11 @@ export interface RootRouteChildren {
   ServicesUkStudyVisaRoute: typeof ServicesUkStudyVisaRoute
   ServicesUkWorkVisaRoute: typeof ServicesUkWorkVisaRoute
   StudyProgramIdRoute: typeof StudyProgramIdRoute
+  VisitDestinationIdRoute: typeof VisitDestinationIdRoute
   JobsIndexRoute: typeof JobsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   StudyIndexRoute: typeof StudyIndexRoute
+  VisitIndexRoute: typeof VisitIndexRoute
   ApiWebhooksWhopRoute: typeof ApiWebhooksWhopRoute
 }
 
@@ -1027,6 +1053,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/visit/': {
+      id: '/visit/'
+      path: '/visit'
+      fullPath: '/visit/'
+      preLoaderRoute: typeof VisitIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/study/': {
       id: '/study/'
       path: '/study'
@@ -1046,6 +1079,13 @@ declare module '@tanstack/react-router' {
       path: '/jobs'
       fullPath: '/jobs/'
       preLoaderRoute: typeof JobsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visit/$destinationId': {
+      id: '/visit/$destinationId'
+      path: '/visit/$destinationId'
+      fullPath: '/visit/$destinationId'
+      preLoaderRoute: typeof VisitDestinationIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/study/$programId': {
@@ -1532,9 +1572,11 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesUkStudyVisaRoute: ServicesUkStudyVisaRoute,
   ServicesUkWorkVisaRoute: ServicesUkWorkVisaRoute,
   StudyProgramIdRoute: StudyProgramIdRoute,
+  VisitDestinationIdRoute: VisitDestinationIdRoute,
   JobsIndexRoute: JobsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   StudyIndexRoute: StudyIndexRoute,
+  VisitIndexRoute: VisitIndexRoute,
   ApiWebhooksWhopRoute: ApiWebhooksWhopRoute,
 }
 export const routeTree = rootRouteImport
