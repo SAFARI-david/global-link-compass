@@ -38,6 +38,7 @@ const navItems = [
   { label: "Analytics", to: "/admin/analytics", icon: BarChart3 },
   { label: "A/B Tests", to: "/admin/ab-tests", icon: FlaskConical },
   { label: "Documents", to: "/admin/documents", icon: FolderOpen },
+  { label: "Visit Visa Docs", to: "/admin/visit-documents", icon: FileText },
   { label: "Setup Guide", to: "/admin/guide", icon: BookOpen },
 ];
 
