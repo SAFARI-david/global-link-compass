@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import {
   User, Plane, Globe, Users, FileText, Sparkles,
   ArrowLeft, ArrowRight, CheckCircle2, Shield, Clock, MapPin,
+  Upload, X,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,18 @@ const STEPS = [
   { label: "Review", icon: Sparkles },
 ];
 
+const DOC_SLOTS: { key: string; label: string; accept: string; type: string }[] = [
+  { key: "passport", label: "Passport (bio page)", accept: ".pdf,.jpg,.jpeg,.png", type: "passport" },
+  { key: "photo", label: "Recent Photograph", accept: ".jpg,.jpeg,.png", type: "photo" },
+  { key: "bank", label: "Bank Statements (last 3 months)", accept: ".pdf,.jpg,.jpeg,.png", type: "financial_proof" },
+  { key: "itinerary", label: "Travel Itinerary / Flight Booking", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+  { key: "hotel", label: "Hotel / Accommodation Booking", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+  { key: "invitation", label: "Invitation Letter (if applicable)", accept: ".pdf,.jpg,.jpeg,.png,.doc,.docx", type: "reference_letter" },
+  { key: "insurance", label: "Travel Insurance", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+];
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 function VisitVisaApplicationForm() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -43,10 +56,20 @@ function VisitVisaApplicationForm() {
   const [refNumber, setRefNumber] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [declarationConfirmed, setDeclarationConfirmed] = useState(false);
+  const [files, setFiles] = useState<Record<string, File>>({});
   const navigate = useNavigate();
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function setFile(key: string, file: File | null) {
+    setFiles((prev) => {
+      const next = { ...prev };
+      if (file) next[key] = file;
+      else delete next[key];
+      return next;
+    });
   }
 
   async function handleSubmit() {
@@ -66,6 +89,41 @@ function VisitVisaApplicationForm() {
       } as any).select("id, reference_number").single();
       if (error) throw error;
       setRefNumber(data?.reference_number || "");
+
+      // Upload selected documents (requires authenticated user per RLS)
+      const fileEntries = Object.entries(files);
+      if (fileEntries.length > 0) {
+        if (!user) {
+          toast.message("Documents not uploaded", {
+            description: "Create an account or log in to attach your documents — your application has been saved.",
+          });
+        } else {
+          let uploaded = 0;
+          let failed = 0;
+          for (const [key, file] of fileEntries) {
+            const slot = DOC_SLOTS.find((s) => s.key === key);
+            const ext = file.name.split(".").pop();
+            const filePath = `${user.id}/${data.id}/${key}-${Date.now()}.${ext}`;
+            const { error: upErr } = await supabase.storage
+              .from("applicant-documents")
+              .upload(filePath, file);
+            if (upErr) { failed++; continue; }
+            const { error: dbErr } = await supabase.from("documents").insert({
+              application_id: data.id,
+              user_id: user.id,
+              document_type: slot?.type || "other",
+              file_name: file.name,
+              file_path: filePath,
+              file_size: file.size,
+              mime_type: file.type,
+            } as any);
+            if (dbErr) failed++; else uploaded++;
+          }
+          if (uploaded > 0) toast.success(`${uploaded} document${uploaded > 1 ? "s" : ""} uploaded`);
+          if (failed > 0) toast.error(`${failed} document${failed > 1 ? "s" : ""} failed to upload`);
+        }
+      }
+
       setSubmitted(true);
       toast.success("Application submitted!");
     } catch (err: any) {
@@ -173,7 +231,7 @@ function VisitVisaApplicationForm() {
                 {step === 1 && <StepPassport data={formData} update={update} />}
                 {step === 2 && <StepVisitDetails data={formData} update={update} />}
                 {step === 3 && <StepDependants data={formData} update={update} />}
-                {step === 4 && <StepDocuments />}
+                {step === 4 && <StepDocuments files={files} setFile={setFile} />}
                 {step === 5 && (
                   <StepReview
                     data={formData}
@@ -413,26 +471,63 @@ function StepDependants({ data, update }: StepProps) {
   );
 }
 
-function StepDocuments() {
+function StepDocuments({ files, setFile }: { files: Record<string, File>; setFile: (key: string, file: File | null) => void }) {
+  function handlePick(key: string, file: File | null) {
+    if (!file) { setFile(key, null); return; }
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`${file.name} is too large. Max 10MB.`);
+      return;
+    }
+    setFile(key, file);
+  }
+
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-bold">Documents Upload</h2>
-      <p className="text-sm text-muted-foreground">Upload what you have now — you can also add more later from your dashboard.</p>
-      <div className="grid gap-4">
-        {[
-          { label: "Passport (bio page)", accept: ".pdf,.jpg,.png" },
-          { label: "Recent Photograph", accept: ".jpg,.png" },
-          { label: "Bank Statements (last 3 months)", accept: ".pdf,.jpg,.png" },
-          { label: "Travel Itinerary / Flight Booking", accept: ".pdf,.jpg,.png" },
-          { label: "Hotel / Accommodation Booking", accept: ".pdf,.jpg,.png" },
-          { label: "Invitation Letter (if applicable)", accept: ".pdf,.jpg,.png,.doc,.docx" },
-          { label: "Travel Insurance", accept: ".pdf,.jpg,.png" },
-        ].map((doc) => (
-          <div key={doc.label} className="rounded-lg border border-dashed p-4">
-            <Label className="text-sm">{doc.label}</Label>
-            <Input type="file" accept={doc.accept} className="mt-2" />
-          </div>
-        ))}
+      <p className="text-sm text-muted-foreground">
+        Upload what you have now — you can also add more later from your dashboard.
+        {" "}
+        <span className="text-foreground/80">Tip: log in or create an account so we can securely attach your files to this application.</span>
+      </p>
+      <div className="grid gap-3">
+        {DOC_SLOTS.map((doc) => {
+          const file = files[doc.key];
+          return (
+            <div key={doc.key} className="rounded-lg border border-dashed p-4">
+              <div className="flex items-start justify-between gap-3">
+                <Label className="text-sm">{doc.label}</Label>
+                {file && (
+                  <button
+                    type="button"
+                    onClick={() => setFile(doc.key, null)}
+                    className="text-muted-foreground hover:text-destructive"
+                    aria-label="Remove file"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              {file ? (
+                <div className="mt-2 flex items-center gap-2 rounded-md bg-muted/50 p-2 text-sm">
+                  <FileText className="h-4 w-4 text-primary shrink-0" />
+                  <span className="flex-1 truncate">{file.name}</span>
+                  <span className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                </div>
+              ) : (
+                <label className="mt-2 flex cursor-pointer items-center gap-2 rounded-md border border-dashed bg-background p-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-foreground">
+                  <Upload className="h-4 w-4" />
+                  <span>Choose file</span>
+                  <input
+                    type="file"
+                    accept={doc.accept}
+                    className="hidden"
+                    onChange={(e) => { handlePick(doc.key, e.target.files?.[0] || null); e.target.value = ""; }}
+                  />
+                </label>
+              )}
+            </div>
+          );
+        })}
       </div>
       <p className="text-xs text-muted-foreground">Accepted formats: PDF, JPG, PNG, DOC, DOCX. Max 10MB per file.</p>
     </div>
