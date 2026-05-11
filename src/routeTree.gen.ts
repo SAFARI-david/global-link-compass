@@ -57,6 +57,7 @@ import { Route as AgentsMessagesRouteImport } from './routes/agents/messages'
 import { Route as AgentsLoginRouteImport } from './routes/agents/login'
 import { Route as AgentsDashboardRouteImport } from './routes/agents/dashboard'
 import { Route as AgentsCommissionsRouteImport } from './routes/agents/commissions'
+import { Route as AdminVisitDocumentsRouteImport } from './routes/admin/visit-documents'
 import { Route as AdminServicesRouteImport } from './routes/admin/services'
 import { Route as AdminProgramsRouteImport } from './routes/admin/programs'
 import { Route as AdminPricingRouteImport } from './routes/admin/pricing'
@@ -323,6 +324,11 @@ const AgentsCommissionsRoute = AgentsCommissionsRouteImport.update({
   path: '/commissions',
   getParentRoute: () => AgentsRoute,
 } as any)
+const AdminVisitDocumentsRoute = AdminVisitDocumentsRouteImport.update({
+  id: '/visit-documents',
+  path: '/visit-documents',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -479,6 +485,7 @@ export interface FileRoutesByFullPath {
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/admin/services': typeof AdminServicesRoute
+  '/admin/visit-documents': typeof AdminVisitDocumentsRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -553,6 +560,7 @@ export interface FileRoutesByTo {
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/admin/services': typeof AdminServicesRoute
+  '/admin/visit-documents': typeof AdminVisitDocumentsRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -628,6 +636,7 @@ export interface FileRoutesById {
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/programs': typeof AdminProgramsRouteWithChildren
   '/admin/services': typeof AdminServicesRoute
+  '/admin/visit-documents': typeof AdminVisitDocumentsRoute
   '/agents/commissions': typeof AgentsCommissionsRoute
   '/agents/dashboard': typeof AgentsDashboardRoute
   '/agents/login': typeof AgentsLoginRoute
@@ -704,6 +713,7 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/programs'
     | '/admin/services'
+    | '/admin/visit-documents'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -778,6 +788,7 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/programs'
     | '/admin/services'
+    | '/admin/visit-documents'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -852,6 +863,7 @@ export interface FileRouteTypes {
     | '/admin/pricing'
     | '/admin/programs'
     | '/admin/services'
+    | '/admin/visit-documents'
     | '/agents/commissions'
     | '/agents/dashboard'
     | '/agents/login'
@@ -1277,6 +1289,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgentsCommissionsRouteImport
       parentRoute: typeof AgentsRoute
     }
+    '/admin/visit-documents': {
+      id: '/admin/visit-documents'
+      path: '/visit-documents'
+      fullPath: '/admin/visit-documents'
+      preLoaderRoute: typeof AdminVisitDocumentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/services': {
       id: '/admin/services'
       path: '/services'
@@ -1479,6 +1498,7 @@ interface AdminRouteChildren {
   AdminPricingRoute: typeof AdminPricingRoute
   AdminProgramsRoute: typeof AdminProgramsRouteWithChildren
   AdminServicesRoute: typeof AdminServicesRoute
+  AdminVisitDocumentsRoute: typeof AdminVisitDocumentsRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -1498,6 +1518,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPricingRoute: AdminPricingRoute,
   AdminProgramsRoute: AdminProgramsRouteWithChildren,
   AdminServicesRoute: AdminServicesRoute,
+  AdminVisitDocumentsRoute: AdminVisitDocumentsRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
