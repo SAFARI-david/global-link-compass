@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import {
   User, Plane, Globe, Users, FileText, Sparkles,
   ArrowLeft, ArrowRight, CheckCircle2, Shield, Clock, MapPin,
-  Upload, X, Loader2,
+  Upload, X,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
