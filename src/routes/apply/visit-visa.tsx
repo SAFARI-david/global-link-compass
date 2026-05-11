@@ -37,6 +37,18 @@ const STEPS = [
   { label: "Review", icon: Sparkles },
 ];
 
+const DOC_SLOTS: { key: string; label: string; accept: string; type: string }[] = [
+  { key: "passport", label: "Passport (bio page)", accept: ".pdf,.jpg,.jpeg,.png", type: "passport" },
+  { key: "photo", label: "Recent Photograph", accept: ".jpg,.jpeg,.png", type: "photo" },
+  { key: "bank", label: "Bank Statements (last 3 months)", accept: ".pdf,.jpg,.jpeg,.png", type: "financial_proof" },
+  { key: "itinerary", label: "Travel Itinerary / Flight Booking", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+  { key: "hotel", label: "Hotel / Accommodation Booking", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+  { key: "invitation", label: "Invitation Letter (if applicable)", accept: ".pdf,.jpg,.jpeg,.png,.doc,.docx", type: "reference_letter" },
+  { key: "insurance", label: "Travel Insurance", accept: ".pdf,.jpg,.jpeg,.png", type: "other" },
+];
+
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
 function VisitVisaApplicationForm() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -44,10 +56,20 @@ function VisitVisaApplicationForm() {
   const [refNumber, setRefNumber] = useState("");
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [declarationConfirmed, setDeclarationConfirmed] = useState(false);
+  const [files, setFiles] = useState<Record<string, File>>({});
   const navigate = useNavigate();
 
   function update(field: string, value: string) {
     setFormData((prev) => ({ ...prev, [field]: value }));
+  }
+
+  function setFile(key: string, file: File | null) {
+    setFiles((prev) => {
+      const next = { ...prev };
+      if (file) next[key] = file;
+      else delete next[key];
+      return next;
+    });
   }
 
   async function handleSubmit() {
@@ -67,6 +89,41 @@ function VisitVisaApplicationForm() {
       } as any).select("id, reference_number").single();
       if (error) throw error;
       setRefNumber(data?.reference_number || "");
+
+      // Upload selected documents (requires authenticated user per RLS)
+      const fileEntries = Object.entries(files);
+      if (fileEntries.length > 0) {
+        if (!user) {
+          toast.message("Documents not uploaded", {
+            description: "Create an account or log in to attach your documents — your application has been saved.",
+          });
+        } else {
+          let uploaded = 0;
+          let failed = 0;
+          for (const [key, file] of fileEntries) {
+            const slot = DOC_SLOTS.find((s) => s.key === key);
+            const ext = file.name.split(".").pop();
+            const filePath = `${user.id}/${data.id}/${key}-${Date.now()}.${ext}`;
+            const { error: upErr } = await supabase.storage
+              .from("applicant-documents")
+              .upload(filePath, file);
+            if (upErr) { failed++; continue; }
+            const { error: dbErr } = await supabase.from("documents").insert({
+              application_id: data.id,
+              user_id: user.id,
+              document_type: slot?.type || "other",
+              file_name: file.name,
+              file_path: filePath,
+              file_size: file.size,
+              mime_type: file.type,
+            } as any);
+            if (dbErr) failed++; else uploaded++;
+          }
+          if (uploaded > 0) toast.success(`${uploaded} document${uploaded > 1 ? "s" : ""} uploaded`);
+          if (failed > 0) toast.error(`${failed} document${failed > 1 ? "s" : ""} failed to upload`);
+        }
+      }
+
       setSubmitted(true);
       toast.success("Application submitted!");
     } catch (err: any) {
