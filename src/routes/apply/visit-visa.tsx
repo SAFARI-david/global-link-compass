@@ -231,7 +231,7 @@ function VisitVisaApplicationForm() {
                 {step === 1 && <StepPassport data={formData} update={update} />}
                 {step === 2 && <StepVisitDetails data={formData} update={update} />}
                 {step === 3 && <StepDependants data={formData} update={update} />}
-                {step === 4 && <StepDocuments />}
+                {step === 4 && <StepDocuments files={files} setFile={setFile} />}
                 {step === 5 && (
                   <StepReview
                     data={formData}
