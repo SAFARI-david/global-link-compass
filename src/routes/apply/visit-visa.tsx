@@ -471,26 +471,63 @@ function StepDependants({ data, update }: StepProps) {
   );
 }
 
-function StepDocuments() {
+function StepDocuments({ files, setFile }: { files: Record<string, File>; setFile: (key: string, file: File | null) => void }) {
+  function handlePick(key: string, file: File | null) {
+    if (!file) { setFile(key, null); return; }
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`${file.name} is too large. Max 10MB.`);
+      return;
+    }
+    setFile(key, file);
+  }
+
   return (
     <div className="space-y-5">
       <h2 className="text-lg font-bold">Documents Upload</h2>
-      <p className="text-sm text-muted-foreground">Upload what you have now — you can also add more later from your dashboard.</p>
-      <div className="grid gap-4">
-        {[
-          { label: "Passport (bio page)", accept: ".pdf,.jpg,.png" },
-          { label: "Recent Photograph", accept: ".jpg,.png" },
-          { label: "Bank Statements (last 3 months)", accept: ".pdf,.jpg,.png" },
-          { label: "Travel Itinerary / Flight Booking", accept: ".pdf,.jpg,.png" },
-          { label: "Hotel / Accommodation Booking", accept: ".pdf,.jpg,.png" },
-          { label: "Invitation Letter (if applicable)", accept: ".pdf,.jpg,.png,.doc,.docx" },
-          { label: "Travel Insurance", accept: ".pdf,.jpg,.png" },
-        ].map((doc) => (
-          <div key={doc.label} className="rounded-lg border border-dashed p-4">
-            <Label className="text-sm">{doc.label}</Label>
-            <Input type="file" accept={doc.accept} className="mt-2" />
-          </div>
-        ))}
+      <p className="text-sm text-muted-foreground">
+        Upload what you have now — you can also add more later from your dashboard.
+        {" "}
+        <span className="text-foreground/80">Tip: log in or create an account so we can securely attach your files to this application.</span>
+      </p>
+      <div className="grid gap-3">
+        {DOC_SLOTS.map((doc) => {
+          const file = files[doc.key];
+          return (
+            <div key={doc.key} className="rounded-lg border border-dashed p-4">
+              <div className="flex items-start justify-between gap-3">
+                <Label className="text-sm">{doc.label}</Label>
+                {file && (
+                  <button
+                    type="button"
+                    onClick={() => setFile(doc.key, null)}
+                    className="text-muted-foreground hover:text-destructive"
+                    aria-label="Remove file"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              {file ? (
+                <div className="mt-2 flex items-center gap-2 rounded-md bg-muted/50 p-2 text-sm">
+                  <FileText className="h-4 w-4 text-primary shrink-0" />
+                  <span className="flex-1 truncate">{file.name}</span>
+                  <span className="text-xs text-muted-foreground">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                </div>
+              ) : (
+                <label className="mt-2 flex cursor-pointer items-center gap-2 rounded-md border border-dashed bg-background p-2 text-sm text-muted-foreground hover:border-primary/50 hover:text-foreground">
+                  <Upload className="h-4 w-4" />
+                  <span>Choose file</span>
+                  <input
+                    type="file"
+                    accept={doc.accept}
+                    className="hidden"
+                    onChange={(e) => { handlePick(doc.key, e.target.files?.[0] || null); e.target.value = ""; }}
+                  />
+                </label>
+              )}
+            </div>
+          );
+        })}
       </div>
       <p className="text-xs text-muted-foreground">Accepted formats: PDF, JPG, PNG, DOC, DOCX. Max 10MB per file.</p>
     </div>
